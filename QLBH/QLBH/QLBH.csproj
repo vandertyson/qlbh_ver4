@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61E3E2A6-1AE3-4029-A914-47555C367170}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QLBH</RootNamespace>
+    <AssemblyName>QLBH</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v14.1.Win, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v14.1.UI, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.PivotGrid.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v14.1.UI, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.UI, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.Wizard, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v14.1.Core, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v14.1.Win, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGrid.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraMap.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v14.1.Extensions, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeList.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v14.1, Version=14.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="LinqToExcel, Version=1.10.1.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=x86">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\CommonFunctions.cs" />
+    <Compile Include="Common\CommonMessage.cs" />
+    <Compile Include="Controls\Common Controls\c0_cua_hang_simple.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_cua_hang_simple.Designer.cs">
+      <DependentUpon>c0_cua_hang_simple.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_gia_tien.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_gia_tien.Designer.cs">
+      <DependentUpon>c0_gia_tien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_so_luong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_so_luong.Designer.cs">
+      <DependentUpon>c0_so_luong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_table.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c0_table.Designer.cs">
+      <DependentUpon>c0_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_nghiep_vu_cua_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_nghiep_vu_cua_hang.Designer.cs">
+      <DependentUpon>c03_nghiep_vu_cua_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_chi_tiet_khuyen_mai.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_chi_tiet_khuyen_mai.Designer.cs">
+      <DependentUpon>c01_chi_tiet_khuyen_mai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_comment_cua_khach_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_comment_cua_khach_hang.Designer.cs">
+      <DependentUpon>c01_comment_cua_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_danh_muc_hang_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_danh_muc_hang_hoa.Designer.cs">
+      <DependentUpon>c01_danh_muc_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_danh_muc_hang_hoa_v2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_danh_muc_hang_hoa_v2.Designer.cs">
+      <DependentUpon>c01_danh_muc_hang_hoa_v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_danh_sach_hang_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_danh_sach_hang_hoa.Designer.cs">
+      <DependentUpon>c01_danh_sach_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_filter_element.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_filter_element.Designer.cs">
+      <DependentUpon>c01_filter_element.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_filter_list_object.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_filter_list_object.Designer.cs">
+      <DependentUpon>c01_filter_list_object.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hang_hoa_chi_tiet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hang_hoa_chi_tiet.Designer.cs">
+      <DependentUpon>c01_hang_hoa_chi_tiet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hang_hoa_filter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hang_hoa_filter.Designer.cs">
+      <DependentUpon>c01_hang_hoa_filter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hinh_anh_minh_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_hinh_anh_minh_hoa.Designer.cs">
+      <DependentUpon>c01_hinh_anh_minh_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_item_danh_muc_loai_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_item_danh_muc_loai_hang.Designer.cs">
+      <DependentUpon>c01_item_danh_muc_loai_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_item_hang_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_item_hang_hoa.Designer.cs">
+      <DependentUpon>c01_item_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_mo_ta_hang_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_mo_ta_hang_hoa.Designer.cs">
+      <DependentUpon>c01_mo_ta_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_nhan_xet_khach_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_nhan_xet_khach_hang.Designer.cs">
+      <DependentUpon>c01_nhan_xet_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_quan_ly_hang_hoa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_quan_ly_hang_hoa.Designer.cs">
+      <DependentUpon>c01_quan_ly_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_search_box.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common Controls\c01_search_box.Designer.cs">
+      <DependentUpon>c01_search_box.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_quan_ly_tag.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_quan_ly_tag.Designer.cs">
+      <DependentUpon>c01_quan_ly_tag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tag_control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tag_control.Designer.cs">
+      <DependentUpon>c01_tag_control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tag_filter_element.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tag_filter_element.Designer.cs">
+      <DependentUpon>c01_tag_filter_element.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tinh_trang_kinh_doanh.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hàng hóa\c01_tinh_trang_kinh_doanh.Designer.cs">
+      <DependentUpon>c01_tinh_trang_kinh_doanh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hóa đơn\c02_size_so_luong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Hóa đơn\c02_size_so_luong.Designer.cs">
+      <DependentUpon>c02_size_so_luong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_quan_ly_kho_va_cua_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_quan_ly_kho_va_cua_hang.Designer.cs">
+      <DependentUpon>c03_quan_ly_kho_va_cua_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Khách hàng\c04_quan_ly_khach_hang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Khách hàng\c04_quan_ly_khach_hang.Designer.cs">
+      <DependentUpon>c04_quan_ly_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Kinh doanh\c05_bao_cao_kinh_doanh.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Kinh doanh\c05_bao_cao_kinh_doanh.Designer.cs">
+      <DependentUpon>c05_bao_cao_kinh_doanh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f02_them_hoa_don_v2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f02_them_hoa_don_v2.Designer.cs">
+      <DependentUpon>f02_them_hoa_don_v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f04_quan_ly_hoa_don.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f04_quan_ly_hoa_don.Designer.cs">
+      <DependentUpon>f04_quan_ly_hoa_don.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TemplateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TemplateControl.Designer.cs">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f01_main_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f01_main_form.Designer.cs">
+      <DependentUpon>f01_main_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f03_QuanLyKhuyenMAi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f03_QuanLyKhuyenMAi.Designer.cs">
+      <DependentUpon>f03_QuanLyKhuyenMAi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f03_them_phieu_nhap_excel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f03_them_phieu_nhap_excel.Designer.cs">
+      <DependentUpon>f03_them_phieu_nhap_excel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f05_chi_tiet_hang_hoa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f05_chi_tiet_hang_hoa.Designer.cs">
+      <DependentUpon>f05_chi_tiet_hang_hoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f06_khuyen_mai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f06_khuyen_mai.Designer.cs">
+      <DependentUpon>f06_khuyen_mai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f07_them_moi_khach_hang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f07_them_moi_khach_hang.Designer.cs">
+      <DependentUpon>f07_them_moi_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f08_thong_ke_khach_hang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f08_thong_ke_khach_hang.Designer.cs">
+      <DependentUpon>f08_thong_ke_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f10_them_hang_hoa_excal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f10_them_hang_hoa_excal.Designer.cs">
+      <DependentUpon>f10_them_hang_hoa_excal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f11_bao_cao_doanh_thu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f11_bao_cao_doanh_thu.Designer.cs">
+      <DependentUpon>f11_bao_cao_doanh_thu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f12_gia_ban_excel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f12_gia_ban_excel.Designer.cs">
+      <DependentUpon>f12_gia_ban_excel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f14_danh_sach_phieu_nhap_xuat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f14_danh_sach_phieu_nhap_xuat.Designer.cs">
+      <DependentUpon>f14_danh_sach_phieu_nhap_xuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f15_phieu_nhap_chi_tiet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f15_phieu_nhap_chi_tiet.Designer.cs">
+      <DependentUpon>f15_phieu_nhap_chi_tiet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f20_danh_sach_hoa_don.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f20_danh_sach_hoa_don.Designer.cs">
+      <DependentUpon>f20_danh_sach_hoa_don.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExcelStruct.cs" />
+    <Compile Include="SystemInfo.cs" />
+    <EmbeddedResource Include="Controls\Common Controls\c0_cua_hang_simple.resx">
+      <DependentUpon>c0_cua_hang_simple.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c0_gia_tien.resx">
+      <DependentUpon>c0_gia_tien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c0_so_luong.resx">
+      <DependentUpon>c0_so_luong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c0_table.resx">
+      <DependentUpon>c0_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Cửa hàng\c03_nghiep_vu_cua_hang.resx">
+      <DependentUpon>c03_nghiep_vu_cua_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_chi_tiet_khuyen_mai.resx">
+      <DependentUpon>c01_chi_tiet_khuyen_mai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_comment_cua_khach_hang.resx">
+      <DependentUpon>c01_comment_cua_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_danh_muc_hang_hoa.resx">
+      <DependentUpon>c01_danh_muc_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c01_danh_muc_hang_hoa_v2.resx">
+      <DependentUpon>c01_danh_muc_hang_hoa_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c01_danh_sach_hang_hoa.resx">
+      <DependentUpon>c01_danh_sach_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c01_filter_element.resx">
+      <DependentUpon>c01_filter_element.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c01_filter_list_object.resx">
+      <DependentUpon>c01_filter_list_object.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_hang_hoa_chi_tiet.resx">
+      <DependentUpon>c01_hang_hoa_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_hang_hoa_filter.resx">
+      <DependentUpon>c01_hang_hoa_filter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_hinh_anh_minh_hoa.resx">
+      <DependentUpon>c01_hinh_anh_minh_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_item_danh_muc_loai_hang.resx">
+      <DependentUpon>c01_item_danh_muc_loai_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_item_hang_hoa.resx">
+      <DependentUpon>c01_item_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_mo_ta_hang_hoa.resx">
+      <DependentUpon>c01_mo_ta_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_nhan_xet_khach_hang.resx">
+      <DependentUpon>c01_nhan_xet_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_quan_ly_hang_hoa.resx">
+      <DependentUpon>c01_quan_ly_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common Controls\c01_search_box.resx">
+      <DependentUpon>c01_search_box.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_quan_ly_tag.resx">
+      <DependentUpon>c01_quan_ly_tag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_tag_control.resx">
+      <DependentUpon>c01_tag_control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_tag_filter_element.resx">
+      <DependentUpon>c01_tag_filter_element.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hàng hóa\c01_tinh_trang_kinh_doanh.resx">
+      <DependentUpon>c01_tinh_trang_kinh_doanh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Hóa đơn\c02_size_so_luong.resx">
+      <DependentUpon>c02_size_so_luong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Cửa hàng\c03_quan_ly_kho_va_cua_hang.resx">
+      <DependentUpon>c03_quan_ly_kho_va_cua_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Khách hàng\c04_quan_ly_khach_hang.resx">
+      <DependentUpon>c04_quan_ly_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Kinh doanh\c05_bao_cao_kinh_doanh.resx">
+      <DependentUpon>c05_bao_cao_kinh_doanh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f02_them_hoa_don_v2.resx">
+      <DependentUpon>f02_them_hoa_don_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f04_quan_ly_hoa_don.resx">
+      <DependentUpon>f04_quan_ly_hoa_don.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TemplateControl.resx">
+      <DependentUpon>TemplateControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f01_main_form.resx">
+      <DependentUpon>f01_main_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f03_them_phieu_nhap_excel.resx">
+      <DependentUpon>f03_them_phieu_nhap_excel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f05_chi_tiet_hang_hoa.resx">
+      <DependentUpon>f05_chi_tiet_hang_hoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f06_khuyen_mai.resx">
+      <DependentUpon>f06_khuyen_mai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f07_them_moi_khach_hang.resx">
+      <DependentUpon>f07_them_moi_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f08_thong_ke_khach_hang.resx">
+      <DependentUpon>f08_thong_ke_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f10_them_hang_hoa_excal.resx">
+      <DependentUpon>f10_them_hang_hoa_excal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f11_bao_cao_doanh_thu.resx">
+      <DependentUpon>f11_bao_cao_doanh_thu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f12_gia_ban_excel.resx">
+      <DependentUpon>f12_gia_ban_excel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f14_danh_sach_phieu_nhap_xuat.resx">
+      <DependentUpon>f14_danh_sach_phieu_nhap_xuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f15_phieu_nhap_chi_tiet.resx">
+      <DependentUpon>f15_phieu_nhap_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f20_danh_sach_hoa_don.resx">
+      <DependentUpon>f20_danh_sach_hoa_don.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\LibraryApi.HangHoa.datasource" />
+    <None Include="Properties\DataSources\LibraryApi.HangHoaMaster.datasource" />
+    <None Include="Properties\DataSources\LibraryApi.NhanXet.datasource" />
+    <None Include="Properties\DataSources\LibraryApi.Tag.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Template\Giới thiẹu sản phẩm.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10354073_10200877108487145_3210761677290248117_n.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search-52.png" />
+    <None Include="Resources\Delete Filled-50.png" />
+    <None Include="Resources\Filled Filter-48.png" />
+    <None Include="Resources\Filled Filter-52.png" />
+    <None Include="Resources\Google Web Search Filled-50.png" />
+    <None Include="Resources\RGB Circle 1-50.png" />
+    <None Include="Resources\Document Filled-50 %281%29.png" />
+    <None Include="Resources\Document Filled-50.png" />
+    <None Include="Resources\Print Filled-50 %281%29.png" />
+    <None Include="Resources\Print Filled-50.png" />
+    <None Include="Resources\Delete-48.png" />
+    <None Include="Resources\Google Images Filled-50.png" />
+    <None Include="Resources\Edit Row Filled-50.png" />
+    <None Include="Resources\Price Tag Filled-50.png" />
+    <None Include="Resources\01_hgw.gif" />
+    <None Include="Resources\28.jpg" />
+    <None Include="Resources\Edit Property-52.png" />
+    <None Include="Resources\Remove Image Filled-50 %281%29.png" />
+    <None Include="Resources\Add Image Filled-50.png" />
+    <None Include="Resources\quan.jpeg" />
+    <None Include="Resources\Dog Tag Filled-50.png" />
+    <None Include="Resources\Sale-48.png" />
+    <None Include="Resources\Factory-48 %281%29.png" />
+    <None Include="Resources\Price Tag USD Filled-50.png" />
+    <None Include="Resources\Cloakroom Filled-50.png" />
+    <None Include="Resources\Appointment Reminders Filled-50 %284%29.png" />
+    <None Include="Resources\Appointment Reminders Filled-50 %282%291.png" />
+    <None Include="Resources\Appointment Reminders Filled-50 %282%29.png" />
+    <None Include="Resources\Appointment Reminders Filled-50 %281%29.png" />
+    <None Include="Resources\Appointment Reminders Filled-50.png" />
+    <None Include="Resources\Rack-64 %281%29.png" />
+    <None Include="Resources\Rack-64.png" />
+    <None Include="Resources\Google News-48.png" />
+    <None Include="Resources\Exit-521.png" />
+    <None Include="Resources\Manager-52.png" />
+    <None Include="Resources\Exit-52.png" />
+    <None Include="Resources\System Information-48.png" />
+    <None Include="Resources\Combo Chart-48.png" />
+    <None Include="Resources\Contacts Filled-50.png" />
+    <None Include="Resources\Shop-48.png" />
+    <None Include="Resources\Purchase Order-52.png" />
+    <None Include="Resources\Coat-52.png" />
+    <None Include="Resources\Menu-48 %284%29.png" />
+    <None Include="Resources\Menu-48 %283%29.png" />
+    <None Include="Resources\Menu-48 %282%29.png" />
+    <None Include="Resources\Menu-48 %281%29.png" />
+    <None Include="Resources\Menu-48.png" />
+    <None Include="Resources\Menu-50.png" />
+    <None Include="Resources\m_btn_menu.png" />
+    <None Include="Resources\Untitled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryApi\LibraryApi.csproj">
+      <Project>{6cd3b725-8eb5-47df-8181-f26764a2518f}</Project>
+      <Name>LibraryApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shop Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\Phiếu nhập\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shopping Cart-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sale-52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bill Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bill Filled-50 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shopping Cart-52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shopping Cart-52 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shopping Cart-52 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bill-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MS Excel Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Box Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bill Filled-50 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sale-481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Land Sales-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New-48 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bar Chart-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ao_so_mi.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Price Tag USD-52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ingredients List-52.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
