@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLBH.Common;
 using LibraryApi;
+using System.IO;
 
 namespace QLBH.Controls
 {
@@ -42,12 +43,13 @@ namespace QLBH.Controls
 
         public void data_to_control_master()
         {
+            string path = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.FullName;
+            path += @"\Template\Giới thiẹu sản phẩm.docx";
             if (String.IsNullOrEmpty(v_hang_hoa.mo_ta))
             {
-                m_rich_txt_edit.LoadDocument(@"C:\Users\Son Pham\Desktop\Quan ly ban hang\QLBH-ver3\QLBH\QLBH\Template\Giới thiẹu sản phẩm.docx");
+                m_rich_txt_edit.LoadDocument(path);
                 return;
             }
-            m_rich_txt_edit.LoadDocument(@"C:\Users\Son Pham\Desktop\Quan ly ban hang\QLBH-ver3\QLBH\QLBH\Template\Giới thiẹu sản phẩm.docx");
 
         }
         public void data_to_bai_viet(string file_name)
