@@ -22,16 +22,13 @@ namespace QLBH.Forms
             InitializeComponent();
             this.CenterToScreen();
             set_define_event();
+            m_dt_data_source = CommonFunction.create_table_form_struct(typeof(MotPhieuNhapExcel));
         }
 
         public void display_chi_tiet(PhieuNhap p)
         {
             m_e_mode = Mode.XemChiTiet;
             m_phieu_nhap = p;
-            m_lbl_ma_phieu.Text = p.ma_phieu;
-            m_lbl_nguoi_lap.Text = p.ten_tai_khoan;
-            m_dat_ngay_lap.EditValue = p.ngay_nhap;
-            load_data_to_grid(p);
             this.ShowDialog();
         }
 
@@ -39,22 +36,14 @@ namespace QLBH.Forms
         {
             m_e_mode = Mode.Sua;
             m_phieu_nhap = p;
-            m_lbl_ma_phieu.Text = p.ma_phieu;
-            m_lbl_nguoi_lap.Text = p.ten_tai_khoan;
-            m_dat_ngay_lap.EditValue = p.ngay_nhap;
-            load_data_to_grid(p);
             this.ShowDialog();
         }
 
         public void display_them_moi()
         {
-            LayMaPhieuNhap(this, data =>
-            {
-                m_e_mode = Mode.ThemMoi;
-                m_lbl_ma_phieu.Text = data.Data;
-                m_dat_ngay_lap.EditValue = DateTime.Now;
-                this.ShowDialog();
-            });
+            m_e_mode = Mode.ThemMoi;
+            this.ShowDialog();
+           
         }
         #endregion
 
@@ -71,17 +60,19 @@ namespace QLBH.Forms
         private string m_file_name;
         public List<MotPhieuNhapExcel> data_from_excel { get; private set; }
         private DataTable m_dt_data_source { get; set; }
+
         private PhieuNhap m_phieu_nhap;
+        private List<HangHoa> m_list_chi_tiet { get; set; }
+
         private Mode m_e_mode;
         #endregion
 
         #region Private Methods
 
-        private void load_data_to_grid(PhieuNhap p)
+        private void load_data_to_grid()
         {
-            //
             List<MotPhieuNhapExcel> result = new List<MotPhieuNhapExcel>();
-            foreach (var item in p.list_hang_hoa)
+            foreach (var item in m_list_chi_tiet)
             {
                 MotPhieuNhapExcel dong = new MotPhieuNhapExcel();
                 dong.ma_tra_cuu = item.ma_tra_cuu_hang_hoa;
@@ -123,8 +114,10 @@ namespace QLBH.Forms
         {
             try
             {
+                m_lbl_loading.Text = "Loading";
                 LibraryApi.QuanLyDanhMucHangHoa.LayDanhSachHangVaMaTraCuu(this, data =>
                 {
+                    m_lbl_loading.Text = "Done";
                     m_sle_ma_tra_cuu.DataSource = CommonFunction.list_to_data_table<LibraryApi.QuanLyDanhMucHangHoa.HangHoaVaMa>(data.Data);
                     m_sle_ma_tra_cuu.ValueMember = "ma_tra_cuu";
                     m_sle_ma_tra_cuu.DisplayMember = "ma_tra_cuu";
@@ -138,15 +131,6 @@ namespace QLBH.Forms
             {
                 XtraMessageBox.Show(ex.InnerException.Message);
             }
-        }
-
-        private void load_data_to_grid()
-        {
-            data_from_excel.RemoveAll(s => s.ma_tra_cuu == null);
-            List<string> prop_name = new List<string> { "ma_tra_cuu", "S", "M", "L", "XL", "XXL", "gia_nhap" };
-            m_dt_data_source = CommonFunction.convert_list_to_data_table<MotPhieuNhapExcel>(prop_name, data_from_excel);
-            m_grc_phieu_nhap.DataSource = m_dt_data_source;
-            m_grv_phieu_nhap.BestFitColumns();
         }
 
         private void open_file()
@@ -168,7 +152,23 @@ namespace QLBH.Forms
             data_from_excel = (from a in excel.Worksheet<MotPhieuNhapExcel>("PHIEU_NHAP")
                                select a).ToList();
             //bat buoc phai co ma tra cuu va gia nhap. thieu phat end luon
-            load_data_to_grid();
+            add_data_from_excel_to_grid();
+        }
+
+        private void add_data_from_excel_to_grid()
+        {
+            foreach (var item in data_from_excel)
+            {
+                var l = new List<object>();
+                l.Add(item.ma_tra_cuu);
+                l.Add(item.S);
+                l.Add(item.M);
+                l.Add(item.L);
+                l.Add(item.XL);
+                l.Add(item.XXL);
+                l.Add(item.gia_nhap);
+                m_dt_data_source.Rows.Add(l.ToArray());
+            }
         }
 
         private bool check_data()
@@ -177,110 +177,17 @@ namespace QLBH.Forms
             {
                 if (String.IsNullOrEmpty(item.ma_tra_cuu))
                 {
-                    XtraMessageBox.Show("Vui lòng kiểm tra lại thông tin mã tra cứu hàng hóa ngày "
-                                        + m_dat_ngay_lap.DateTime.ToShortDateString()
-                                        + " trong file excel");
+                    XtraMessageBox.Show("Vui lòng kiểm tra lại thông tin mã tra cứu hàng hóa");
                     return false;
                 }
                 if (String.IsNullOrEmpty(item.gia_nhap) | Convert.ToDecimal(item.gia_nhap) < 0)
                 {
                     XtraMessageBox.Show("Vui lòng kiểm tra lại thông tin giá nhập mặt hàng "
-                                         + item.ma_tra_cuu.ToString()
-                                         + " ngày " + m_dat_ngay_lap.DateTime.ToShortDateString()
-                                         + " trong file excel");
+                                         + item.ma_tra_cuu.ToString());
                     return false;
                 }
             }
             return true;
-        }
-
-        #endregion
-
-        #region Event Handlers
-        private void set_define_event()
-        {
-            this.Load += F03_them_phieu_nhap_excel_Load;
-            m_btn_chon_file.Click += M_btn_chon_file_Click;
-            m_btn_save.Click += M_btn_save_Click;
-            m_btn_them_chi_tiet.Click += M_btn_them_chi_tiet_Click;
-        }
-
-        private void M_btn_them_chi_tiet_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (m_sle_hang_hoa.EditValue == null)
-                {
-                    XtraMessageBox.Show("Chọn hang hóa trước khi thêm");
-                    return;
-                }
-                var list = new List<object>();
-                list.Add(m_sle_hang_hoa.EditValue);
-                m_dt_data_source.Rows.Add(list.ToArray());
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.InnerException.Message);
-            }
-        }
-
-        private void M_btn_thoat_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                CommonFunction.exception_handle(ex);
-            }
-        }
-
-        private void F03_them_phieu_nhap_excel_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                this.CenterToScreen();
-                this.WindowState = FormWindowState.Maximized;
-                load_data_to_sle_ma();
-            }
-            catch (Exception ex)
-            {
-                CommonFunction.exception_handle(ex);
-            }
-        }
-
-        private void M_btn_save_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                data_from_excel = to_list();
-                switch (m_e_mode)
-                {
-                    case Mode.XemChiTiet:
-                        break;
-                    case Mode.Sua:
-                        form_to_data();
-                        SuaPhieuNhap(m_phieu_nhap, this, data =>
-                        {
-                            XtraMessageBox.Show(data.Message);
-                        });
-                        break;
-                    case Mode.ThemMoi:
-                        form_to_data();
-                        ThemMotPhieuNhap(m_phieu_nhap, this, data =>
-                        {
-                            XtraMessageBox.Show(data.Message);
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception)
-            {
-                XtraMessageBox.Show("Vui lòng kiểm tra lại dữ liệu");
-            }
         }
 
         private void form_to_data()
@@ -290,7 +197,7 @@ namespace QLBH.Forms
             {
                 m_phieu_nhap = new PhieuNhap();
                 m_phieu_nhap.ma_phieu = m_lbl_ma_phieu.Text;
-                m_phieu_nhap.ngay_nhap = m_dat_ngay_lap.DateTime.ToString();
+                m_phieu_nhap.ngay_nhap = m_dat_ngay_lap.DateTime;
                 m_phieu_nhap.ten_tai_khoan = SystemInfo.ten_tai_khoan;
                 m_phieu_nhap.id_cua_hang = SystemInfo.id_cua_hang;
                 m_phieu_nhap.list_hang_hoa = new List<HangHoa>();
@@ -318,6 +225,149 @@ namespace QLBH.Forms
                 }
             }
             else
+            {
+                XtraMessageBox.Show("Vui lòng kiểm tra lại dữ liệu");
+            }
+        }
+        #endregion
+
+        #region Event Handlers
+        private void set_define_event()
+        {
+            this.Load += F03_them_phieu_nhap_excel_Load;
+            m_btn_chon_file.Click += M_btn_chon_file_Click;
+            m_btn_save.Click += M_btn_save_Click;
+            m_btn_them_chi_tiet.Click += M_btn_them_chi_tiet_Click;
+        }
+
+        private void M_btn_them_chi_tiet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (m_dat_ngay_lap.EditValue == null)
+                {
+                    XtraMessageBox.Show("Chọn ngày nhập trước");
+                    return;
+                }
+                if (m_sle_hang_hoa.EditValue == null)
+                {
+                    XtraMessageBox.Show("Chọn hng hóa trước khi thêm");
+                    return;
+                }
+                foreach (DataRow item in m_dt_data_source.Rows)
+                {
+                    if (item["ma_tra_cuu"] == m_sle_hang_hoa.EditValue)
+                    {
+                        XtraMessageBox.Show("hàng hóa đã tồn tại");
+                        return;
+                    }
+                }
+                var list = new List<object>();
+                list.Add(m_sle_hang_hoa.EditValue);
+                m_dt_data_source.Rows.Add(list.ToArray());
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.InnerException.Message);
+            }
+        }
+
+        private void M_btn_thoat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                CommonFunction.exception_handle(ex);
+            }
+        }
+
+        private void F03_them_phieu_nhap_excel_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                switch (m_e_mode)
+                {
+                    case Mode.XemChiTiet:
+                        m_lbl_ma_phieu.Text = "Mã phiếu: " + m_phieu_nhap.ma_phieu;
+                        m_lbl_nguoi_lap.Text = "Người tạo: " + m_phieu_nhap.ten_tai_khoan;
+                        m_dat_ngay_lap.EditValue = m_phieu_nhap.ngay_nhap;
+                        LayPhieuNhapChiTiet(m_phieu_nhap.ma_phieu, this, data =>
+                        {
+                            m_list_chi_tiet = data.Data;
+                            load_data_to_grid();
+
+                        });
+                        break;
+                    case Mode.Sua:
+                        m_lbl_ma_phieu.Text = "Mã phiếu: " + m_phieu_nhap.ma_phieu;
+                        m_lbl_nguoi_lap.Text = "Người tạo: " + m_phieu_nhap.ten_tai_khoan;
+                        m_dat_ngay_lap.EditValue = m_phieu_nhap.ngay_nhap;
+                        LayPhieuNhapChiTiet(m_phieu_nhap.ma_phieu, this, data =>
+                        {
+                            m_list_chi_tiet = data.Data;
+                            load_data_to_grid();
+
+                        });
+                        break;
+                    case Mode.ThemMoi:
+                        LayMaPhieuNhap(this, data =>
+                        {
+                            m_lbl_ma_phieu.Text = "Mã phiếu: " + data.Data;
+                            m_lbl_nguoi_lap.Text = "Người lập: " + SystemInfo.ten_tai_khoan;
+                            m_dat_ngay_lap.EditValue = DateTime.Now;
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                this.CenterToScreen();
+                load_data_to_sle_ma();
+                m_grc_phieu_nhap.DataSource = m_dt_data_source;
+            }
+            catch (Exception ex)
+            {
+                CommonFunction.exception_handle(ex);
+            }
+        }
+
+        private void M_btn_save_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                data_from_excel = to_list();
+                if (check_data())
+                {
+                    switch (m_e_mode)
+                    {
+                        case Mode.XemChiTiet:
+                            break;
+                        case Mode.Sua:
+                            form_to_data();
+                            SuaPhieuNhap(m_phieu_nhap, this, data =>
+                            {
+                                XtraMessageBox.Show(data.Message);
+                            });
+                            break;
+                        case Mode.ThemMoi:
+                            form_to_data();
+                            ThemMotPhieuNhap(m_phieu_nhap, this, data =>
+                            {
+                                XtraMessageBox.Show(data.Message);
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    XtraMessageBox.Show("Vui lòng kiểm tra lại dữ liệu");
+                }
+            }
+            catch (Exception ex)
             {
                 XtraMessageBox.Show("Vui lòng kiểm tra lại dữ liệu");
             }

@@ -568,7 +568,7 @@
             this.m_sle_khach_hang.Name = "m_sle_khach_hang";
             this.m_sle_khach_hang.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.m_sle_khach_hang.Properties.NullText = "Khách vãng lai";
+            this.m_sle_khach_hang.Properties.NullText = "";
             this.m_sle_khach_hang.Properties.View = this.searchLookUpEdit1View;
             this.m_sle_khach_hang.Size = new System.Drawing.Size(201, 20);
             this.m_sle_khach_hang.StyleController = this.layoutControl1;

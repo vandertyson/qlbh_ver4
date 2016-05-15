@@ -126,7 +126,7 @@ namespace QLBH.Common
                 col.ColumnName = type.Name;
                 col.DataType = type.PropertyType;
                 result.Columns.Add(col);
-                col.SetOrdinal(types.IndexOf(type));
+                col.SetOrdinal(PropertyNames.IndexOf(item));
             }
             foreach (var obj in input_list)
             {

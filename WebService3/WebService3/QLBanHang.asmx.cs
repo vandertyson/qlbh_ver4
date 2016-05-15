@@ -493,6 +493,23 @@ namespace WebService3
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LayPhieuChiTiet(string ma_phieu)
+        {
+            try
+            {
+                var data = QuanLyPhieuNhapXuat.lay_phieu_nhap_chi_tiet(ma_phieu);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public void SuaPhieuNhap(string phieu)
         {
             try
@@ -602,13 +619,14 @@ namespace WebService3
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public void ThemHoaDon(string ip_hoa_don)
+        public void ThemHoaDon(string ip_hoa_don, string ip_hoa_don_chi_tiet)
         {
             try
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 var hd = js.Deserialize<QuanLyHoaDon.HoaDon>(ip_hoa_don);
-                QuanLyHoaDon.them_hoa_don(hd);
+                var hdct = js.Deserialize<List<QuanLyHoaDon.HoaDonChiTiet>>(ip_hoa_don_chi_tiet);
+                QuanLyHoaDon.them_hoa_don(hd,hdct);
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
             }
@@ -619,6 +637,39 @@ namespace WebService3
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LaySizeSoLuong(decimal id_cua_hang, string ngay_hien_tai, decimal id_hang)
+        {
+            try
+            {
+                var data = QuanLyHoaDon.tinh_so_luong_ton_kho_hien_tai(id_cua_hang, id_hang, ngay_hien_tai);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LayKhuyenMai(string ngay_hien_tai, decimal id_hang)
+        {
+            try
+            {
+                var data = QuanLyHoaDon.get_khuyen_mai_cua_san_pham(ngay_hien_tai, id_hang);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public void LayDanhSachHoaDon()
@@ -635,6 +686,23 @@ namespace WebService3
                 {
                     data = QuanLyHoaDon.danh_sach_hoa_don(ngay_hien_tai);
                 }
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LayHoaDonChiTiet(string ma_hoa_don)
+        {
+            try
+            {
+                var data = QuanLyHoaDon.get_hoa_don_chi_tiet(ma_hoa_don);
                 var result = new KetQuaTraVe(true, "Thành công", data);
                 TraKetQua(result);
             }
@@ -681,13 +749,14 @@ namespace WebService3
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public void SuaHoaDon(string ip_hoa_don)
+        public void SuaHoaDon(string ip_hoa_don, string ip_chi_tiet)
         {
             try
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 var hd = js.Deserialize<QuanLyHoaDon.HoaDon>(ip_hoa_don);
-                QuanLyHoaDon.sua_hoa_don(hd);
+                var hdct = js.Deserialize<List<QuanLyHoaDon.HoaDonChiTiet>>(ip_chi_tiet);
+                QuanLyHoaDon.sua_hoa_don(hd,hdct);
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
             }

@@ -20,6 +20,7 @@ namespace LibraryApi
         public static string URL_THEM_MOT_PHIEU_NHAP = URL_SERVICE + @"ThemMotPhieuNhap";
         private static string URL_LAY_MA_PHIEU_NHAP_MOI = URL_SERVICE + @"LayMaPhieuMoi";
         private static string URL_LAY_DANH_SACH_PHIEU_NHAP = URL_SERVICE + @"LayDanhSachPhieuNhap";
+        private static string URL_LAY_PHIEU_NHAP_CHI_TIET = URL_SERVICE + @"LayPhieuChiTiet";
 
         #endregion
 
@@ -41,7 +42,7 @@ namespace LibraryApi
         public class PhieuNhap
         {
             public string ma_phieu { get; set; }
-            public string ngay_nhap { get; set; }
+            public DateTime ngay_nhap { get; set; }
             public string ten_tai_khoan { get; set; }
             public decimal id_cua_hang { get; set; }
             public List<HangHoa> list_hang_hoa { get; set; }
@@ -90,6 +91,13 @@ namespace LibraryApi
             param["nbd"] = nbd;
             param["nkt"] = nkt;
             MyNetwork.requestDataWithParam(param, URL_LAY_DANH_SACH_PHIEU_NHAP, f, MyDelegate);
+        }
+
+        public static void LayPhieuNhapChiTiet(string ma_phieu, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<HangHoa>>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["ma_phieu"] = ma_phieu;
+            MyNetwork.requestDataWithParam(param, URL_LAY_PHIEU_NHAP_CHI_TIET, f, MyDelegate);
         }
         #endregion
 

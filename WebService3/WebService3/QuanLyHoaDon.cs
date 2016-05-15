@@ -17,11 +17,10 @@ namespace WebService3
         }
         public class HangHoa
         {
+            public decimal id_hang { get; set; }
             public string ma_hang_hoa { get; set; }
             public string ten_hang_hoa { get; set; }
             public decimal gia_hien_tai { get; set; }
-            public List<SizeSoLuongHienTai> san_co { get; set; }
-            public KhuyenMaiDangApDung km_dang_ap_ung { get; set; }
         }
         public class SizeSoLuongHienTai
         {
@@ -36,7 +35,7 @@ namespace WebService3
         }
         public class KhachHang
         {
-            public string tai_khoan { get; set; }
+            public decimal id_tai_khoan { get; set; }
             public string ten_khach_hang { get; set; }
             public decimal diem_giam_tru { get; set; }
             public string ngay_gia_nhap { get; set; }
@@ -57,13 +56,9 @@ namespace WebService3
             public string thoi_gian_tao { get; set; }
             public string ten_cua_hang { get; set; }
             public string tai_khoan_tao { get; set; }
-            public KhachHang khach { get; set; }
+            public decimal id_khach_hang { get; set; }
+            public string ten_khach_hang { get; set; }
             public string loai_thanh_toan { get; set; }
-            public decimal giam_tru { get; set; }
-            public List<HoaDonChiTiet> chi_tiet { get; set; }
-            public decimal tong_gia_tri_hoa_don { get; set; }
-            public decimal tong_tien_giam_tru_km { get; set; }
-            public decimal thanh_tien { get; set; }
         }
         #endregion
 
@@ -81,7 +76,7 @@ namespace WebService3
                     KhachHang cus = new KhachHang();
                     var acc = context.DM_TAI_KHOAN.Where(s => s.ID == khach.ID_TAI_KHOAN).First();
                     cus.ten_khach_hang = acc.HO_DEM + " " + acc.TEN;
-                    cus.tai_khoan = acc.TEN_TAI_KHOAN;
+                    cus.id_tai_khoan = acc.ID;
                     if (acc.ID != 67)
                     {
                         cus.ngay_gia_nhap = khach.NGAY_THAM_GIA.ToString();
@@ -103,7 +98,7 @@ namespace WebService3
             using (var context = new TKHTQuanLyBanHangEntities())
             {
                 var n = Convert.ToDateTime(ngay_hien_Tai);
-                var hd = context.GD_HOA_DON.Where(s => s.ID_TAI_KHOAN == id_tai_khoan & s.THOI_GIAN_TAO < n ).ToList();
+                var hd = context.GD_HOA_DON.Where(s => s.ID_TAI_KHOAN == id_tai_khoan & s.THOI_GIAN_TAO < n).ToList();
                 foreach (var item in hd)
                 {
                     var ct = context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == item.ID).ToList();
@@ -128,7 +123,7 @@ namespace WebService3
                 var tong_tien_da_mua = tinh_tong_tien_da_mua_cua_khach_hang(ngay_hien_Tai, id_tai_khoan);
                 var n = Convert.ToDateTime(ngay_hien_Tai);
                 var so_thang = context.DM_KHACH_HANG.Where(s => s.ID_TAI_KHOAN == id_tai_khoan).First().NGAY_THAM_GIA.Month - n.Month;
-                result = tong_tien_da_mua / 1000;
+                result = Convert.ToInt32(tong_tien_da_mua / 1000);
             }
             return result;
         }
@@ -142,14 +137,10 @@ namespace WebService3
                 foreach (var hang in ds_hang)
                 {
                     HangHoa sp = new HangHoa();
+                    sp.id_hang = hang.ID;
                     sp.ten_hang_hoa = hang.TEN_HANG_HOA;
                     sp.ma_hang_hoa = hang.MA_TRA_CUU;
-                    //
-                    //
-                    sp.san_co = tinh_so_luong_ton_kho_hien_tai(id_cua_hang, hang.ID, ngay_hien_tai);
-                    //
-                    sp.km_dang_ap_ung = get_khuyen_mai_cua_san_pham(ngay_hien_tai, hang.ID);
-
+                    sp.gia_hien_tai = tinh_gia_san_pham_tai_thoi_diem(ngay_hien_tai, hang.ID);
                     result.Add(sp);
                 }
             }
@@ -261,7 +252,7 @@ namespace WebService3
             return result;
         }
 
-        public static void them_hoa_don(HoaDon hoa_don)
+        public static void them_hoa_don(HoaDon hoa_don, List<HoaDonChiTiet> hoa_don_chi_tiet)
         {
             using (var scope = new TransactionScope())
             {
@@ -272,13 +263,9 @@ namespace WebService3
                         //them hoa don
                         GD_HOA_DON hd = new GD_HOA_DON();
                         hd.ID_CUA_HANG = context.DM_CUA_HANG.Where(s => s.TEN_CUA_HANG == hoa_don.ten_cua_hang).First().ID;
-                        if (hoa_don.khach != null)
-                        {
-                            hd.ID_TAI_KHOAN = context.DM_TAI_KHOAN.Where(s => s.TEN_TAI_KHOAN == hoa_don.khach.tai_khoan).First().ID;
-                        }
+                        hd.ID_TAI_KHOAN = hoa_don.id_khach_hang;
                         hd.THOI_GIAN_TAO = Convert.ToDateTime(hoa_don.thoi_gian_tao);
                         hd.MA_HOA_DON = hoa_don.ma_hoa_don;
-                        hd.GIAM_TRU = hoa_don.giam_tru;
                         hd.LOAI_THANH_TOAN = hoa_don.loai_thanh_toan;
                         hd.ID_TAI_KHOAN_TAO = context.DM_TAI_KHOAN.Where(s => s.TEN_TAI_KHOAN == hoa_don.tai_khoan_tao).First().ID;
                         context.GD_HOA_DON.Add(hd);
@@ -286,7 +273,7 @@ namespace WebService3
                         decimal id_hd = context.GD_HOA_DON.Where(s => s.MA_HOA_DON == hoa_don.ma_hoa_don).First().ID;
 
                         //them hoa don chi tiet
-                        foreach (var chi_tiet in hoa_don.chi_tiet)
+                        foreach (var chi_tiet in hoa_don_chi_tiet)
                         {
                             GD_HOA_DON_CHI_TIET ct = new GD_HOA_DON_CHI_TIET();
                             ct.ID_HOA_DON = id_hd;
@@ -300,7 +287,6 @@ namespace WebService3
                             ct.GIA_BAN = chi_tiet.gia_ban;
                             ct.DA_THANH_TOAN = "Y";
                             context.GD_HOA_DON_CHI_TIET.Add(ct);
-
                             context.SaveChanges();
                         }
                         scope.Complete();
@@ -317,7 +303,6 @@ namespace WebService3
         public static List<HoaDon> danh_sach_hoa_don(string ngay_hien_tai)
         {
             List<HoaDon> result = new List<HoaDon>();
-
             using (var context = new TKHTQuanLyBanHangEntities())
             {
                 var list_hoa_don = new List<GD_HOA_DON>();
@@ -333,7 +318,6 @@ namespace WebService3
                 foreach (var gdhd in list_hoa_don)
                 {
                     HoaDon hd = new HoaDon();
-                    hd.giam_tru = decimal.Parse(gdhd.GIAM_TRU.ToString());
                     hd.thoi_gian_tao = gdhd.THOI_GIAN_TAO.ToString();
                     hd.loai_thanh_toan = gdhd.LOAI_THANH_TOAN;
                     hd.ma_hoa_don = gdhd.MA_HOA_DON;
@@ -341,33 +325,42 @@ namespace WebService3
                     hd.ten_cua_hang = context.DM_CUA_HANG.Where(s => s.ID == gdhd.ID_CUA_HANG).First().TEN_CUA_HANG;
                     hd.tai_khoan_tao = context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN_TAO).First().TEN_TAI_KHOAN;
 
-                    hd.khach = new KhachHang();
-                    hd.khach.tai_khoan = context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN).First().TEN_TAI_KHOAN;
-                    hd.khach.ten_khach_hang = context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN).First().HO_DEM
+                    hd.id_khach_hang = context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN).First().ID;
+                    hd.ten_khach_hang = context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN).First().HO_DEM
                                             + " " + context.DM_TAI_KHOAN.Where(s => s.ID == gdhd.ID_TAI_KHOAN).First().TEN;
-                    hd.khach.diem_giam_tru = tinh_diem_giam_tru_cua_khac_hang(hd.thoi_gian_tao, gdhd.ID_TAI_KHOAN);
-                    hd.chi_tiet = new List<HoaDonChiTiet>();
-                    foreach (var gdct in context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == gdhd.ID))
-                    {
-                        HoaDonChiTiet hdct = new HoaDonChiTiet();
-                        hdct.ma_hang = context.DM_HANG_HOA.Where(s => s.ID == gdct.ID_HANG_HOA).First().TEN_HANG_HOA;
-                        hdct.ten_size = context.GD_TAG.Where(s => s.ID == gdct.ID_SIZE).First().TEN_TAG;
-                        hdct.gia_ban = gdct.GIA_BAN;
-                        hdct.so_luong = int.Parse(gdct.SO_LUONG.ToString());
-                        hdct.dot_khuyen_mai = get_khuyen_mai_cua_san_pham(gdhd.THOI_GIAN_TAO.ToString(), gdct.ID_HANG_HOA).mo_ta;
-                        hdct.muc_khuyen_mai = get_khuyen_mai_cua_san_pham(gdhd.THOI_GIAN_TAO.ToString(), gdct.ID_HANG_HOA).muc_khuyen_mai;
-                        hdct.gia_ban = gdct.GIA_BAN;
-                        hdct.gia_goc = tinh_gia_san_pham_tai_thoi_diem(gdhd.THOI_GIAN_TAO.ToString(), gdct.ID_HANG_HOA);
-                        hd.chi_tiet.Add(hdct);
-                        hd.tong_gia_tri_hoa_don += gdct.SO_LUONG * gdct.GIA_BAN;
-                        hd.tong_tien_giam_tru_km += gdct.SO_LUONG * hdct.gia_goc * hdct.muc_khuyen_mai / 100;
-                    }
-                    hd.giam_tru = hd.tong_tien_giam_tru_km + tinh_diem_giam_tru_cua_khac_hang(gdhd.THOI_GIAN_TAO.ToString(), gdhd.ID_TAI_KHOAN);
-                    hd.thanh_tien = hd.tong_gia_tri_hoa_don - hd.giam_tru;
                     result.Add(hd);
                 }
             }
-            return result;
+            return result.OrderByDescending(s => s.ma_hoa_don).ToList();
+        }
+
+        public static List<HoaDonChiTiet> get_hoa_don_chi_tiet(string ma_hoa_don)
+        {
+            List<HoaDonChiTiet> resul = new List<HoaDonChiTiet>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var hd = context.GD_HOA_DON.Where(s => s.MA_HOA_DON == ma_hoa_don).First();
+                var hdct = context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == hd.ID).ToList();
+                foreach (var item in hdct)
+                {
+                    HoaDonChiTiet ct = new HoaDonChiTiet();
+                    var hang = context.DM_HANG_HOA.Where(s => s.ID == item.ID_HANG_HOA).First();
+
+                    ct.ma_hang = hang.MA_TRA_CUU;
+                    ct.gia_ban = item.GIA_BAN;
+                    ct.ten_size = context.GD_TAG.Where(s => s.ID == item.ID_SIZE).First().TEN_TAG;
+                    ct.so_luong = Convert.ToInt16(item.SO_LUONG);
+
+                    ct.gia_goc = tinh_gia_san_pham_tai_thoi_diem(hd.THOI_GIAN_TAO.ToString(), hang.ID);
+
+                    var km = get_khuyen_mai_cua_san_pham(hd.THOI_GIAN_TAO.ToString(), hang.ID);
+                    ct.muc_khuyen_mai = km.muc_khuyen_mai;
+                    ct.dot_khuyen_mai = km.mo_ta;
+
+                    resul.Add(ct);
+                }
+            }
+            return resul;
         }
 
         private static decimal get_so_tien_giam_tru_km_cua_hoa_don(decimal iD_hoa_don)
@@ -404,7 +397,7 @@ namespace WebService3
         {
             using (var context = new TKHTQuanLyBanHangEntities())
             {
-                var last_hd = context.GD_HOA_DON.OrderByDescending(s => s.ID).First();
+                var last_hd = context.GD_HOA_DON.OrderByDescending(s => s.THOI_GIAN_TAO).First();
                 if (last_hd == null)
                 {
                     return "HD000001";
@@ -444,7 +437,7 @@ namespace WebService3
             }
         }
 
-        public static void sua_hoa_don(HoaDon hoa_don)
+        public static void sua_hoa_don(HoaDon hoa_don, List<HoaDonChiTiet> hdct)
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required,
                                   new System.TimeSpan(0, 15, 0)))
@@ -455,7 +448,7 @@ namespace WebService3
                     {
                         var id_phieu_nhap_xuat = context.GD_HOA_DON.Where(s => s.MA_HOA_DON == hoa_don.ma_hoa_don).FirstOrDefault();
                         xoa_hoa_don(hoa_don.ma_hoa_don);
-                        them_hoa_don(hoa_don);
+                        them_hoa_don(hoa_don, hdct);
                         context.SaveChanges();
                         scope.Complete();
                     }

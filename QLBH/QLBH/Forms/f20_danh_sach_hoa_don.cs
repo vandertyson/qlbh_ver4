@@ -25,12 +25,14 @@ namespace QLBH.Forms
             set_define_event();
         }
         #endregion
+
         #region Members
 
         private List<HoaDon> m_data_hoa_don;
        
 
         #endregion
+
         #region Data Structures
         #endregion
 
@@ -44,7 +46,7 @@ namespace QLBH.Forms
                 LayDanhSachHoaDon(m_dat_ngay_hien_tai.DateTime, this, data =>
                 {
                     m_data_hoa_don = data.Data;
-                    List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao" };
+                    List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao", "ten_khach_hang" };
                     m_grc_hoa_don.DataSource = CommonFunction.convert_list_to_data_table<HoaDon>(prop_name, m_data_hoa_don);
 
                 });
@@ -54,7 +56,7 @@ namespace QLBH.Forms
                 LayDanhSachHoaDon(this, data =>
                 {
                     m_data_hoa_don = data.Data;
-                    List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao" };
+                    List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao", "ten_khach_hang" };
                     m_grc_hoa_don.DataSource = CommonFunction.convert_list_to_data_table<HoaDon>(prop_name, m_data_hoa_don);
 
                 });
