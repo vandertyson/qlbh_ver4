@@ -185,15 +185,15 @@ namespace QLBH.Common
        
         public static DataTable create_table_form_struct(Type type)
         {
-
             DataTable result = new DataTable();
-            var types = type.GetProperties();
+            var types = type.GetProperties().ToList();
             foreach (var item in types)
             {
                 DataColumn col1 = new DataColumn();
                 col1.ColumnName = item.Name;
                 col1.DataType = item.PropertyType;
                 result.Columns.Add(col1);
+                col1.SetOrdinal(types.IndexOf(item));
             }
             return result;
         }

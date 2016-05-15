@@ -37,6 +37,7 @@ namespace WebService3
         {
             public decimal id_tai_khoan { get; set; }
             public string ten_khach_hang { get; set; }
+            public string ten_tai_khoan { get; set; }
             public decimal diem_giam_tru { get; set; }
             public string ngay_gia_nhap { get; set; }
         }
@@ -77,9 +78,10 @@ namespace WebService3
                     var acc = context.DM_TAI_KHOAN.Where(s => s.ID == khach.ID_TAI_KHOAN).First();
                     cus.ten_khach_hang = acc.HO_DEM + " " + acc.TEN;
                     cus.id_tai_khoan = acc.ID;
+                    cus.ngay_gia_nhap = khach.NGAY_THAM_GIA.ToString();
+                    cus.ten_tai_khoan = acc.TEN_TAI_KHOAN;
                     if (acc.ID != 67)
                     {
-                        cus.ngay_gia_nhap = khach.NGAY_THAM_GIA.ToString();
                         cus.diem_giam_tru = tinh_diem_giam_tru_cua_khac_hang(ngay, acc.ID);
                     }
                     result.Add(cus);

@@ -29,7 +29,7 @@ namespace QLBH.Forms
         #region Members
 
         private List<HoaDon> m_data_hoa_don;
-       
+
 
         #endregion
 
@@ -40,11 +40,12 @@ namespace QLBH.Forms
 
         private void load_data_to_grid()
         {
-
+            m_lbl_loading.Text = "Đang tải dữ liệu";
             if (m_dat_ngay_hien_tai.EditValue != null)
             {
                 LayDanhSachHoaDon(m_dat_ngay_hien_tai.DateTime, this, data =>
                 {
+                    m_lbl_loading.Text = "";
                     m_data_hoa_don = data.Data;
                     List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao", "ten_khach_hang" };
                     m_grc_hoa_don.DataSource = CommonFunction.convert_list_to_data_table<HoaDon>(prop_name, m_data_hoa_don);
@@ -55,6 +56,7 @@ namespace QLBH.Forms
             {
                 LayDanhSachHoaDon(this, data =>
                 {
+                    m_lbl_loading.Text = "";
                     m_data_hoa_don = data.Data;
                     List<string> prop_name = new List<string> { "ma_hoa_don", "thoi_gian_tao", "ten_cua_hang", "tai_khoan_tao", "ten_khach_hang" };
                     m_grc_hoa_don.DataSource = CommonFunction.convert_list_to_data_table<HoaDon>(prop_name, m_data_hoa_don);
@@ -175,9 +177,16 @@ namespace QLBH.Forms
 
         private void F14_danh_sach_phieu_nhap_xuat_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                load_data_to_grid();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message);
+            }
         }
         #endregion
-      
+
     }
 }

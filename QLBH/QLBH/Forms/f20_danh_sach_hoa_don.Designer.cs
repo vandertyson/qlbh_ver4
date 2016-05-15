@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f20_danh_sach_hoa_don));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.m_lbl_loading = new DevExpress.XtraEditors.LabelControl();
             this.m_btn_xem_chi_tiet = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_xem = new DevExpress.XtraEditors.SimpleButton();
             this.m_dat_ngay_hien_tai = new DevExpress.XtraEditors.DateEdit();
@@ -41,6 +42,7 @@
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -53,7 +55,7 @@
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dat_ngay_hien_tai.Properties.CalendarTimeProperties)).BeginInit();
@@ -71,10 +73,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.m_lbl_loading);
             this.layoutControl1.Controls.Add(this.m_btn_xem_chi_tiet);
             this.layoutControl1.Controls.Add(this.m_btn_xem);
             this.layoutControl1.Controls.Add(this.m_dat_ngay_hien_tai);
@@ -90,6 +94,14 @@
             this.layoutControl1.Size = new System.Drawing.Size(905, 534);
             this.layoutControl1.TabIndex = 1;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // m_lbl_loading
+            // 
+            this.m_lbl_loading.Location = new System.Drawing.Point(12, 78);
+            this.m_lbl_loading.Name = "m_lbl_loading";
+            this.m_lbl_loading.Size = new System.Drawing.Size(881, 13);
+            this.m_lbl_loading.StyleController = this.layoutControl1;
+            this.m_lbl_loading.TabIndex = 9;
             // 
             // m_btn_xem_chi_tiet
             // 
@@ -135,7 +147,7 @@
             this.m_btn_them_phieu.Size = new System.Drawing.Size(120, 38);
             this.m_btn_them_phieu.StyleController = this.layoutControl1;
             this.m_btn_them_phieu.TabIndex = 3;
-            this.m_btn_them_phieu.Text = "Tạo phiếu nhập";
+            this.m_btn_them_phieu.Text = "Tạo hóa đơn";
             // 
             // m_btn_sua
             // 
@@ -160,10 +172,10 @@
             // m_grc_hoa_don
             // 
             this.m_grc_hoa_don.Cursor = System.Windows.Forms.Cursors.Default;
-            this.m_grc_hoa_don.Location = new System.Drawing.Point(12, 78);
+            this.m_grc_hoa_don.Location = new System.Drawing.Point(12, 95);
             this.m_grc_hoa_don.MainView = this.m_grv_hoa_don;
             this.m_grc_hoa_don.Name = "m_grc_hoa_don";
-            this.m_grc_hoa_don.Size = new System.Drawing.Size(881, 402);
+            this.m_grc_hoa_don.Size = new System.Drawing.Size(881, 385);
             this.m_grc_hoa_don.TabIndex = 2;
             this.m_grc_hoa_don.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.m_grv_hoa_don});
@@ -223,6 +235,20 @@
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 2;
             // 
+            // gridColumn5
+            // 
+            this.gridColumn5.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn5.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridColumn5.AppearanceHeader.Options.UseFont = true;
+            this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn5.Caption = "Tên khách hàng";
+            this.gridColumn5.FieldName = "ten_khach_hang";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 3;
+            // 
             // gridColumn4
             // 
             this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
@@ -235,7 +261,7 @@
             this.gridColumn4.FieldName = "tai_khoan_tao";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 3;
+            this.gridColumn4.VisibleIndex = 4;
             // 
             // layoutControlGroup1
             // 
@@ -252,7 +278,8 @@
             this.layoutControlItem8,
             this.layoutControlItem5,
             this.emptySpaceItem4,
-            this.emptySpaceItem2});
+            this.emptySpaceItem2,
+            this.layoutControlItem6});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(905, 534);
@@ -263,9 +290,9 @@
             // 
             this.layoutControlItem2.Control = this.m_grc_hoa_don;
             this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 66);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 83);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(885, 406);
+            this.layoutControlItem2.Size = new System.Drawing.Size(885, 389);
             this.layoutControlItem2.Text = "layoutControlItem2";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextToControlDistance = 0;
@@ -371,19 +398,17 @@
             this.emptySpaceItem2.Text = "emptySpaceItem2";
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // gridColumn5
+            // layoutControlItem6
             // 
-            this.gridColumn5.AppearanceCell.Options.UseTextOptions = true;
-            this.gridColumn5.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn5.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gridColumn5.AppearanceHeader.Options.UseFont = true;
-            this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn5.Caption = "Tên khách hàng";
-            this.gridColumn5.FieldName = "ten_khach_hang";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 3;
+            this.layoutControlItem6.Control = this.m_lbl_loading;
+            this.layoutControlItem6.CustomizationFormText = "layoutControlItem6";
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 66);
+            this.layoutControlItem6.Name = "layoutControlItem6";
+            this.layoutControlItem6.Size = new System.Drawing.Size(885, 17);
+            this.layoutControlItem6.Text = "layoutControlItem6";
+            this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem6.TextToControlDistance = 0;
+            this.layoutControlItem6.TextVisible = false;
             // 
             // f20_danh_sach_hoa_don
             // 
@@ -410,6 +435,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -441,5 +467,7 @@
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraEditors.LabelControl m_lbl_loading;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
     }
 }

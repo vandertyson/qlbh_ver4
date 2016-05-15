@@ -57,23 +57,24 @@ namespace LibraryApi
         {
             public decimal id_tai_khoan { get; set; }
             public string ten_khach_hang { get; set; }
+            public string ten_tai_khoan { get; set; }
             public decimal diem_giam_tru { get; set; }
-            public string ngay_gia_nhap { get; set; }
+            public DateTime ngay_gia_nhap { get; set; }
         }
         public class HoaDonChiTiet
         {
-            public decimal gia_goc { get; set; }
-            public string dot_khuyen_mai { get; set; }
-            public decimal muc_khuyen_mai { get; set; }
             public string ma_hang { get; set; }
             public string ten_size { get; set; }
             public int so_luong { get; set; }
+            public string dot_khuyen_mai { get; set; }
+            public decimal muc_khuyen_mai { get; set; }
+            public decimal gia_goc { get; set; }
             public decimal gia_ban { get; set; }
         }
         public class HoaDon
         {
             public string ma_hoa_don { get; set; }
-            public string thoi_gian_tao { get; set; }
+            public DateTime thoi_gian_tao { get; set; }
             public string ten_cua_hang { get; set; }
             public string tai_khoan_tao { get; set; }
             public decimal id_khach_hang { get; set; }
@@ -134,11 +135,10 @@ namespace LibraryApi
         }
         public static void LaySizeSoLuong(decimal id_cua_hang, DateTime ngay_hien_tai, decimal id_hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<SizeSoLuongHienTai>>> MyDelegate)
         {
-
             Dictionary<string, object> param = new Dictionary<string, object>();
             param["ngay_hien_tai"] = ngay_hien_tai;
-            param["id_cua_hang"] = ngay_hien_tai;
-            param["id_hang"] = ngay_hien_tai;
+            param["id_cua_hang"] = id_cua_hang;
+            param["id_hang"] = id_hang;
             MyNetwork.requestDataWithParam(param, URL_LAY_SIZE_SO_LUONG, f, MyDelegate);
         }
         public static void LayKhuyenMai(DateTime ngay_hien_tai, decimal id_hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<KhuyenMaiDangApDung>> MyDelegate)
@@ -146,7 +146,7 @@ namespace LibraryApi
 
             Dictionary<string, object> param = new Dictionary<string, object>();
             param["ngay_hien_tai"] = ngay_hien_tai;
-            param["id_hang"] = ngay_hien_tai;
+            param["id_hang"] = id_hang;
             MyNetwork.requestDataWithParam(param, URL_LAY_KHUYEN_MAI, f, MyDelegate);
         }
         public static void LayHoaDonChiTiet(string ma_hoa_don, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<HoaDonChiTiet>>> MyDelegate)

@@ -26,19 +26,16 @@ namespace QLBH.Forms
             this.CenterToParent();
             this.WindowState = FormWindowState.Maximized;
             set_define_event();
+            m_dt_chi_tiet = CommonFunction.create_table_form_struct(typeof(HoaDonChiTiet));
         }
 
         internal void display_chi_tiet(HoaDon p)
         {
             m_e_mode = Mode.XemChiTiet;
             this.m_hoa_don = p;
-            LayHoaDonChiTiet(m_hoa_don.ma_hoa_don, this, data =>
-            {
-                m_hoa_don_chi_tiet = data.Data;
-                data_to_form();
-                this.ShowDialog();
-            });
-
+            ma_hoa_don = p.ma_hoa_don;
+            m_btn_save.Visible = false;
+            this.ShowDialog();
         }
 
         internal void display_them_moi()
@@ -51,12 +48,8 @@ namespace QLBH.Forms
         {
             m_e_mode = Mode.Sua;
             this.m_hoa_don = p;
-            LayHoaDonChiTiet(m_hoa_don.ma_hoa_don, this, data =>
-            {
-                m_hoa_don_chi_tiet = data.Data;
-                data_to_form();
-                this.ShowDialog();
-            });
+            ma_hoa_don = p.ma_hoa_don;
+            this.ShowDialog();
         }
         #endregion
 
@@ -79,13 +72,13 @@ namespace QLBH.Forms
 
         private HoaDon m_hoa_don = new HoaDon();
         private List<HoaDonChiTiet> m_hoa_don_chi_tiet = new List<HoaDonChiTiet>();
-        private DataTable m_dt_chi_tiet = new DataTable();
-
+        private DataTable m_dt_chi_tiet;
         //
         decimal gia_ban = 0;
         private decimal tong_gia_tri_hoa_don = 0;
         private decimal tong_giam_tru_khuyen_mai = 0;
         private decimal thanh_tien = 0;
+        private string ma_hoa_don;
         #endregion
 
         #region Private Methods
@@ -128,11 +121,12 @@ namespace QLBH.Forms
         {
             m_hoa_don_chi_tiet = CommonFunction.DataTableToList<HoaDonChiTiet>(m_dt_chi_tiet);
             m_hoa_don.loai_thanh_toan = "TT";
-            m_hoa_don.thoi_gian_tao = m_dat_thoi_gian_tao.DateTime.ToString();
+            m_hoa_don.thoi_gian_tao = m_dat_thoi_gian_tao.DateTime;
             m_hoa_don.ten_cua_hang = SystemInfo.ten_cua_hang;
-            m_hoa_don.id_khach_hang = m_list_khach_hang.Where(s => s.id_tai_khoan == (decimal)m_sle_khach_hang.EditValue).First().id_tai_khoan;
-            m_hoa_don.ten_khach_hang = m_list_khach_hang.Where(s => s.id_tai_khoan == (decimal)m_sle_khach_hang.EditValue).First().ten_khach_hang;
-            m_hoa_don.ma_hoa_don = m_lbl_ma_hoa_don.Text;
+            m_hoa_don.tai_khoan_tao = SystemInfo.ten_tai_khoan;
+            m_hoa_don.id_khach_hang = m_list_khach_hang.Where(s => s.ten_tai_khoan ==m_comb_khach_hang.Text).First().id_tai_khoan;
+            m_hoa_don.ten_khach_hang = m_list_khach_hang.Where(s => s.ten_tai_khoan == m_comb_khach_hang.Text).First().ten_khach_hang;
+            m_hoa_don.ma_hoa_don = ma_hoa_don;
 
 
             ThemHoaDon(m_hoa_don, m_hoa_don_chi_tiet, this, data =>
@@ -158,8 +152,18 @@ namespace QLBH.Forms
             switch (m_e_mode)
             {
                 case Mode.XemChiTiet:
+                    LayHoaDonChiTiet(m_hoa_don.ma_hoa_don, this, data =>
+                    {
+                        m_hoa_don_chi_tiet = data.Data;
+                        data_to_form();
+                    });
                     break;
                 case Mode.Sua:
+                    LayHoaDonChiTiet(m_hoa_don.ma_hoa_don, this, data =>
+                    {
+                        m_hoa_don_chi_tiet = data.Data;
+                        data_to_form();
+                    });
                     break;
                 case Mode.ThemMoi:
                     //
@@ -176,6 +180,7 @@ namespace QLBH.Forms
                     //
                     LayMaHoaDon(this, data =>
                     {
+                        ma_hoa_don = data.Data;
                         m_lbl_ten_cua_hang.Text = "Cửa hàng thời trang " + SystemInfo.ten_cua_hang;
                         m_lbl_nhan_vien.Text = "Người tạo: " + SystemInfo.ten_tai_khoan;
                         m_lbl_ma_hoa_don.Text = "Mã hóa đơn: " + data.Data;
@@ -189,9 +194,12 @@ namespace QLBH.Forms
 
         private void data_to_sle_khach_hang()
         {
-            m_sle_khach_hang.Properties.DataSource = CommonFunction.list_to_data_table<KhachHang>(m_list_khach_hang);
-            m_sle_khach_hang.Properties.DisplayMember = "ten_khach_hang";
-            m_sle_khach_hang.Properties.ValueMember = "id_tai_khoan";
+            //m_sle_khach_hang.Properties.DataSource = CommonFunction.list_to_data_table<KhachHang>(m_list_khach_hang);
+            //m_sle_khach_hang.Properties.DisplayMember = "ten_khach_hang";
+            //m_sle_khach_hang.Properties.ValueMember = "id_tai_khoan";
+            m_comb_khach_hang.DataSource = m_list_khach_hang;
+            m_comb_khach_hang.DisplayMember = "ten_tai_khoan";
+            m_comb_khach_hang.ValueMember = "id_tai_khoan";
         }
 
         private void data_to_sle_size(List<SizeSoLuongHienTai> ip_hang)
@@ -302,7 +310,6 @@ namespace QLBH.Forms
             m_btn_save.Click += M_btn_save_Click;
             m_btn_xuat_hoa_don.Click += M_btn_xuat_hoa_don_Click;
             m_btn_thoat.Click += M_btn_thoat_Click;
-            m_sle_khach_hang.EditValueChanged += M_sle_khach_hang_EditValueChanged;
             m_sle_hang_hoa.EditValueChanged += M_sle_hang_hoa_EditValueChanged;
             m_sle_size.EditValueChanged += M_sle_size_EditValueChanged;
             m_dat_thoi_gian_tao.EditValueChanged += M_dat_thoi_gian_tao_EditValueChanged;
@@ -312,22 +319,27 @@ namespace QLBH.Forms
             m_grv_chi_tiet.RowDeleted += M_grv_chi_tiet_RowDeleted;
             m_grv_chi_tiet.CellValueChanged += M_grv_chi_tiet_CellValueChanged;
             m_txt_gia_ban.Leave += M_txt_gia_ban_Leave;
-            m_sle_khach_hang.TextChanged += M_sle_khach_hang_TextChanged;
+            m_comb_khach_hang.TextChanged += M_comb_khach_hang_TextChanged;
+            m_comb_khach_hang.SelectedIndexChanged += M_comb_khach_hang_SelectedIndexChanged;
         }
 
-        private void M_sle_khach_hang_TextChanged(object sender, EventArgs e)
+        private void M_comb_khach_hang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void M_comb_khach_hang_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (String.IsNullOrEmpty(m_sle_khach_hang.Text) | String.IsNullOrWhiteSpace(m_sle_khach_hang.Text))
+                if (m_comb_khach_hang.Text == "")
                 {
-                    return;
+                    m_comb_khach_hang.Text = "customer";
                 }
-                var ten = (string)m_sle_khach_hang.Text;
-                m_curent_khach = m_list_khach_hang.Where(s => s.ten_khach_hang == ten).FirstOrDefault();
+                m_curent_khach = m_list_khach_hang.Where(s => s.ten_tai_khoan == m_comb_khach_hang.Text).FirstOrDefault();
                 if (m_curent_khach == null)
                 {
-                    m_curent_khach = m_list_khach_hang.Where(s => s.id_tai_khoan == 67).FirstOrDefault();
+                    return;
                 }
                 m_lbl_giam_tru_khach_hang.Text = "Giảm trừ thành viên: " + String.Format("{0:#,##0 VND}", m_curent_khach.diem_giam_tru);
                 if (m_dt_chi_tiet.Rows.Count != 0)
@@ -335,6 +347,33 @@ namespace QLBH.Forms
                     tinh_lai_cac_thong_so();
                     hien_thi_cac_thong_so();
                 }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.InnerException.Message);
+            }
+        }
+
+        private void M_sle_khach_hang_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (String.IsNullOrEmpty(m_sle_khach_hang.Text) | String.IsNullOrWhiteSpace(m_sle_khach_hang.Text))
+                //{
+                //    m_sle_khach_hang.Text = m_curent_khach.ten_khach_hang;
+                //}
+                //var ten = (string)m_sle_khach_hang.Text;
+                //m_curent_khach = m_list_khach_hang.Where(s => s.ten_khach_hang == ten).FirstOrDefault();
+                //if (m_curent_khach == null)
+                //{
+                //    m_curent_khach = m_list_khach_hang.Where(s => s.id_tai_khoan == 67).FirstOrDefault();
+                //}
+                //m_lbl_giam_tru_khach_hang.Text = "Giảm trừ thành viên: " + String.Format("{0:#,##0 VND}", m_curent_khach.diem_giam_tru);
+                //if (m_dt_chi_tiet.Rows.Count != 0)
+                //{
+                //    tinh_lai_cac_thong_so();
+                //    hien_thi_cac_thong_so();
+                //}
             }
             catch (Exception ex)
             {
@@ -442,14 +481,14 @@ namespace QLBH.Forms
                     {
                         case Mode.XemChiTiet:
                             m_curent_khach = m_list_khach_hang.Where(s => s.ten_khach_hang == m_hoa_don.ten_khach_hang).First();
-                            m_sle_khach_hang.EditValue = m_curent_khach.ten_khach_hang;
+                            m_comb_khach_hang.Text = m_curent_khach.ten_tai_khoan;
                             break;
                         case Mode.Sua:
                             m_curent_khach = m_list_khach_hang.Where(s => s.ten_khach_hang == m_hoa_don.ten_khach_hang).First();
-                            m_sle_khach_hang.EditValue = m_curent_khach.ten_khach_hang;
+                            m_comb_khach_hang.Text = m_curent_khach.ten_tai_khoan;
                             break;
                         case Mode.ThemMoi:
-                            m_sle_khach_hang.Text = m_list_khach_hang.Where(s => s.id_tai_khoan == 67).First().ten_khach_hang;
+                            m_comb_khach_hang.Text = m_list_khach_hang.Where(s => s.id_tai_khoan == 67).First().ten_tai_khoan;
                             break;
                         default:
                             break;
@@ -466,7 +505,6 @@ namespace QLBH.Forms
         {
             try
             {
-                var list_thuoc_tinh = new List<object>();
                 if (m_sle_hang_hoa.EditValue == null
                     | m_sle_size.EditValue == null
                     | m_sle_so_luong.EditValue == null
@@ -485,16 +523,27 @@ namespace QLBH.Forms
                 }
                 string ma = (string)m_sle_hang_hoa.EditValue;
                 var hang = m_list_hang_hoa.Where(s => s.ma_hang_hoa == ma).First();
-                list_thuoc_tinh.Add(m_sle_hang_hoa.EditValue);
-                list_thuoc_tinh.Add(m_sle_size.EditValue);
-                list_thuoc_tinh.Add(m_sle_so_luong.Text);
-                list_thuoc_tinh.Add(m_khuyen_mai.mo_ta);
-                list_thuoc_tinh.Add(m_khuyen_mai.muc_khuyen_mai);
-                list_thuoc_tinh.Add(m_txt_gia_ban.Text);
 
-                m_dt_chi_tiet.Rows.Add(list_thuoc_tinh.ToArray());
-                m_grc_chi_tiet.DataSource = m_dt_chi_tiet;
+                HoaDonChiTiet ct = new HoaDonChiTiet();
+                ct.ma_hang = m_sle_hang_hoa.EditValue.ToString();
+                ct.ten_size = m_sle_size.EditValue.ToString();
+                ct.so_luong = Convert.ToInt16(m_sle_so_luong.Text);
+                ct.gia_ban = gia_ban;
+                ct.muc_khuyen_mai = m_khuyen_mai.muc_khuyen_mai;
+                ct.dot_khuyen_mai = m_khuyen_mai.mo_ta;
+                ct.gia_goc = hang.gia_hien_tai;
 
+                var l = new List<object>();
+                l.Add(ct.ma_hang);
+                l.Add(ct.ten_size);
+                l.Add(ct.so_luong);
+                l.Add(ct.dot_khuyen_mai);
+                l.Add(ct.muc_khuyen_mai);
+                l.Add(ct.gia_goc);
+                l.Add(ct.gia_ban);
+                
+               
+                m_dt_chi_tiet.Rows.Add(l.ToArray());
                 //
                 tinh_lai_cac_thong_so();
                 hien_thi_cac_thong_so();
@@ -506,9 +555,9 @@ namespace QLBH.Forms
                 m_txt_gia_ban.Text = "";
                 //
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                XtraMessageBox.Show("Đã xảy ra 1 số lỗi");
+                XtraMessageBox.Show(ex.InnerException.Message);
             }
         }
 
@@ -588,16 +637,16 @@ namespace QLBH.Forms
         {
             try
             {
-                if (String.IsNullOrEmpty(m_sle_khach_hang.Text) | String.IsNullOrWhiteSpace(m_sle_khach_hang.Text))
-                {
-                    m_sle_khach_hang.Text = m_curent_khach.ten_khach_hang;
-                }
-                m_lbl_giam_tru_khach_hang.Text = "Giảm trừ thành viên: " + String.Format("{0:#,##0 VND}", m_curent_khach.diem_giam_tru);
-                if (m_dt_chi_tiet.Rows.Count != 0)
-                {
-                    tinh_lai_cac_thong_so();
-                    hien_thi_cac_thong_so();
-                }
+                //if (String.IsNullOrEmpty(m_sle_khach_hang.Text) | String.IsNullOrWhiteSpace(m_sle_khach_hang.Text))
+                //{
+                    
+                //}
+                //m_lbl_giam_tru_khach_hang.Text = "Giảm trừ thành viên: " + String.Format("{0:#,##0 VND}", m_curent_khach.diem_giam_tru);
+                //if (m_dt_chi_tiet.Rows.Count != 0)
+                //{
+                //    tinh_lai_cac_thong_so();
+                //    hien_thi_cac_thong_so();
+                //}
             }
             catch (Exception ex)
             {

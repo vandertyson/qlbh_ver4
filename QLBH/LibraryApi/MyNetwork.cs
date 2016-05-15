@@ -69,12 +69,6 @@ namespace LibraryApi
                             MyDelegate(jsonObject);
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Đã có lỗi xảy ra do một số chức năng đang hoàn thiện");
-                        MessageBox.Show(response.ErrorException.InnerException.Message);
-                        //throw new Exception(response.ErrorMessage);
-                    }
                 });
             }
             catch (Exception e)
