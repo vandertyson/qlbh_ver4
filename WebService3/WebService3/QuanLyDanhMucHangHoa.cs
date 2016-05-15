@@ -184,10 +184,12 @@ namespace WebService3
                     if (hang.MA_TRA_CUU.ToLower() == keyword)
                     {
                         listID.Add(hang);
+                        
                     }
                     else if (hang.MA_HANG_HOA.ToLower() == keyword)
                     {
                         listID.Add(hang);
+                        
                     }
                     else if (kiemTraNamTrong(listKey, hang.TEN_HANG_HOA.ToLower().Split(' ').ToList(), (a, b) =>
                                {
@@ -195,6 +197,7 @@ namespace WebService3
                                }))
                     {
                         listID.Add(hang);
+                        
                     }
                     else
                     {

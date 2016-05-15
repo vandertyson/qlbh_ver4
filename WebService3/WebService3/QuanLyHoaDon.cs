@@ -221,33 +221,21 @@ namespace WebService3
                     decimal id_size = context.GD_TAG.Where(s => s.TEN_TAG == ten_size).First().ID;
 
                     // tinh tong da nhap ve den thoi diem hien tai
-                    int tong_nhap_ve = 0;
+                    decimal tong_nhap_ve = 0;
                     var n = Convert.ToDateTime(ngay_hien_tai);
-                    var pn = context.GD_PHIEU_NHAP_XUAT.Where(s => s.NGAY_NHAP <= n & s.ID_CUA_HANG == id_cua_hang).ToList();
-                    foreach (var item in pn)
-                    {
-                        var pnct = context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Where(s => s.ID_PHIEU_NHAP_XUAT == item.ID & s.ID_HANG_HOA == id_hang & s.ID_SIZE == id_size).FirstOrDefault();
-                        if (pnct == null)
-                        {
-                            continue;
-                        }
-                        tong_nhap_ve += Convert.ToInt16(pnct.SO_LUONG);
-                    }
+                    tong_nhap_ve = context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Where(s => s.GD_PHIEU_NHAP_XUAT.NGAY_NHAP <= n && s.GD_PHIEU_NHAP_XUAT.ID_CUA_HANG == id_cua_hang
+                                                        && s.ID_HANG_HOA == id_hang
+                                                        && s.ID_SIZE == id_size)
+                                                        .Sum(s => s.SO_LUONG);
 
                     //tinh tong ban di den thoi diem hien tai
-                    int tong_ban_di = 0;
-                    var n2 = Convert.ToDateTime(ngay_hien_tai);
-                    var hd = context.GD_HOA_DON.Where(s => s.THOI_GIAN_TAO <= n2).ToList();
-                    foreach (var item in hd)
-                    {
-                        var pnct = context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == item.ID & s.ID_HANG_HOA == id_hang & s.ID_SIZE == id_size).FirstOrDefault();
-                        if (pnct == null)
-                        {
-                            continue;
-                        }
-                        tong_ban_di += Convert.ToInt16(pnct.SO_LUONG);
-                    }
-                    ssl.so_luong = tong_nhap_ve - tong_ban_di;
+                    decimal tong_ban_di = 0;
+                    tong_ban_di = context.GD_HOA_DON_CHI_TIET.Where(s => s.GD_HOA_DON.THOI_GIAN_TAO < n
+                                                                     && s.GD_HOA_DON.ID_CUA_HANG == id_cua_hang
+                                                                     && s.ID_HANG_HOA == id_hang
+                                                                     && s.ID_SIZE == id_size
+                                                                    ).Sum(s => s.SO_LUONG);
+                    ssl.so_luong = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
                     result.Add(ssl);
                 }
             }
@@ -302,6 +290,52 @@ namespace WebService3
             }
         }
 
+        public static void sua_so_luong()
+        {
+            using (var scope = new TransactionScope())
+            {
+                try
+                {
+                    using (var context = new TKHTQuanLyBanHangEntities())
+                    {
+                        var p = context.GD_HOA_DON_CHI_TIET.ToList();
+                        foreach (var item in p)
+                        {
+
+                            // tinh tong da nhap ve den thoi diem hien tai
+                            decimal tong_nhap_ve = 0;
+                            var n = Convert.ToDateTime(item.GD_HOA_DON.THOI_GIAN_TAO);
+                            var ve = context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Where(s => s.GD_PHIEU_NHAP_XUAT.NGAY_NHAP <= n && s.GD_PHIEU_NHAP_XUAT.ID_CUA_HANG == 1
+                                                                && s.ID_HANG_HOA == item.ID_HANG_HOA
+                                                                && s.ID_SIZE == item.ID_SIZE)
+                                                                .ToArray();
+                            tong_nhap_ve = ve.Count() == 0 ? 0 : ve.Sum(s => s.SO_LUONG);
+                            //tinh tong ban di den thoi diem hien tai
+                            decimal tong_ban_di = 0;
+                            var di = context.GD_HOA_DON_CHI_TIET.Where(s => s.GD_HOA_DON.THOI_GIAN_TAO < n
+                                                                             && s.GD_HOA_DON.ID_CUA_HANG == 1
+                                                                             && s.ID_HANG_HOA == item.ID_HANG_HOA
+                                                                             && s.ID_SIZE == item.ID_SIZE
+                                                                            ).ToArray();
+                            tong_ban_di = di.Count() == 0 ? 0 : di.Sum(s=>s.SO_LUONG);
+                            var so_luong = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
+                            if (item.SO_LUONG > so_luong)
+                            {
+                                context.GD_HOA_DON_CHI_TIET.Remove(item);
+                                context.SaveChanges();
+                            }
+                            
+                        }
+                        scope.Complete();
+                    }    
+                }
+                catch (Exception v_e)
+                {
+                    scope.Dispose();
+                    throw v_e;
+                }
+        }
+    }
         public static List<HoaDon> danh_sach_hoa_don(string ngay_hien_tai)
         {
             List<HoaDon> result = new List<HoaDon>();
@@ -463,6 +497,7 @@ namespace WebService3
             }
         }
 
+       
         #endregion
     }
 }

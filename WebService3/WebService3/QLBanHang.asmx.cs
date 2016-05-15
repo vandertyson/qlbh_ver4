@@ -60,11 +60,12 @@ namespace WebService3
         }
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public void Test(string key,decimal id)
+        public void Test()
         {
             try
             {
-                QuanLyDanhMucHangHoa.Test3(key, id);
+                //QuanLyDanhMucHangHoa.Test3(key, id);
+                QuanLyHoaDon.sua_so_luong();
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
             }
