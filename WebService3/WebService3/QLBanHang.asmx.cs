@@ -275,6 +275,80 @@ namespace WebService3
         }
         #endregion
 
+        #region Quản lý danh mục hàng hóa v2
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void lay_danh_sach_hang_hoa_v2()
+        {
+            try
+            {
+                var data = QuanLyDanhMucHangHoa.lay_danh_muc_hang_hoa();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void them_hang_hoa_v2(string hang)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var hd = js.Deserialize<QuanLyDanhMucHangHoa.HangHoaV2>(hang);
+                QuanLyDanhMucHangHoa.them_hang_hoa_v2(hd);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void sua_hang_hoa_v2(string hang)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var hd = js.Deserialize<QuanLyDanhMucHangHoa.HangHoaV2>(hang);
+                QuanLyDanhMucHangHoa.sua_hang_hoa_v2(hd);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xoa_hang_hoa_v2(decimal id_hang)
+        {
+            try
+            {
+                var data = QuanLyDanhMucHangHoa.xoa_hang_hoa_v2(id_hang);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+        #endregion
+
         #region Quản lý tag hàng hóa
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]

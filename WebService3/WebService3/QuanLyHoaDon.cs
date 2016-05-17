@@ -101,6 +101,10 @@ namespace WebService3
             {
                 var n = Convert.ToDateTime(ngay_hien_Tai);
                 var hd = context.GD_HOA_DON.Where(s => s.ID_TAI_KHOAN == id_tai_khoan & s.THOI_GIAN_TAO < n).ToList();
+                if (hd.Count == 0)
+                {
+                    return 0;
+                }
                 foreach (var item in hd)
                 {
                     var ct = context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == item.ID).ToList();
@@ -317,25 +321,26 @@ namespace WebService3
                                                                              && s.ID_HANG_HOA == item.ID_HANG_HOA
                                                                              && s.ID_SIZE == item.ID_SIZE
                                                                             ).ToArray();
-                            tong_ban_di = di.Count() == 0 ? 0 : di.Sum(s=>s.SO_LUONG);
+                            tong_ban_di = di.Count() == 0 ? 0 : di.Sum(s => s.SO_LUONG);
                             var so_luong = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
                             if (item.SO_LUONG > so_luong)
                             {
                                 context.GD_HOA_DON_CHI_TIET.Remove(item);
                                 context.SaveChanges();
                             }
-                            
+
                         }
                         scope.Complete();
-                    }    
+                    }
                 }
                 catch (Exception v_e)
                 {
                     scope.Dispose();
                     throw v_e;
                 }
+            }
         }
-    }
+
         public static List<HoaDon> danh_sach_hoa_don(string ngay_hien_tai)
         {
             List<HoaDon> result = new List<HoaDon>();
@@ -497,7 +502,7 @@ namespace WebService3
             }
         }
 
-       
+
         #endregion
     }
 }

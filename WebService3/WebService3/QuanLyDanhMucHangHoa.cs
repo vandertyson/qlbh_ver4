@@ -10,10 +10,11 @@ namespace WebService3
         #region Constant
         public const string DANH_MUC_SP = @"DANH_MUC_SAN_PHAM";
         public const string SIZE = @"SIZE_QUAN_AO";
-    
+
         #endregion
 
         #region Struct
+        #region Struct V1
         public class LoaiHang
         {
             public decimal id { get; set; }
@@ -145,7 +146,36 @@ namespace WebService3
             public string ten_hang_hoa { get; set; }
             public string ma_tra_cuu { get; set; }
         }
+        #endregion
 
+        #region Struct V2
+        public class HangHoaV2
+        {
+            public decimal id { get; set; }
+            public string ma_tra_cuu { get; set; }
+            public string ten_hang_hoa { get; set; }
+            public decimal id_nha_cung_cap { get; set; }
+            public string ten_nha_cung_cap { get; set; }
+            public string dang_kinh_doanh { get; set; }
+            public string mo_ta { get; set; }
+        }
+        public class NhaCungCap3
+        {
+            public decimal id { get; set; }
+            public string ten_nha_cung_cap { get; set; }
+            public string ma_nha_cung_cap { get; set; }
+        }
+        public class TagV2
+        {
+            public decimal id { get; set; }
+            public string ten_tag { get; set; }
+        }
+        public class LinkAnh
+        {
+            public decimal id { get; set; }
+            public string link { get; set; }
+        }
+        #endregion
         #endregion
 
         #region Functions
@@ -184,12 +214,12 @@ namespace WebService3
                     if (hang.MA_TRA_CUU.ToLower() == keyword)
                     {
                         listID.Add(hang);
-                        
+
                     }
                     else if (hang.MA_HANG_HOA.ToLower() == keyword)
                     {
                         listID.Add(hang);
-                        
+
                     }
                     else if (kiemTraNamTrong(listKey, hang.TEN_HANG_HOA.ToLower().Split(' ').ToList(), (a, b) =>
                                {
@@ -197,16 +227,18 @@ namespace WebService3
                                }))
                     {
                         listID.Add(hang);
-                        
+
                     }
                     else
                     {
                         var lTag = hang.GD_HANG_HOA_TAG.Select(s => s.GD_TAG.TEN_TAG.ToLower()).ToList();
                         if (
-                            kiemTraNamTrong(new List<string> { keyword },lTag, (a, b) =>
-                             {
-                                 return a.Contains(b);
-                             })
+                            kiemTraNamTrong(new List<string> { keyword }, lTag, (a, b) =>
+                              {
+                                  if (a.Length > b.Length && a.Substring(0, b.Length) == b && a[b.Length] == ' ') return true;
+                                  if (a.Length > b.Length && a.Substring(a.Length - b.Length) == b && a[a.Length - b.Length - 1] == ' ') return true;
+                                  return a.Contains(" " + b + " ");
+                              })
                             )
                         {
                             listID.Add(hang);
@@ -214,7 +246,7 @@ namespace WebService3
                     }
                 }
                 var ketQua = new List<HangHoaMaster>();
-                for (int i = length*page; i < length*page + length&&i<listID.Count; i++)
+                for (int i = length * page; i < length * page + length && i < listID.Count; i++)
                 {
                     ketQua.Add(toHangHoaMaster(listID[i]));
                 }
@@ -263,7 +295,7 @@ namespace WebService3
                 }
                 hhMaster.ds_link = listLink;
                 var gia = layGia(context, id);
-                hhMaster.gia = gia.Count==0?0:gia[0];
+                hhMaster.gia = gia.Count == 0 ? 0 : gia[0];
                 hhMaster.do_giam_gia = (float)(gia.Count < 2 ? 0 : 1 - gia[0] / gia[1]);
                 var diem = hh.GD_DANH_GIA.Where(s => s.ID_HANG_HOA == id).ToArray();
                 hhMaster.diem = diem.Count() > 0 ? diem.Average(s => s.DIEM) : 0;
@@ -297,12 +329,12 @@ namespace WebService3
             var gia = context.GD_GIA.Where(s => s.ID_HANG_HOA == idHh)
                 .OrderByDescending(s => s.NGAY_LUU_HANH)
                 .Take(2)
-                .Select(s=>s.GIA)
+                .Select(s => s.GIA)
                 .ToList();
             return gia;
         }
 
-        public static void Test3(string keyword,decimal id_tag)
+        public static void Test3(string keyword, decimal id_tag)
         {
             using (var scope = new TransactionScope())
             {
@@ -310,15 +342,15 @@ namespace WebService3
                 {
                     using (var context = new TKHTQuanLyBanHangEntities())
                     {
-                        if (keyword=="namnu")
+                        if (keyword == "namnu")
                         {
                             var hh = context.DM_HANG_HOA.ToArray();
                             foreach (var item in hh)
                             {
-                                if (item.ID<45)
+                                if (item.ID < 45)
                                 {
                                     var hhtag = context.GD_HANG_HOA_TAG
-                                .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG==2)
+                                .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG == 2)
                                 .FirstOrDefault();
                                     if (hhtag == null)
                                     {
@@ -353,7 +385,7 @@ namespace WebService3
                             var hhtag = context.GD_HANG_HOA_TAG
                                 .Where(s => s.ID_HANG_HOA == item.id && s.ID_TAG == id_tag)
                                 .FirstOrDefault();
-                            if (hhtag==null)
+                            if (hhtag == null)
                             {
                                 var hangtag = new GD_HANG_HOA_TAG();
                                 hangtag.ID_HANG_HOA = item.id;
@@ -391,6 +423,205 @@ namespace WebService3
             }
         }
 
+        #region Function V2
+
+        #region Truy Xuat
+        public static List<HangHoaV2> lay_danh_muc_hang_hoa()
+        {
+            List<HangHoaV2> res = new List<HangHoaV2>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.DM_HANG_HOA.ToList();
+                foreach (var item in ds)
+                {
+                    HangHoaV2 h = new HangHoaV2();
+                    h.id = item.ID;
+                    h.ma_tra_cuu = item.MA_TRA_CUU;
+                    h.ten_hang_hoa = item.TEN_HANG_HOA;
+                    h.ten_nha_cung_cap = item.DM_NHA_CUNG_CAP.TEN_NHA_CUNG_CAP;
+                    h.id_nha_cung_cap = item.DM_NHA_CUNG_CAP.ID;
+                    h.dang_kinh_doanh = item.DA_XOA;
+                    h.mo_ta = item.MO_TA;
+                    res.Add(h);
+                }
+            }
+            return res;
+        }
+
+        public static List<TagV2> lay_danh_sach_tag(decimal id_hang_hoa)
+        {
+            List<TagV2> res = new List<TagV2>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.GD_HANG_HOA_TAG.Where(s => s.ID_HANG_HOA == id_hang_hoa).ToList();
+                foreach (var item in ds)
+                {
+                    TagV2 t = new TagV2();
+                    t.id = item.ID;
+                    t.ten_tag = item.GD_TAG.TEN_TAG;
+                    res.Add(t);
+                }
+            }
+            return res;
+        }
+
+        public static List<LinkAnh> lay_link_anh(decimal id_hang_hoa)
+        {
+            List<LinkAnh> res = new List<LinkAnh>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id_hang_hoa).ToList();
+                foreach (var item in ds)
+                {
+                    LinkAnh l = new LinkAnh();
+                    l.id = item.ID;
+                    l.link = item.LINK_ANH;
+                    res.Add(l);
+                }
+            }
+            return res;
+        }
+
+        public static string lay_bai_viet(decimal id_hang_hoa)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                return context.DM_HANG_HOA.Where(s => s.ID == id_hang_hoa).First().MO_TA;
+            }
+        }
+        #endregion
+
+        #region Them sua xoa
+
+        public static void them_hang_hoa_v2(HangHoaV2 hang)
+        {
+                using (var context = new TKHTQuanLyBanHangEntities())
+                {
+                    DM_HANG_HOA dm = new DM_HANG_HOA();
+                    //
+                    var last_ma = context.DM_HANG_HOA.OrderByDescending(s => s.ID).First().MA_HANG_HOA;
+                    var ma_moi = Common.GenMa("H", 6, last_ma);
+                    //
+                    dm.MA_HANG_HOA = ma_moi;
+                    dm.MA_TRA_CUU = hang.ma_tra_cuu;
+                    dm.TEN_HANG_HOA = hang.ten_hang_hoa;
+                    dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
+                    dm.MO_TA = hang.mo_ta;
+                    dm.DA_XOA = "N";
+
+                    context.DM_HANG_HOA.Add(dm);
+                    context.SaveChanges();
+                }
+        }
+
+        public static void sua_hang_hoa_v2(HangHoaV2 hang)
+        {
+                using (var context = new TKHTQuanLyBanHangEntities())
+                {
+                    var dm = context.DM_HANG_HOA.Where(s => s.ID == hang.id).First();                
+                    //
+                    dm.MA_TRA_CUU = hang.ma_tra_cuu;
+                    dm.TEN_HANG_HOA = hang.ten_hang_hoa;
+                    dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
+                    dm.MO_TA = hang.mo_ta;
+
+                    context.SaveChanges();
+                }
+        }
+
+        public static string xoa_hang_hoa_v2(decimal id_hang)
+        {
+            string res = "";
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                //hoa don chi tiet
+                if (context.GD_HOA_DON_CHI_TIET.Select(s=>s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã có thông tin trong hóa đơn";
+                    return res;
+                }
+                //click
+                if (context.GD_CLICK_HANG_HOA.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                { 
+                    res = "Không thể xóa do liên quan tới lượt xem khách hàng";
+                    return res;
+                }
+                //comment
+                if (context.GD_NHAN_XET.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã liên quan tới nhận xét khách hàng";
+                    return res;
+                }
+                //yeu thich
+                if (context.GD_SAN_PHAM_UA_THICH.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do liên quan tới sở thích khách hàng";
+                    return res;
+                }
+                //rating
+                if (context.GD_DANH_GIA.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                { 
+                    res = "Không thể xóa do đã có thông tin trong nhận xét khách hàng";
+                    return res;
+                }
+                //phieu nhap chi tiet
+                if (context.GD_PHIEU_NHAP_CHI_TIET.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã có thông tin phiếu nhập xuất";
+                    return res;
+                }
+                //phieu nhap xuat chi tiet
+                if (context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã có thông tin phiếu nhập";
+                    return res;
+                }
+                //khuyen mai chi tiet
+                if (context.GD_KHUYEN_MAI_CHI_TIET.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã có thông tin trong khuyến mãi";
+                    return res;
+                }
+                //ton kho
+                if (context.GD_TON_KHO.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
+                {
+                    res = "Không thể xóa do đã có thông tin trong tồn kho";
+                    return res;
+                }
+
+
+                //link anh
+                var l = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id_hang).ToList();
+                foreach (var item in l)
+                {
+                    context.DM_LINK_ANH.Remove(item);
+                }
+                //tag
+                var t = context.GD_HANG_HOA_TAG.Where(s => s.ID_HANG_HOA == id_hang).ToList();
+                foreach (var item in t)
+                {
+                    context.GD_HANG_HOA_TAG.Remove(item);
+                }
+                //dm_hang_hoa
+                var h = context.DM_HANG_HOA.Where(s => s.ID == id_hang).First();
+                context.DM_HANG_HOA.Remove(h);
+
+                //gd_gia
+                var g = context.GD_GIA.Where(s => s.ID_HANG_HOA == id_hang).ToList();
+                foreach (var item in g)
+                {
+                    context.GD_GIA.Remove(item);
+                }
+
+                context.SaveChanges();
+                res = "Đã xóa hàng hóa thành công";
+            }
+            return res;
+        }
+
+        #endregion
+
+        #endregion
         #endregion
     }
 }
