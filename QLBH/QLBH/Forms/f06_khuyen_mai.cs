@@ -158,24 +158,33 @@ namespace QLBH.Forms
         {
             try
             {
-                if (check_null_input())
+                if (m_check_time())
                 {
-                    QuanLyKhuyenMai.them_dot_khuyen_mai(m_lbl_ma_dot_khuyen_mai.Text
-                                                    , m_txt_mo_ta.Text, m_dat_ngay_bat_dau.DateTime
-                                                    , m_dat_ngay_ket_thuc.DateTime
-                                                    , this, data =>
-                                                    {
-                                                        if (data.Success)
+                    if (check_null_input())
+                    {
+                        QuanLyKhuyenMai.them_dot_khuyen_mai(m_lbl_ma_dot_khuyen_mai.Text
+                                                        , m_txt_mo_ta.Text, m_dat_ngay_bat_dau.DateTime
+                                                        , m_dat_ngay_ket_thuc.DateTime
+                                                        , this, data =>
                                                         {
-                                                            XtraMessageBox.Show(@"Bạn đã thêm đợt thành công");
-                                                        }
-                                                        else XtraMessageBox.Show(@"Đã xảy ra lỗi, vui lòng kiểm tra lại giá trị nhập");
-                                                    });
+                                                            if (data.Success)
+                                                            {
+                                                                XtraMessageBox.Show(@"Bạn đã thêm đợt thành công");
+                                                                load_form();
+                                                            }
+                                                            else XtraMessageBox.Show(@"Đã xảy ra lỗi, vui lòng kiểm tra lại giá trị nhập");
+                                                        });
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show(@"Chưa nhập đủ thông tin");
+                    }
                 }
                 else
                 {
-                    XtraMessageBox.Show(@"Chưa nhập đủ thông tin");
+                    XtraMessageBox.Show(@"Sai thông tin về thời gian");
                 }
+                
                 
             }
             catch (Exception)
@@ -202,7 +211,7 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chưa nhập đủ thông tin đầu vào");
                     return;
                 }
-                var hh = list_hh_km.Where(s => s.ma_hang_hoa == m_sle_hang_hoa.EditValue.ToString()).First();
+                var hh = list_hh_km.Where(s => s.ma_hang_hoa == m_sle_hang_hoa.EditValue.ToString()).FirstOrDefault();
                 if (hh==null)
                 {
                     var temp = new QuanLyKhuyenMai.KhuyenMai_HangHoa();
@@ -238,6 +247,13 @@ namespace QLBH.Forms
 
                 throw;
             }
+        }
+
+        private bool m_check_time()
+        {
+            if (m_dat_ngay_bat_dau.DateTime < DateTime.Now) return false;
+            if (m_dat_ngay_ket_thuc.DateTime < m_dat_ngay_bat_dau.DateTime) return false;
+            return true;
         }
 
         private void m_lbl_header_Click(object sender, EventArgs e)

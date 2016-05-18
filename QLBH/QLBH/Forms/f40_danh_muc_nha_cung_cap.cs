@@ -43,13 +43,14 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn dòng để sửa");
                     return;
                 }
-                string ma = m_grv_nha_cung_cap.GetDataRow(m_grv_nha_cung_cap.FocusedRowHandle)["ma_tra_cuu"].ToString();
+                string ma = m_grv_nha_cung_cap.GetDataRow(m_grv_nha_cung_cap.FocusedRowHandle)["ma_nha_cung_cap"].ToString();
                 decimal id = m_list_ncc.Where(s => s.ma_nha_cung_cap == ma).First().id;
                 QuanLyNhaCungCap.XoaNhaCungCap(id, this, data =>
                 {
                     XtraMessageBox.Show(data.Data);
+                    load_data_to_grid();
                 });
-                load_data_to_grid();
+                
             }
             catch (Exception ex)
             {

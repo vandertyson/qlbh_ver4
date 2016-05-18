@@ -82,7 +82,7 @@ namespace QLBH.Forms
             m_txt_dai_dien.Text = m_ncc.dia_chi;
             m_txt_email.Text = m_ncc.email;
             m_txt_sdt.Text = m_ncc.so_dien_thoai;
-            m_txt_dai_dien.Text = m_ncc.ten_nguoi_dai_dien;
+            m_txt_dia_chi.Text = m_ncc.dia_chi;
         }
         #endregion
         #region Event Handlers
