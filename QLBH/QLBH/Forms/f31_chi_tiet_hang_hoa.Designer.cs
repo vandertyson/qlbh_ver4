@@ -158,7 +158,7 @@
             this.m_btn_xoa_anh.StyleController = this.layoutControl1;
             this.m_btn_xoa_anh.TabIndex = 30;
             this.m_btn_xoa_anh.Text = "Xóa ảnh";
-            this.m_btn_xoa_anh.Click += new System.EventHandler(this.m_btn_xoa_anh_Click);
+            //this.m_btn_xoa_anh.Click += new System.EventHandler(this.m_btn_xoa_anh_Click);
             // 
             // m_btn_them_anh
             // 
@@ -169,7 +169,7 @@
             this.m_btn_them_anh.StyleController = this.layoutControl1;
             this.m_btn_them_anh.TabIndex = 29;
             this.m_btn_them_anh.Text = "Thêm ảnh";
-            this.m_btn_them_anh.Click += new System.EventHandler(this.m_btn_them_anh_Click);
+            //this.m_btn_them_anh.Click += new System.EventHandler(this.m_btn_them_anh_Click);
             // 
             // labelControl2
             // 
@@ -210,7 +210,7 @@
             this.m_btn_sua_bai_viet.StyleController = this.layoutControl1;
             this.m_btn_sua_bai_viet.TabIndex = 21;
             this.m_btn_sua_bai_viet.Text = "Chỉnh sửa bài viết";
-            this.m_btn_sua_bai_viet.Click += new System.EventHandler(this.m_btn_sua_bai_viet_Click);
+            //this.m_btn_sua_bai_viet.Click += new System.EventHandler(this.m_btn_sua_bai_viet_Click);
             // 
             // m_comb_nha_cung_cap
             // 
