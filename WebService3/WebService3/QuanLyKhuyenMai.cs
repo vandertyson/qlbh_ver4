@@ -107,6 +107,69 @@ namespace WebService3
                 return Common.GenMa(@"KM", 5, temp.Last().MA_DOT);
             }
         }
+
+        public static List<KhuyenMai_HangHoa> LayDanhSachHangKhuyenMaiTheoDot (string ma_dot)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var result = new List<KhuyenMai_HangHoa>();
+                var ma = context.GD_KHUYEN_MAI.Where(s => s.MA_DOT == ma_dot).First().ID;
+                var list_km = context.GD_KHUYEN_MAI_CHI_TIET.Where(s => s.ID_KHUYEN_MAI == ma).ToList();
+                foreach (var item in list_km)
+                {
+                    var temp = new KhuyenMai_HangHoa();
+                    temp.ma_dot = ma_dot;
+                    temp.ma_hang_hoa = context.DM_HANG_HOA.Where(s => s.ID == item.ID_HANG_HOA).First().MA_HANG_HOA;
+                    temp.muc_km = item.MUC_KHUYEN_MAI;
+                    result.Add(temp);
+                }
+                return result;
+            }
+                
+        }
+
+        public static string XoaMatHangKhuyenMai (string ma_dot,string ma_hang)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var idkm = context.GD_KHUYEN_MAI.Where(s => s.MA_DOT == ma_dot).First().ID;
+                var idhh = context.DM_HANG_HOA.Where(s => s.MA_HANG_HOA == ma_hang).First().ID;
+                var temp = context.GD_KHUYEN_MAI_CHI_TIET.Where(s => s.ID_KHUYEN_MAI == idkm).Where(s => s.ID_HANG_HOA == idhh).First();
+                context.GD_KHUYEN_MAI_CHI_TIET.Remove(temp);
+                context.SaveChanges();
+                return "Đã xóa thành công";
+            }
+        }
+
+        public static void SuaMatHangKhuyenMai (string ma_dot,string ma_hang, decimal muc_km)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var idkm = context.GD_KHUYEN_MAI.Where(s => s.MA_DOT == ma_dot).First().ID;
+                var idhh = context.DM_HANG_HOA.Where(s => s.MA_HANG_HOA == ma_hang).First().ID;
+                var temp = context.GD_KHUYEN_MAI_CHI_TIET.Where(s => s.ID_KHUYEN_MAI == idkm).Where(s => s.ID_HANG_HOA == idhh).First();
+                temp.MUC_KHUYEN_MAI = muc_km;
+                context.SaveChanges();
+
+            }
+        }
+
+        public static string XoaDotKhuyenMai (string ma_dot)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var id = context.GD_KHUYEN_MAI.Where(s => s.MA_DOT == ma_dot).First().ID;
+                var ds = context.GD_KHUYEN_MAI_CHI_TIET.Where(s => s.ID_KHUYEN_MAI == id).FirstOrDefault();
+                if (ds==null)
+                {
+                    var km = context.GD_KHUYEN_MAI.Where(s => s.MA_DOT == ma_dot).First();
+                    context.GD_KHUYEN_MAI.Remove(km);
+                    context.SaveChanges();
+                    return "Đã xóa thành công";
+                }
+                return "Không thể xóa do có thông tin liên quan tới hàng hóa khuyến mãi";
+            }
+        }
  
         #endregion
     }

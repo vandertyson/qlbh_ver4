@@ -63,7 +63,7 @@ namespace QLBH.Forms
                 string ma = m_grv_hang_hoa.GetDataRow(m_grv_hang_hoa.FocusedRowHandle)["ma_tra_cuu"].ToString();
                 var hang = m_list_hang.Where(s => s.ma_tra_cuu == ma).First();
                 f31_chi_tiet_hang_hoa_v2 v_f = new f31_chi_tiet_hang_hoa_v2();
-                v_f.display_sua(hang);
+               // v_f.display_sua(hang);
                 load_data_to_grid();
             }
             catch (Exception ex)

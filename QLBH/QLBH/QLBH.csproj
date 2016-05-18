@@ -451,6 +451,12 @@
     <Compile Include="Forms\f61_gia_chi_tiet.Designer.cs">
       <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.Designer.cs">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExcelStruct.cs" />
@@ -622,6 +628,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\f61_gia_chi_tiet.resx">
       <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f80_danh_muc_khuyen_mai.resx">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
