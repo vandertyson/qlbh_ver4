@@ -404,7 +404,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.m_dat_ngay_ket_thuc.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.m_dat_ngay_ket_thuc.Size = new System.Drawing.Size(277, 20);
+            this.m_dat_ngay_ket_thuc.Size = new System.Drawing.Size(210, 20);
             this.m_dat_ngay_ket_thuc.StyleController = this.layoutControl1;
             this.m_dat_ngay_ket_thuc.TabIndex = 8;
             // 
@@ -417,7 +417,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.m_dat_ngay_bat_dau.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.m_dat_ngay_bat_dau.Size = new System.Drawing.Size(277, 20);
+            this.m_dat_ngay_bat_dau.Size = new System.Drawing.Size(210, 20);
             this.m_dat_ngay_bat_dau.StyleController = this.layoutControl1;
             this.m_dat_ngay_bat_dau.TabIndex = 7;
             // 
@@ -519,7 +519,7 @@
             this.layoutControlItem4.CustomizationFormText = "Thời gian bắt đầu";
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 73);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(369, 24);
+            this.layoutControlItem4.Size = new System.Drawing.Size(302, 24);
             this.layoutControlItem4.Text = "Thời gian bắt đầu";
             this.layoutControlItem4.TextSize = new System.Drawing.Size(85, 13);
             // 
@@ -531,7 +531,7 @@
             this.layoutControlItem5.CustomizationFormText = "Thời gian kết thúc";
             this.layoutControlItem5.Location = new System.Drawing.Point(0, 97);
             this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(369, 24);
+            this.layoutControlItem5.Size = new System.Drawing.Size(302, 24);
             this.layoutControlItem5.Text = "Thời gian kết thúc";
             this.layoutControlItem5.TextSize = new System.Drawing.Size(85, 13);
             // 
@@ -609,9 +609,9 @@
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
             this.emptySpaceItem1.CustomizationFormText = "emptySpaceItem1";
-            this.emptySpaceItem1.Location = new System.Drawing.Point(369, 73);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(302, 73);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(186, 48);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(253, 48);
             this.emptySpaceItem1.Text = "emptySpaceItem1";
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 

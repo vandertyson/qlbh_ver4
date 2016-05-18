@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f14_danh_sach_phieu_nhap_xuat));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.m_lb_trang_thai = new DevExpress.XtraEditors.LabelControl();
             this.m_btn_xem_chi_tiet = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_xem = new DevExpress.XtraEditors.SimpleButton();
             this.m_dat_ngay_ket_thuc = new DevExpress.XtraEditors.DateEdit();
@@ -54,6 +55,7 @@
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dat_ngay_ket_thuc.Properties.CalendarTimeProperties)).BeginInit();
@@ -74,10 +76,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.m_lb_trang_thai);
             this.layoutControl1.Controls.Add(this.m_btn_xem_chi_tiet);
             this.layoutControl1.Controls.Add(this.m_btn_xem);
             this.layoutControl1.Controls.Add(this.m_dat_ngay_ket_thuc);
@@ -94,6 +98,15 @@
             this.layoutControl1.Size = new System.Drawing.Size(783, 509);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // m_lb_trang_thai
+            // 
+            this.m_lb_trang_thai.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_lb_trang_thai.Location = new System.Drawing.Point(12, 102);
+            this.m_lb_trang_thai.Name = "m_lb_trang_thai";
+            this.m_lb_trang_thai.Size = new System.Drawing.Size(759, 14);
+            this.m_lb_trang_thai.StyleController = this.layoutControl1;
+            this.m_lb_trang_thai.TabIndex = 13;
             // 
             // m_btn_xem_chi_tiet
             // 
@@ -174,10 +187,10 @@
             // m_grc_phieu_nhap
             // 
             this.m_grc_phieu_nhap.Cursor = System.Windows.Forms.Cursors.Default;
-            this.m_grc_phieu_nhap.Location = new System.Drawing.Point(12, 102);
+            this.m_grc_phieu_nhap.Location = new System.Drawing.Point(12, 120);
             this.m_grc_phieu_nhap.MainView = this.m_grv_phieu_nhap;
             this.m_grc_phieu_nhap.Name = "m_grc_phieu_nhap";
-            this.m_grc_phieu_nhap.Size = new System.Drawing.Size(759, 353);
+            this.m_grc_phieu_nhap.Size = new System.Drawing.Size(759, 335);
             this.m_grc_phieu_nhap.TabIndex = 5;
             this.m_grc_phieu_nhap.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.m_grv_phieu_nhap});
@@ -214,7 +227,7 @@
             this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn2.Caption = "Ngày nhập";
-            this.gridColumn2.DisplayFormat.FormatString = "dd/MM/yyyy";
+            this.gridColumn2.DisplayFormat.FormatString = "dd/MM/yyyy hh:MM:ss";
             this.gridColumn2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.gridColumn2.FieldName = "ngay_nhap";
             this.gridColumn2.Name = "gridColumn2";
@@ -251,7 +264,8 @@
             this.layoutControlItem8,
             this.layoutControlItem5,
             this.emptySpaceItem4,
-            this.emptySpaceItem2});
+            this.emptySpaceItem2,
+            this.layoutControlItem9});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(783, 509);
@@ -262,9 +276,9 @@
             // 
             this.layoutControlItem2.Control = this.m_grc_phieu_nhap;
             this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 90);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 108);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(763, 357);
+            this.layoutControlItem2.Size = new System.Drawing.Size(763, 339);
             this.layoutControlItem2.Text = "layoutControlItem2";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextToControlDistance = 0;
@@ -380,6 +394,18 @@
             this.emptySpaceItem2.Text = "emptySpaceItem2";
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // layoutControlItem9
+            // 
+            this.layoutControlItem9.Control = this.m_lb_trang_thai;
+            this.layoutControlItem9.CustomizationFormText = "layoutControlItem9";
+            this.layoutControlItem9.Location = new System.Drawing.Point(0, 90);
+            this.layoutControlItem9.Name = "layoutControlItem9";
+            this.layoutControlItem9.Size = new System.Drawing.Size(763, 18);
+            this.layoutControlItem9.Text = "layoutControlItem9";
+            this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem9.TextToControlDistance = 0;
+            this.layoutControlItem9.TextVisible = false;
+            // 
             // f14_danh_sach_phieu_nhap_xuat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -408,6 +434,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -439,5 +466,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
+        private DevExpress.XtraEditors.LabelControl m_lb_trang_thai;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
     }
 }

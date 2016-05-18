@@ -32,7 +32,7 @@
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.m_btn_save = new DevExpress.XtraEditors.SimpleButton();
             this.m_comb_nha_cung_cap = new System.Windows.Forms.ComboBox();
-            this.m_link_mo_ta = new DevExpress.XtraEditors.TextEdit();
+            this.m_txt_mo_ta = new DevExpress.XtraEditors.TextEdit();
             this.m_txt_ten_hang = new DevExpress.XtraEditors.TextEdit();
             this.m_txt_ma_tra_cuu = new System.Windows.Forms.TextBox();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
@@ -47,7 +47,7 @@
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_link_mo_ta.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_txt_mo_ta.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_txt_ten_hang.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
@@ -65,7 +65,7 @@
             this.layoutControl1.Controls.Add(this.m_lbl_header);
             this.layoutControl1.Controls.Add(this.m_btn_save);
             this.layoutControl1.Controls.Add(this.m_comb_nha_cung_cap);
-            this.layoutControl1.Controls.Add(this.m_link_mo_ta);
+            this.layoutControl1.Controls.Add(this.m_txt_mo_ta);
             this.layoutControl1.Controls.Add(this.m_txt_ten_hang);
             this.layoutControl1.Controls.Add(this.m_txt_ma_tra_cuu);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -95,13 +95,13 @@
             this.m_comb_nha_cung_cap.Size = new System.Drawing.Size(318, 21);
             this.m_comb_nha_cung_cap.TabIndex = 19;
             // 
-            // m_link_mo_ta
+            // m_txt_mo_ta
             // 
-            this.m_link_mo_ta.Location = new System.Drawing.Point(81, 107);
-            this.m_link_mo_ta.Name = "m_link_mo_ta";
-            this.m_link_mo_ta.Size = new System.Drawing.Size(318, 20);
-            this.m_link_mo_ta.StyleController = this.layoutControl1;
-            this.m_link_mo_ta.TabIndex = 15;
+            this.m_txt_mo_ta.Location = new System.Drawing.Point(81, 107);
+            this.m_txt_mo_ta.Name = "m_txt_mo_ta";
+            this.m_txt_mo_ta.Size = new System.Drawing.Size(318, 20);
+            this.m_txt_mo_ta.StyleController = this.layoutControl1;
+            this.m_txt_mo_ta.TabIndex = 15;
             // 
             // m_txt_ten_hang
             // 
@@ -160,7 +160,7 @@
             // 
             // layoutControlItem8
             // 
-            this.layoutControlItem8.Control = this.m_link_mo_ta;
+            this.layoutControlItem8.Control = this.m_txt_mo_ta;
             this.layoutControlItem8.CustomizationFormText = "Link bài mô tả";
             this.layoutControlItem8.Location = new System.Drawing.Point(0, 95);
             this.layoutControlItem8.Name = "layoutControlItem8";
@@ -242,7 +242,7 @@
             this.Text = "F31v2 - Chi tiết hàng hóa";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_link_mo_ta.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_txt_mo_ta.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_txt_ten_hang.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
@@ -262,7 +262,7 @@
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
         private DevExpress.XtraEditors.SimpleButton m_btn_save;
         private System.Windows.Forms.ComboBox m_comb_nha_cung_cap;
-        private DevExpress.XtraEditors.TextEdit m_link_mo_ta;
+        private DevExpress.XtraEditors.TextEdit m_txt_mo_ta;
         private DevExpress.XtraEditors.TextEdit m_txt_ten_hang;
         private System.Windows.Forms.TextBox m_txt_ma_tra_cuu;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;

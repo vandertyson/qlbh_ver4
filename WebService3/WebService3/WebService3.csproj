@@ -216,6 +216,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="QuanLyKhuyenMai.cs" />
+    <Compile Include="QuanLyNhaCungCap.cs" />
     <Compile Include="QuanLyPhieuNhapXuat.cs" />
     <Compile Include="QuanLyTagHangHoa.cs" />
     <Compile Include="Struct.cs" />

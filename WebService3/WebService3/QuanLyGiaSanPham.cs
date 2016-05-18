@@ -31,6 +31,14 @@ namespace WebService3
             public string ngay_ap_dung { get; set; }
         }
 
+        public class BangGia
+        {
+            public decimal id_hang_hoa { get; set; }
+            public string ma_hang_hoa { get; set; }
+            public string ten_hang_hoa { get; set; }
+            public string gia { get; set; }
+            public string ngay_ap_dung { get; set; }
+        }
         #endregion
 
         #region Function
