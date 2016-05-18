@@ -50,6 +50,8 @@
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.m_lbl_load = new DevExpress.XtraEditors.LabelControl();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_grc_gia)).BeginInit();
@@ -63,10 +65,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.m_lbl_load);
             this.layoutControl1.Controls.Add(this.m_btn_xem_lich_su);
             this.layoutControl1.Controls.Add(this.m_btn_gia_hien_tai);
             this.layoutControl1.Controls.Add(this.m_btn_them);
@@ -121,6 +125,7 @@
             this.m_btn_sua.StyleController = this.layoutControl1;
             this.m_btn_sua.TabIndex = 6;
             this.m_btn_sua.Text = "Sửa thông tin";
+            this.m_btn_sua.Visible = false;
             // 
             // m_btn_xoa
             // 
@@ -135,10 +140,10 @@
             // m_grc_gia
             // 
             this.m_grc_gia.Cursor = System.Windows.Forms.Cursors.Default;
-            this.m_grc_gia.Location = new System.Drawing.Point(12, 54);
+            this.m_grc_gia.Location = new System.Drawing.Point(12, 71);
             this.m_grc_gia.MainView = this.m_grv_gia;
             this.m_grc_gia.Name = "m_grc_gia";
-            this.m_grc_gia.Size = new System.Drawing.Size(633, 378);
+            this.m_grc_gia.Size = new System.Drawing.Size(633, 361);
             this.m_grc_gia.TabIndex = 4;
             this.m_grc_gia.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.m_grv_gia});
@@ -162,7 +167,7 @@
             this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "Ngày áp dụng";
-            this.gridColumn4.DisplayFormat.FormatString = "dd/MM/yyyy";
+            this.gridColumn4.DisplayFormat.FormatString = "dd/MM/yyyy hh/mm/ss";
             this.gridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.gridColumn4.FieldName = "ngay_ap_dung";
             this.gridColumn4.Name = "gridColumn4";
@@ -226,7 +231,8 @@
             this.emptySpaceItem1,
             this.layoutControlItem5,
             this.layoutControlItem6,
-            this.emptySpaceItem2});
+            this.emptySpaceItem2,
+            this.layoutControlItem7});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(657, 486);
@@ -237,9 +243,9 @@
             // 
             this.layoutControlItem1.Control = this.m_grc_gia;
             this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 42);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 59);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(637, 382);
+            this.layoutControlItem1.Size = new System.Drawing.Size(637, 365);
             this.layoutControlItem1.Text = "layoutControlItem1";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextToControlDistance = 0;
@@ -325,6 +331,27 @@
             this.emptySpaceItem2.Text = "emptySpaceItem2";
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // m_lbl_load
+            // 
+            this.m_lbl_load.Location = new System.Drawing.Point(12, 54);
+            this.m_lbl_load.Name = "m_lbl_load";
+            this.m_lbl_load.Size = new System.Drawing.Size(63, 13);
+            this.m_lbl_load.StyleController = this.layoutControl1;
+            this.m_lbl_load.TabIndex = 10;
+            this.m_lbl_load.Text = "labelControl1";
+            // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.Control = this.m_lbl_load;
+            this.layoutControlItem7.CustomizationFormText = "layoutControlItem7";
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 42);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(637, 17);
+            this.layoutControlItem7.Text = "layoutControlItem7";
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem7.TextToControlDistance = 0;
+            this.layoutControlItem7.TextVisible = false;
+            // 
             // f60_bang_gia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +374,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -374,5 +402,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
+        private DevExpress.XtraEditors.LabelControl m_lbl_load;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
     }
 }

@@ -27,6 +27,32 @@ namespace QLBH.Controls.Cửa_hàng
             m_tile_gia_excel.ItemClick += M_tile_gia_excel_ItemClick;
             m_tile_thong_tin_phieu_nhap.ItemClick += M_tile_thong_tin_ton_kho_ItemClick;
             m_tile_tra_cuu_hoa_don.ItemClick += M_tile_tra_cuu_hoa_don_ItemClick;
+            m_tile_dm_hang_hoa.ItemClick += M_tile_dm_hang_hoa_ItemClick;
+            m_tile_khach_hang.ItemClick += M_tile_khach_hang_ItemClick;
+            m_tile_nha_cung_cap.ItemClick += M_tile_nha_cung_cap_ItemClick;
+            m_tile_gia.ItemClick += M_tile_gia_ItemClick;
+        }
+
+        private void M_tile_gia_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
+        {
+            
+        }
+
+        private void M_tile_nha_cung_cap_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
+        {
+            f40_danh_muc_nha_cung_cap v_f = new f40_danh_muc_nha_cung_cap();
+            v_f.ShowDialog();
+        }
+
+        private void M_tile_khach_hang_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
+        {
+            
+        }
+
+        private void M_tile_dm_hang_hoa_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
+        {
+            f30_danh_muc_hang v_f = new f30_danh_muc_hang();
+            v_f.ShowDialog();
         }
 
         private void M_tile_tra_cuu_hoa_don_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)

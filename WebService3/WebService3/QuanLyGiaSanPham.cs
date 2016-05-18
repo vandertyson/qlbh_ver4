@@ -31,14 +31,17 @@ namespace WebService3
             public string ngay_ap_dung { get; set; }
         }
 
+        #region v2
         public class BangGia
         {
+            public decimal id_gd_gia { get; set; }
             public decimal id_hang_hoa { get; set; }
-            public string ma_hang_hoa { get; set; }
+            public string ma_tra_cuu { get; set; }
             public string ten_hang_hoa { get; set; }
-            public string gia { get; set; }
+            public decimal gia { get; set; }
             public string ngay_ap_dung { get; set; }
         }
+        #endregion
         #endregion
 
         #region Function
@@ -90,6 +93,7 @@ namespace WebService3
             }
             return result;
         }
+
         public static void them_gia(string ma_tra_cuu, GiaSanPham gia_moi)
         {
             using (var context = new TKHTQuanLyBanHangEntities())
@@ -124,6 +128,59 @@ namespace WebService3
                     scope.Dispose();
                     throw;
                 }
+            }
+        }
+
+        public static List<BangGia> xem_toan_bo_gia()
+        {
+            List<BangGia> res = new List<BangGia>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.GD_GIA.ToList();
+                foreach (var item in ds)
+                {
+                    BangGia bg = new BangGia();
+                    bg.id_gd_gia = item.ID;
+                    bg.id_hang_hoa = item.ID_HANG_HOA;
+                    bg.ma_tra_cuu = item.DM_HANG_HOA.MA_TRA_CUU;
+                    bg.ten_hang_hoa = item.DM_HANG_HOA.TEN_HANG_HOA;
+                    bg.gia = item.GIA;
+                    bg.ngay_ap_dung = item.NGAY_LUU_HANH.ToString();
+                }
+            }
+            return res;
+        }
+
+        public static List<BangGia> xem_gia_hien_tai()
+        {
+            List<BangGia> res = new List<BangGia>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.DM_HANG_HOA.ToList();
+                foreach (var item in ds)
+                {
+                    BangGia bg = new BangGia();
+                    bg.id_hang_hoa = item.ID;
+                    bg.ma_tra_cuu = item.MA_TRA_CUU;
+                    bg.ten_hang_hoa = item.TEN_HANG_HOA;
+
+                    var gia = context.GD_GIA.Where(s => s.ID_HANG_HOA == item.ID).OrderByDescending(s => s.NGAY_LUU_HANH).First();
+                    bg.id_gd_gia = gia.ID;
+                    bg.gia = gia.GIA;
+                    bg.ngay_ap_dung = gia.NGAY_LUU_HANH.ToString();
+                    res.Add(bg);
+                }
+            }
+            return res;
+        }
+
+        public static void xoa_gia(decimal id_gd_gia)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var g = context.GD_GIA.Where(s => s.ID == id_gd_gia).First();
+                context.GD_GIA.Remove(g);
+                context.SaveChanges(); 
             }
         }
         #endregion
