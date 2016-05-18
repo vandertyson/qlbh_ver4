@@ -219,6 +219,7 @@
     <Compile Include="QuanLyNhaCungCap.cs" />
     <Compile Include="QuanLyPhieuNhapXuat.cs" />
     <Compile Include="QuanLyTagHangHoa.cs" />
+    <Compile Include="QuanLyKhachHang.cs" />
     <Compile Include="Struct.cs" />
     <Compile Include="sysdiagram.cs">
       <DependentUpon>ModelQLBH.tt</DependentUpon>

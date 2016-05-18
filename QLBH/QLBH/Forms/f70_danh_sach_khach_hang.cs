@@ -8,21 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using static LibraryApi.QuanLyDanhMucHangHoa;
+using static LibraryApi.QuanLyKhachHang;
 using QLBH.Common;
+
 namespace QLBH.Forms
 {
-    public partial class f30_danh_muc_hang : Form
+    public partial class f70_danh_sach_khach_hang : Form
     {
-        #region Public Interfaces
-        public f30_danh_muc_hang()
+        public f70_danh_sach_khach_hang()
         {
             InitializeComponent();
             set_define_event();
         }
+        #region Public Interfaces
         #endregion
         #region Members
-        public List<HangHoaV2> m_list_hang;
+        public List<TaiKhoan> m_list_tai_khoan;
         #endregion
         #region Data Structures
         #endregion
@@ -30,14 +31,14 @@ namespace QLBH.Forms
         private void load_data_to_grid()
         {
             m_lbl_trang_thai.Text = "Đang tải dữ liệu";
-            lay_danh_sach_hang_hoa_v2(this, data =>
+            lay_danh_sach_khach_hang(this, data =>
             {
-                m_list_hang = data.Data;
-                m_grc_hang_hoa.DataSource = CommonFunction.list_to_data_table(m_list_hang);
-                m_grv_hang_hoa.BestFitColumns();
-                m_grv_hang_hoa.OptionsBehavior.Editable = false;
-                m_grv_hang_hoa.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-                m_grv_hang_hoa.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+                m_list_tai_khoan = data.Data;
+                m_grc_khach.DataSource = CommonFunction.list_to_data_table(m_list_tai_khoan);
+                m_grv_khach.BestFitColumns();
+                m_grv_khach.OptionsBehavior.Editable = false;
+                m_grv_khach.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+                m_grv_khach.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
                 m_lbl_trang_thai.Text = "";
             });
         }
@@ -55,20 +56,20 @@ namespace QLBH.Forms
         {
             try
             {
-                if (m_grv_hang_hoa.FocusedRowHandle < 0)
+                if (m_grv_khach.FocusedRowHandle < 0)
                 {
                     XtraMessageBox.Show("Chọn dòng để sửa");
                     return;
                 }
-                string ma = m_grv_hang_hoa.GetDataRow(m_grv_hang_hoa.FocusedRowHandle)["ma_tra_cuu"].ToString();
-                var hang = m_list_hang.Where(s => s.ma_tra_cuu == ma).First();
-                f31_chi_tiet_hang_hoa_v2 v_f = new f31_chi_tiet_hang_hoa_v2();
-                v_f.display_sua(m_list_hang, hang);
+                string ma = m_grv_khach.GetDataRow(m_grv_khach.FocusedRowHandle)["ten_tai_khoan"].ToString();
+                var hang = m_list_tai_khoan.Where(s => s.ten_tai_khoan == ma).First();
+                f71_khach_hang_chi_tiet v_f = new f71_khach_hang_chi_tiet();
+                v_f.display_sua(m_list_tai_khoan, hang);
                 load_data_to_grid();
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -76,14 +77,14 @@ namespace QLBH.Forms
         {
             try
             {
-                if (m_grv_hang_hoa.FocusedRowHandle < 0)
+                if (m_grv_khach.FocusedRowHandle < 0)
                 {
                     XtraMessageBox.Show("Chọn dòng để sửa");
                     return;
                 }
-                string ma = m_grv_hang_hoa.GetDataRow(m_grv_hang_hoa.FocusedRowHandle)["ma_tra_cuu"].ToString();
-                decimal id = m_list_hang.Where(s => s.ma_tra_cuu == ma).First().id;
-                xoa_hang_hoa_v2(id, this, data =>
+                string ma = m_grv_khach.GetDataRow(m_grv_khach.FocusedRowHandle)["ten_tai_khoan"].ToString();
+                decimal id = m_list_tai_khoan.Where(s => s.ten_tai_khoan == ma).First().id;
+                xoa_khach_hang(id, this, data =>
                 {
                     XtraMessageBox.Show(data.Data);
                     load_data_to_grid();
@@ -91,7 +92,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -99,13 +100,13 @@ namespace QLBH.Forms
         {
             try
             {
-                f31_chi_tiet_hang_hoa_v2 v_d = new f31_chi_tiet_hang_hoa_v2();
-                v_d.display_them_moi(m_list_hang);
+                f71_khach_hang_chi_tiet v_f = new f71_khach_hang_chi_tiet();
+                v_f.display_them_moi(m_list_tai_khoan);
                 load_data_to_grid();
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -117,7 +118,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
         #endregion

@@ -46,7 +46,8 @@ namespace QLBH.Controls.Cửa_hàng
 
         private void M_tile_khach_hang_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
         {
-            
+            f70_danh_sach_khach_hang v_d = new f70_danh_sach_khach_hang();
+            v_d.ShowDialog();
         }
 
         private void M_tile_dm_hang_hoa_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)

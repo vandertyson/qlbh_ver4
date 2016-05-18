@@ -16,7 +16,5 @@ namespace QLBH.Forms
         {
             InitializeComponent();
         }
-
-      
     }
 }

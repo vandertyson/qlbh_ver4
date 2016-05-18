@@ -9,40 +9,40 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using QLBH.Common;
-using static LibraryApi.QuanLyDanhMucHangHoa;
+using static LibraryApi.QuanLyKhachHang;
 
 namespace QLBH.Forms
 {
-    public partial class f31_chi_tiet_hang_hoa_v2 : Form
+    public partial class f71_khach_hang_chi_tiet : Form
     {
-        #region Public Interfaces
-        public f31_chi_tiet_hang_hoa_v2()
+        public f71_khach_hang_chi_tiet()
         {
             InitializeComponent();
             set_define_event();
         }
-        
-        internal void display_sua(List<HangHoaV2> lst, HangHoaV2 hang)
+
+        internal void display_sua(List<TaiKhoan> list_tai_khoan, TaiKhoan hang)
         {
             m_e_mode = Mode.Sua;
-            m_hang = hang;
-            m_list_hang_hoa = lst;
-            m_list_hang_hoa.Remove(m_hang);
+            m_tai_khoan = hang;
+            m_list_tai_khoan = list_tai_khoan;
+            m_list_tai_khoan.Remove(m_tai_khoan);
             this.ShowDialog();
         }
 
-        internal void display_them_moi(List<HangHoaV2> list_hang)
+        internal void display_them_moi(List<TaiKhoan> list_tai_khoan)
         {
             m_e_mode = Mode.Them;
-            this.m_list_hang_hoa = list_hang;
+            m_list_tai_khoan = list_tai_khoan;
             this.ShowDialog();
         }
+        #region Public Interfaces
+
         #endregion
         #region Members
-        private List<NhaCungCap3> m_list_nha_cung_cap = new List<NhaCungCap3>();
-        private List<HangHoaV2> m_list_hang_hoa = new List<HangHoaV2>();
+        private List<TaiKhoan> m_list_tai_khoan = new List<TaiKhoan>();
         private Mode m_e_mode;
-        private HangHoaV2 m_hang = new HangHoaV2();
+        private TaiKhoan m_tai_khoan = new TaiKhoan();
         #endregion
         #region Data Structures
         enum Mode
@@ -54,28 +54,31 @@ namespace QLBH.Forms
         #region Private Methods
         private void form_to_data()
         {
-            m_hang.ten_hang_hoa = m_txt_ten_hang.Text.Trim();
-            m_hang.ma_tra_cuu = m_txt_ma_tra_cuu.Text.Trim();
-            m_hang.id_nha_cung_cap = m_list_nha_cung_cap.Where(s => s.ten_nha_cung_cap == m_comb_nha_cung_cap.Text.Trim()).First().id;
-            m_hang.mo_ta = m_txt_mo_ta.Text.Trim();
+            m_tai_khoan.ten = m_txt_ten.Text.Trim();
+            m_tai_khoan.ho_dem = m_txt_ho_dem.Text.Trim();
+            m_tai_khoan.email = m_txt_email.Text.Trim();
+            m_tai_khoan.lien_lac = m_txt_lien_lac.Text.Trim();
+            m_tai_khoan.ten_tai_khoan = m_txt_ten_tai_khoan.Text.Trim();
+            m_tai_khoan.so_dien_thoai = m_txt_sdt.Text.Trim();
+            m_tai_khoan.ngay_tham_gia = m_dat_ngay_tham_gia.DateTime;
         }
 
         private bool check_data()
         {
-            var ma = m_txt_ma_tra_cuu.Text.Trim();
-            var c2 = m_list_hang_hoa.Where(s => s.ma_tra_cuu == ma).FirstOrDefault();
-
-            var ncc = m_comb_nha_cung_cap.Text.Trim();
-            var c1 = m_list_nha_cung_cap.Where(s => s.ten_nha_cung_cap == ncc).FirstOrDefault();
-
-            if (c2 != null)
+            if (String.IsNullOrEmpty(m_txt_email.Text.Trim())
+                | String.IsNullOrEmpty(m_txt_ten.Text.Trim())
+                | String.IsNullOrEmpty(m_txt_ten_tai_khoan.Text.Trim())
+                | String.IsNullOrEmpty(m_txt_ho_dem.Text.Trim())
+                | m_dat_ngay_tham_gia.EditValue == null)
             {
-                XtraMessageBox.Show("Mã tra cứu đã tồn tại");
+                XtraMessageBox.Show("Vui lòng nhập đủ thông tin");
                 return false;
             }
-            if (c1 == null)
+            var ten_tai_khoan = m_txt_ten_tai_khoan.Text.Trim();
+            var p = m_list_tai_khoan.Where(s => s.ten_tai_khoan == ten_tai_khoan).FirstOrDefault();
+            if (p != null)
             {
-                XtraMessageBox.Show("Chưa có nhà cung cấp này");
+                XtraMessageBox.Show("Tên tài khoản đã tồn tại");
                 return false;
             }
             return true;
@@ -83,28 +86,21 @@ namespace QLBH.Forms
 
         private void data_to_form()
         {
-            m_txt_ten_hang.Text = m_hang.ten_hang_hoa;
-            m_txt_ma_tra_cuu.Text = m_hang.ma_tra_cuu;
-            m_txt_mo_ta.Text = m_hang.mo_ta;
-            m_comb_nha_cung_cap.Text = m_hang.ten_nha_cung_cap;
+            m_txt_ten.Text = m_tai_khoan.ten;
+            m_txt_ho_dem.Text = m_tai_khoan.ho_dem;
+            m_txt_email.Text = m_tai_khoan.email;
+            m_txt_lien_lac.Text = m_tai_khoan.lien_lac;
+            m_txt_ten_tai_khoan.Text = m_tai_khoan.ten_tai_khoan;
+            m_txt_sdt.Text = m_tai_khoan.so_dien_thoai;
+            m_dat_ngay_tham_gia.EditValue = m_tai_khoan.ngay_tham_gia;
         }
 
-        private void load_data_to_nha_cc()
-        {
-            lay_nha_cung_cap_v2(this, data =>
-            {
-                m_list_nha_cung_cap = data.Data;
-                m_comb_nha_cung_cap.DataSource = m_list_nha_cung_cap;
-                m_comb_nha_cung_cap.DisplayMember = "ten_nha_cung_cap";
-                m_comb_nha_cung_cap.ValueMember = "id";
-            });
-        }
         #endregion
         #region Event Handlers
         private void set_define_event()
         {
             this.Load += F31_chi_tiet_hang_hoa_v2_Load;
-            m_btn_save.Click += M_btn_save_Click;
+            m_btn_luu.Click += M_btn_save_Click;
         }
 
         private void M_btn_save_Click(object sender, EventArgs e)
@@ -119,13 +115,13 @@ namespace QLBH.Forms
                         switch (m_e_mode)
                         {
                             case Mode.Them:
-                                them_hang_hoa_v2(m_hang, this, data =>
+                                them_1_khach_hang_moi(m_tai_khoan, this, data =>
                                 {
                                     XtraMessageBox.Show(data.Message);
                                 });
                                 break;
                             case Mode.Sua:
-                                sua_hang_hoa_v2(m_hang, this, data =>
+                                sua_khach_hang(m_tai_khoan, this, data =>
                                 {
                                     XtraMessageBox.Show(data.Message);
                                 });
@@ -151,14 +147,15 @@ namespace QLBH.Forms
         {
             try
             {
-                load_data_to_nha_cc();
                 switch (m_e_mode)
                 {
                     case Mode.Them:
-                        m_lbl_header.Text = "Thêm hàng hóa mới";
+                        m_lbl_header.Text = "Thêm khách hàng mới";
+                        m_dat_ngay_tham_gia.EditValue = DateTime.Now;
                         break;
                     case Mode.Sua:
-                        m_lbl_header.Text = "Sửa thông tin hàng hóa";
+                        m_lbl_header.Text = "Sửa thông tin khách hàng";
+                        m_txt_ten_tai_khoan.Enabled = false;
                         data_to_form();
                         break;
                     default:
@@ -170,7 +167,6 @@ namespace QLBH.Forms
                 XtraMessageBox.Show(ex.Message);
             }
         }
-
 
         #endregion
     }

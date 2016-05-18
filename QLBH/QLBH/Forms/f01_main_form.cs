@@ -210,7 +210,30 @@ namespace QLBH.Forms
 
         private void M_btn_cua_hang_Click(object sender, EventArgs e)
         {
-            var p = check_exist(typeof(c03_nghiep_vu_cua_hang));
+            //var p = check_exist(typeof(c03_nghiep_vu_cua_hang));
+            //if (p != null)
+            //{
+            //    m_tabcontrol_main_view.SelectedTabPage = p;
+            //}
+            //else
+            //{
+            //    try
+            //    {
+            //        XtraTabPage vtp = new XtraTabPage();
+            //        vtp.Name = typeof(c03_nghiep_vu_cua_hang).ToString();
+            //        m_tabcontrol_main_view.TabPages.Add(vtp);
+            //        vtp.Text = "Nghiệp vụ cửa hàng";
+            //        m_opening_control.Add(vtp);
+            //        c03_nghiep_vu_cua_hang v_ql = new c03_nghiep_vu_cua_hang();
+            //        vtp.Controls.Add(v_ql);
+            //        v_ql.Dock = DockStyle.Fill;
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw;
+            //    }
+            //}
+            var p = check_exist(typeof(c03_nv_cua_hang_v2));
             if (p != null)
             {
                 m_tabcontrol_main_view.SelectedTabPage = p;
@@ -220,11 +243,11 @@ namespace QLBH.Forms
                 try
                 {
                     XtraTabPage vtp = new XtraTabPage();
-                    vtp.Name = typeof(c03_nghiep_vu_cua_hang).ToString();
+                    vtp.Name = typeof(c03_nv_cua_hang_v2).ToString();
                     m_tabcontrol_main_view.TabPages.Add(vtp);
                     vtp.Text = "Nghiệp vụ cửa hàng";
                     m_opening_control.Add(vtp);
-                    c03_nghiep_vu_cua_hang v_ql = new c03_nghiep_vu_cua_hang();
+                    c03_nv_cua_hang_v2 v_ql = new c03_nv_cua_hang_v2();
                     vtp.Controls.Add(v_ql);
                     v_ql.Dock = DockStyle.Fill;
                 }

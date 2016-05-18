@@ -444,7 +444,6 @@ namespace WebService3
         {
             try
             {
-
                 QuanLyKhuyenMai.ThemDotKhuyenMai(ma_dot, mo_ta, tg_bd, tg_kt);
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
@@ -544,8 +543,80 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void lay_danh_sach_khach_hang()
+        {
+            try
+            {
+                var data = QuanLyKhachHang.lay_danh_sach_khach_hang();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void them_1_khach_hang_moi(string khach)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var p = js.Deserialize<QuanLyKhachHang.TaiKhoan>(khach);
+                QuanLyKhachHang.them_1_khach_hang_moi(p);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void sua_khach_hang_kh(string khach)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var p = js.Deserialize<QuanLyKhachHang.TaiKhoan>(khach);
+                QuanLyKhachHang.sua_khach_hang(p);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xoa_khach_hang(decimal id_khach)
+        {
+            try
+            {
+                var data = QuanLyKhachHang.xoa_khach_hang(id_khach);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
         #endregion
-       
+
         #region Quản lý phiếu nhập xuất
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]

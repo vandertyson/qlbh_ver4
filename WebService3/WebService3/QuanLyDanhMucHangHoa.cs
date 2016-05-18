@@ -501,7 +501,7 @@ namespace WebService3
                     NhaCungCap3 h = new NhaCungCap3();
                     h.id = item.ID;
                     h.ma_nha_cung_cap = item.MA_NHA_CUNG_CAP;
-                    h.ma_nha_cung_cap = item.TEN_NHA_CUNG_CAP;
+                    h.ten_nha_cung_cap = item.TEN_NHA_CUNG_CAP;
                     res.Add(h);
                 }
             }

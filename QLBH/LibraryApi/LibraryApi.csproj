@@ -67,6 +67,7 @@
     <Compile Include="QuanLyDanhMucHangHoa.cs" />
     <Compile Include="QuanLyGia.cs" />
     <Compile Include="QuanLyHoaDon.cs" />
+    <Compile Include="QuanLyKhachHang.cs" />
     <Compile Include="QuanLyKhuyenMai.cs" />
     <Compile Include="QuanLyPhieuNhapXuat.cs" />
     <Compile Include="QuanLyTagHangHoa.cs" />

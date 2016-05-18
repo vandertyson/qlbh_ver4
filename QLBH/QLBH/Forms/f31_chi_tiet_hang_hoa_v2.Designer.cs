@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f31_chi_tiet_hang_hoa_v2));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.m_btn_save = new DevExpress.XtraEditors.SimpleButton();
             this.m_comb_nha_cung_cap = new System.Windows.Forms.ComboBox();
             this.m_txt_mo_ta = new DevExpress.XtraEditors.TextEdit();
             this.m_txt_ten_hang = new DevExpress.XtraEditors.TextEdit();
@@ -40,11 +39,12 @@
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.m_lbl_header = new DevExpress.XtraEditors.LabelControl();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.m_btn_save = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_txt_mo_ta.Properties)).BeginInit();
@@ -54,10 +54,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -76,16 +76,6 @@
             this.layoutControl1.Size = new System.Drawing.Size(411, 217);
             this.layoutControl1.TabIndex = 1;
             this.layoutControl1.Text = "layoutControl1";
-            // 
-            // m_btn_save
-            // 
-            this.m_btn_save.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_save.Image")));
-            this.m_btn_save.Location = new System.Drawing.Point(263, 167);
-            this.m_btn_save.Name = "m_btn_save";
-            this.m_btn_save.Size = new System.Drawing.Size(136, 38);
-            this.m_btn_save.StyleController = this.layoutControl1;
-            this.m_btn_save.TabIndex = 20;
-            this.m_btn_save.Text = "Lưu lại";
             // 
             // m_comb_nha_cung_cap
             // 
@@ -178,18 +168,6 @@
             this.layoutControlItem1.Text = "Nhà cung cấp";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(66, 13);
             // 
-            // layoutControlItem2
-            // 
-            this.layoutControlItem2.Control = this.m_btn_save;
-            this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(251, 155);
-            this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(140, 42);
-            this.layoutControlItem2.Text = "layoutControlItem2";
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem2.TextToControlDistance = 0;
-            this.layoutControlItem2.TextVisible = false;
-            // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
@@ -232,6 +210,28 @@
             this.layoutControlItem3.TextToControlDistance = 0;
             this.layoutControlItem3.TextVisible = false;
             // 
+            // m_btn_save
+            // 
+            this.m_btn_save.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_save.Image")));
+            this.m_btn_save.Location = new System.Drawing.Point(263, 167);
+            this.m_btn_save.Name = "m_btn_save";
+            this.m_btn_save.Size = new System.Drawing.Size(136, 38);
+            this.m_btn_save.StyleController = this.layoutControl1;
+            this.m_btn_save.TabIndex = 20;
+            this.m_btn_save.Text = "Lưu lại";
+            // 
+            // layoutControlItem2
+            // 
+            this.layoutControlItem2.Control = this.m_btn_save;
+            this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
+            this.layoutControlItem2.Location = new System.Drawing.Point(251, 155);
+            this.layoutControlItem2.Name = "layoutControlItem2";
+            this.layoutControlItem2.Size = new System.Drawing.Size(140, 42);
+            this.layoutControlItem2.Text = "layoutControlItem2";
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem2.TextToControlDistance = 0;
+            this.layoutControlItem2.TextVisible = false;
+            // 
             // f31_chi_tiet_hang_hoa_v2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -239,6 +239,7 @@
             this.ClientSize = new System.Drawing.Size(411, 217);
             this.Controls.Add(this.layoutControl1);
             this.Name = "f31_chi_tiet_hang_hoa_v2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "F31v2 - Chi tiết hàng hóa";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
@@ -249,10 +250,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             this.ResumeLayout(false);
 
         }
