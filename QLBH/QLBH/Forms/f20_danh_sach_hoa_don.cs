@@ -89,7 +89,8 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn hóa đơn để xem chi tiết");
                     return;
                 }
-                HoaDon p = m_data_hoa_don[m_grv_hoa_don.FocusedRowHandle];
+                string ma = m_grv_hoa_don.GetDataRow(m_grv_hoa_don.FocusedRowHandle)["ma_hoa_don"].ToString();
+                HoaDon p = m_data_hoa_don.Where(s => s.ma_hoa_don == ma).First();
                 f02_them_hoa_don_v2 v_f = new f02_them_hoa_don_v2();
                 v_f.display_chi_tiet(p);
                 load_data_to_grid();
@@ -111,7 +112,8 @@ namespace QLBH.Forms
                 }
                 if (CommonFunction.MsgBox_Yes_No_Cancel("Bạn có chắc chắn muốn xóa dữ liệu này?", "Xác nhận xóa dữ liệu") == DialogResult.Yes)
                 {
-                    HoaDon p = m_data_hoa_don[m_grv_hoa_don.FocusedRowHandle];
+                    string ma = m_grv_hoa_don.GetDataRow(m_grv_hoa_don.FocusedRowHandle)["ma_hoa_don"].ToString();
+                    HoaDon p = m_data_hoa_don.Where(s => s.ma_hoa_don == ma).First();
                     XoaHoaDon(p.ma_hoa_don, this, data =>
                     {
                         if (data.Success)
@@ -138,7 +140,8 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn hóa đơn để sửa");
                     return;
                 }
-                HoaDon p = m_data_hoa_don[m_grv_hoa_don.FocusedRowHandle];
+                string ma = m_grv_hoa_don.GetDataRow(m_grv_hoa_don.FocusedRowHandle)["ma_hoa_don"].ToString();
+                HoaDon p = m_data_hoa_don.Where(s => s.ma_hoa_don == ma).First();
                 f02_them_hoa_don_v2 v_f = new f02_them_hoa_don_v2();
                 v_f.display_update(p);
                 load_data_to_grid();

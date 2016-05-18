@@ -43,7 +43,8 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn phiếu để xem chi tiết");
                     return;
                 }
-                PhieuNhap p = m_data_phieu[m_grv_phieu_nhap.FocusedRowHandle];            
+                string ma = m_grv_phieu_nhap.GetDataRow(m_grv_phieu_nhap.FocusedRowHandle)["ma_phieu"].ToString();
+                PhieuNhap p = m_data_phieu.Where(s => s.ma_phieu == ma).First();
                 f15_phieu_nhap_chi_tiet v_f = new f15_phieu_nhap_chi_tiet();
                 v_f.display_chi_tiet(p);
                 load_data_to_grid();
@@ -58,20 +59,24 @@ namespace QLBH.Forms
         {
             try
             {
-                if (m_grv_phieu_nhap.FocusedRowHandle < 0)
+                if (CommonFunction.MsgBox_Yes_No_Cancel("Bạn có chắc chắn muốn xóa?","Xác nhận xóa dữ liệu")==DialogResult.Yes)
                 {
-                    XtraMessageBox.Show("Chọn phiếu để xem chi tiết");
-                    return;
+                    if (m_grv_phieu_nhap.FocusedRowHandle < 0)
+                    {
+                        XtraMessageBox.Show("Chọn phiếu để xem chi tiết");
+                        return;
+                    }
+                    string ma = m_grv_phieu_nhap.GetDataRow(m_grv_phieu_nhap.FocusedRowHandle)["ma_phieu"].ToString();
+                    PhieuNhap p = m_data_phieu.Where(s => s.ma_phieu == ma).First();
+                    XoaPhieuNhap(p.ma_phieu, this, data =>
+                    {
+                        if (data.Success)
+                        {
+                            XtraMessageBox.Show(data.Message);
+                            load_data_to_grid();
+                        }
+                    });
                 }
-                PhieuNhap p = m_data_phieu[m_grv_phieu_nhap.FocusedRowHandle];
-                XoaPhieuNhap(p.ma_phieu, this, data =>
-                  {
-                      if (data.Success)
-                      {
-                          XtraMessageBox.Show(data.Message);
-                          load_data_to_grid();
-                      }
-                  });
             }
             catch (Exception ex)
             {
@@ -88,7 +93,8 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn phiếu để xem chi tiết");
                     return;
                 }
-                PhieuNhap p = m_data_phieu[m_grv_phieu_nhap.FocusedRowHandle];
+                string ma = m_grv_phieu_nhap.GetDataRow(m_grv_phieu_nhap.FocusedRowHandle)["ma_phieu"].ToString();
+                PhieuNhap p = m_data_phieu.Where(s => s.ma_phieu == ma).First();
                 f15_phieu_nhap_chi_tiet v_f = new f15_phieu_nhap_chi_tiet();
                 v_f.display_update(p);
                 load_data_to_grid();
@@ -133,11 +139,13 @@ namespace QLBH.Forms
 
         private void load_data_to_grid()
         {
+            m_lb_trang_thai.Text = "Đang tải dữ liệu";
             LayDanhSachPhieuNhap(m_dat_ngay_bat_dau.DateTime, m_dat_ngay_ket_thuc.DateTime, this, data =>
             {
                 m_data_phieu = data.Data;
                 List<string> prop_name = new List<string> { "ma_phieu", "ngay_nhap", "ten_tai_khoan" };
                 m_grc_phieu_nhap.DataSource = CommonFunction.convert_list_to_data_table<PhieuNhap>(prop_name, m_data_phieu);
+                m_lb_trang_thai.Text = "";
             });
         }
 

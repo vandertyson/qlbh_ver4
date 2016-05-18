@@ -24,7 +24,15 @@ namespace LibraryApi
         private static string URL_SUA_HANG_HOA= MyNetwork.URL_SERVICE + @"SuaHangHoa";
         private static string URL_XOA_HANG_HOA = MyNetwork.URL_SERVICE + @"XoaHangHoa";
 
+        #region v2
+        private static string URL_LAY_DANH_SACH_HANG_HOA_V2 = MyNetwork.URL_SERVICE + @"lay_danh_sach_hang_hoa_v2";
+        private static string URL_THEM_HANG_HOA_V2 = MyNetwork.URL_SERVICE + @"them_hang_hoa_v2";
+        private static string URL_SUA_HANG_HOA_V2 = MyNetwork.URL_SERVICE + @"sua_hang_hoa_v2";
+        private static string URL_XOA_HANG_HOA_V2 = MyNetwork.URL_SERVICE + @"xoa_hang_hoa_v2";
+        private static string URL_LAY_NHA_CUNG_CAP_V2 = MyNetwork.URL_SERVICE + @"lay_nha_cung_cap_v2";
         #endregion
+        #endregion
+
         #region Struct
         public class HangHoaVaMa
         {
@@ -164,8 +172,37 @@ namespace LibraryApi
             public List<string> link_anh { get; set; }
             public List<string> tag { get; set; }
         }
+        #region Struct V2
+        public class HangHoaV2
+        {
+            public decimal id { get; set; }
+            public string ma_tra_cuu { get; set; }
+            public string ten_hang_hoa { get; set; }
+            public decimal id_nha_cung_cap { get; set; }
+            public string ten_nha_cung_cap { get; set; }
+            public string dang_kinh_doanh { get; set; }
+            public string mo_ta { get; set; }
+        }
+        public class NhaCungCap3
+        {
+            public decimal id { get; set; }
+            public string ten_nha_cung_cap { get; set; }
+            public string ma_nha_cung_cap { get; set; }
+        }
+        public class TagV2
+        {
+            public decimal id { get; set; }
+            public string ten_tag { get; set; }
+        }
+        public class LinkAnh
+        {
+            public decimal id { get; set; }
+            public string link { get; set; }
+        }
+        #endregion
         #endregion
 
+        #region Function
         public static void GetDanhSachLoaiHang(
             ContainerControl f,
             MyNetwork.CompleteHandle<MyNetwork.TraVe<List<LoaiHang>>> MyDelegate)
@@ -234,6 +271,42 @@ namespace LibraryApi
             Dictionary<string, object> param = new Dictionary<string, object>();
             MyNetwork.requestDataWithParam(param, URL_LAY_DANH_SACH_HANG_HOA_VA_MA_TRA_CUU, f, MyDelegate);
         }
+
+        #region V2
+        public static void lay_danh_sach_hang_hoa_v2(Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<HangHoaV2>>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            MyNetwork.requestDataWithParam(param, URL_LAY_DANH_SACH_HANG_HOA_V2, f, MyDelegate);
+        }
+
+        public static void them_hang_hoa_v2(HangHoaV2 hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["hang"] = JsonConvert.SerializeObject(hang);
+            MyNetwork.requestDataWithParam(param, URL_THEM_HANG_HOA_V2, f, MyDelegate);
+        }
+
+        public static void sua_hang_hoa_v2(HangHoaV2 hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["hang"] = JsonConvert.SerializeObject(hang);
+            MyNetwork.requestDataWithParam(param, URL_SUA_HANG_HOA_V2, f, MyDelegate);
+        }
+
+        public static void xoa_hang_hoa_v2(decimal id_hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["id_hang"] = id_hang;
+            MyNetwork.requestDataWithParam(param, URL_XOA_HANG_HOA_V2, f, MyDelegate);
+        }
+
+        public static void lay_nha_cung_cap_v2(Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<NhaCungCap3>>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            MyNetwork.requestDataWithParam(param, URL_LAY_NHA_CUNG_CAP_V2, f, MyDelegate);
+        }
+        #endregion
+        #endregion
         public static void ThemMotHangHoa(
             ThemHangHoa hang,
             ContainerControl f,

@@ -402,6 +402,23 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void lay_nha_cung_cap_v2()
+        {
+            try
+            {
+                var data = QuanLyDanhMucHangHoa.lay_nha_cung_cap_v2();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
         #endregion
 
         #region Quản lý tag hàng hóa
@@ -482,7 +499,6 @@ namespace WebService3
         {
             try
             {
-
                 QuanLyKhuyenMai.ThemDotKhuyenMai(ma_dot, mo_ta, tg_bd, tg_kt);
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
@@ -563,6 +579,75 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+        
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LayDanhSachHangKhuyenMaiTheoDot(string ma_dot)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.LayDanhSachHangKhuyenMaiTheoDot(ma_dot);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void XoaMatHangKhuyenMai(string ma_dot,string ma_hang)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.XoaMatHangKhuyenMai(ma_dot,ma_hang);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void SuaMatHangKhuyenMai(string ma_dot, string ma_hang, decimal muc_km)
+        {
+            try
+            {
+                QuanLyKhuyenMai.SuaMatHangKhuyenMai(ma_dot, ma_hang, muc_km);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void XoaDotKhuyenMai(string ma_dot)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.XoaDotKhuyenMai(ma_dot);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+        
         #endregion
 
         #region Quản lý khách hàng
@@ -582,8 +667,80 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void lay_danh_sach_khach_hang()
+        {
+            try
+            {
+                var data = QuanLyKhachHang.lay_danh_sach_khach_hang();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void them_1_khach_hang_moi(string khach)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var p = js.Deserialize<QuanLyKhachHang.TaiKhoan>(khach);
+                QuanLyKhachHang.them_1_khach_hang_moi(p);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void sua_khach_hang_kh(string khach)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var p = js.Deserialize<QuanLyKhachHang.TaiKhoan>(khach);
+                QuanLyKhachHang.sua_khach_hang(p);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xoa_khach_hang(decimal id_khach)
+        {
+            try
+            {
+                var data = QuanLyKhachHang.xoa_khach_hang(id_khach);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
         #endregion
-       
+
         #region Quản lý phiếu nhập xuất
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
@@ -935,6 +1092,76 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xem_toan_bo_gia()
+        {
+            try
+            {
+                var data = QuanLyGiaSanPham.xem_toan_bo_gia();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xem_gia_hien_tai()
+        {
+            try
+            {
+                var data = QuanLyGiaSanPham.xem_gia_hien_tai();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xoa_gd_gia(decimal id_gd_gia)
+        {
+            try
+            {
+                QuanLyGiaSanPham.xoa_gia(id_gd_gia);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void them_gia_1_san_pham(string ma_tra_cuu, string gia)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var hd = js.Deserialize<QuanLyGiaSanPham.GiaSanPham>(gia);
+                QuanLyGiaSanPham.them_gia(ma_tra_cuu, hd);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
         #endregion
 
         #region Báo cáo kinh doanh
@@ -956,5 +1183,78 @@ namespace WebService3
         }
         #endregion
 
+        #region Quản lý nhà cung cấp
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void lay_danh_sach_nha_cung_cap()
+        {
+            try
+            {
+                var data = QuanLyNhaCungCap.lay_danh_sach_nha_cung_cap();
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void them_nha_cung_cap(string ncc)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var hd = js.Deserialize<QuanLyNhaCungCap.NhaCungCap>(ncc);
+                QuanLyNhaCungCap.them_nha_cung_cap(hd);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void sua_nha_cung_cap(string ncc)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var hd = js.Deserialize<QuanLyNhaCungCap.NhaCungCap>(ncc);
+                QuanLyNhaCungCap.sua_nha_cung_cap(hd);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void xoa_nha_cung_cap(decimal id_ncc)
+        {
+            try
+            {
+                var data = QuanLyNhaCungCap.xoa_nha_cung_cap(id_ncc);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+        #endregion
     }
 }

@@ -70,5 +70,13 @@ namespace WebService3
                 return hangHoaMoi;
             }
         }
+        public static string md5(string data)
+        {
+            var md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] hashedBytes;
+            var encoder = new System.Text.UTF8Encoding();
+            hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(data));
+            return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+        }
     }
 }

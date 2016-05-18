@@ -17,6 +17,11 @@ namespace LibraryApi
         private static string URL_SUA_MUC_KHUYEN_MAI = URL_SERVICE + @"SuaMucKhuyenMai";
         private static string URL_GEN_MA_KHUYEN_MAI = URL_SERVICE + @"GenMaKhuyenMai";
         private static string URL_LAY_THONG_TIN_KHUYEN_MAI = URL_SERVICE + @"LayThongTinKhuyenMai";
+        private static string URL_HANG_KHUYEN_MAI_THEO_DOT = URL_SERVICE + @"LayDanhSachHangKhuyenMaiTheoDot";
+        private static string URL_XOA_MAT_HANG_KM = URL_SERVICE + @"XoaMatHangKhuyenMai";
+        private static string URL_SUA_MAT_HANG_KHUYEN_MAI = URL_SERVICE + @"SuaMatHangKhuyenMai";
+        private static string URL_XOA_DOT_KHUYEN_MAI = URL_SERVICE + @"XoaDotKhuyenMai";
+
         #endregion
         #region struct
         public class HangKhuyenMai
@@ -80,6 +85,37 @@ namespace LibraryApi
         {
             Dictionary<string, object> param = new Dictionary<string, object>();
             MyNetwork.requestDataWithParam(param, URL_LAY_THONG_TIN_KHUYEN_MAI, f, MyDelegate);
+        }
+
+        public static void lay_thong_in_khuyen_mai_theo_dot(string ma_dot, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<KhuyenMai_HangHoa>>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["ma_dot"] = ma_dot;
+            MyNetwork.requestDataWithParam(param, URL_HANG_KHUYEN_MAI_THEO_DOT, f, MyDelegate);
+        }
+
+        public static void xoa_mat_hang_khuyen_mai(string ma_dot ,string ma_hang , Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["ma_dot"] = ma_dot;
+            param["ma_hang"] = ma_hang;
+            MyNetwork.requestDataWithParam(param, URL_XOA_MAT_HANG_KM, f, MyDelegate);
+        }
+
+        public static void sua_mat_hang_khuyen_mai(string ma_dot, string ma_hang, decimal muc_km, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["ma_dot"] = ma_dot;
+            param["ma_hang"] = ma_hang;
+            param["muc_km"] = muc_km;
+            MyNetwork.requestDataWithParam(param, URL_SUA_MAT_HANG_KHUYEN_MAI, f, MyDelegate);
+        }
+
+        public static void xoa_dot_khuyen_mai(string ma_dot, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<string>> MyDelegate)
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["ma_dot"] = ma_dot;
+            MyNetwork.requestDataWithParam(param, URL_XOA_DOT_KHUYEN_MAI, f, MyDelegate);
         }
 
     }

@@ -140,6 +140,12 @@
     <Compile Include="Controls\Cửa hàng\c03_nghiep_vu_cua_hang.Designer.cs">
       <DependentUpon>c03_nghiep_vu_cua_hang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_nv_cua_hang_v2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Cửa hàng\c03_nv_cua_hang_v2.Designer.cs">
+      <DependentUpon>c03_nv_cua_hang_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Hàng hóa\c01_chi_tiet_khuyen_mai.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,6 +290,12 @@
     <Compile Include="Controls\Kinh doanh\c05_bao_cao_kinh_doanh.Designer.cs">
       <DependentUpon>c05_bao_cao_kinh_doanh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\f01_main_form_v2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f01_main_form_v2.Designer.cs">
+      <DependentUpon>f01_main_form_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\f02_them_hoa_don_v2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -392,6 +404,72 @@
     <Compile Include="Forms\f31_chi_tiet_hang_hoa.Designer.cs">
       <DependentUpon>f31_chi_tiet_hang_hoa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\f31_chi_tiet_hang_hoa_v2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f31_chi_tiet_hang_hoa_v2.Designer.cs">
+      <DependentUpon>f31_chi_tiet_hang_hoa_v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f40_danh_muc_nha_cung_cap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f40_danh_muc_nha_cung_cap.Designer.cs">
+      <DependentUpon>f40_danh_muc_nha_cung_cap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f41_.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f41_.Designer.cs">
+      <DependentUpon>f41_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f41_nha_cung_cap_chi_tiet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f41_nha_cung_cap_chi_tiet.Designer.cs">
+      <DependentUpon>f41_nha_cung_cap_chi_tiet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f50_bao_cao_khuyen_mai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f50_bao_cao_khuyen_mai.Designer.cs">
+      <DependentUpon>f50_bao_cao_khuyen_mai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f51_thong_ke_phan_hoi_khach_hang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f51_thong_ke_phan_hoi_khach_hang.Designer.cs">
+      <DependentUpon>f51_thong_ke_phan_hoi_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f60_bang_gia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f60_bang_gia.Designer.cs">
+      <DependentUpon>f60_bang_gia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f61_gia_chi_tiet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f61_gia_chi_tiet.Designer.cs">
+      <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.Designer.cs">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f70_danh_sach_khach_hang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f70_danh_sach_khach_hang.Designer.cs">
+      <DependentUpon>f70_danh_sach_khach_hang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\f71_khach_hang_chi_tiet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f71_khach_hang_chi_tiet.Designer.cs">
+      <DependentUpon>f71_khach_hang_chi_tiet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Test2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -419,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Cửa hàng\c03_nghiep_vu_cua_hang.resx">
       <DependentUpon>c03_nghiep_vu_cua_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Cửa hàng\c03_nv_cua_hang_v2.resx">
+      <DependentUpon>c03_nv_cua_hang_v2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Hàng hóa\c01_chi_tiet_khuyen_mai.resx">
       <DependentUpon>c01_chi_tiet_khuyen_mai.cs</DependentUpon>
@@ -492,6 +573,9 @@
     <EmbeddedResource Include="Controls\Kinh doanh\c05_bao_cao_kinh_doanh.resx">
       <DependentUpon>c05_bao_cao_kinh_doanh.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f01_main_form_v2.resx">
+      <DependentUpon>f01_main_form_v2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\f02_them_hoa_don_v2.resx">
       <DependentUpon>f02_them_hoa_don_v2.cs</DependentUpon>
     </EmbeddedResource>
@@ -543,8 +627,38 @@
     <EmbeddedResource Include="Forms\f31_chi_tiet_hang_hoa.resx">
       <DependentUpon>f31_chi_tiet_hang_hoa.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Test2.resx">
-      <DependentUpon>Test2.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\f31_chi_tiet_hang_hoa_v2.resx">
+      <DependentUpon>f31_chi_tiet_hang_hoa_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f40_danh_muc_nha_cung_cap.resx">
+      <DependentUpon>f40_danh_muc_nha_cung_cap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f41_nha_cung_cap_chi_tiet.resx">
+      <DependentUpon>f41_nha_cung_cap_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f50_bao_cao_khuyen_mai.resx">
+      <DependentUpon>f50_bao_cao_khuyen_mai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f51_thong_ke_phan_hoi_khach_hang.resx">
+      <DependentUpon>f51_thong_ke_phan_hoi_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f60_bang_gia.resx">
+      <DependentUpon>f60_bang_gia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f61_gia_chi_tiet.resx">
+      <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f80_danh_muc_khuyen_mai.resx">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f70_danh_sach_khach_hang.resx">
+      <DependentUpon>f70_danh_sach_khach_hang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f71_khach_hang_chi_tiet.resx">
+      <DependentUpon>f71_khach_hang_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

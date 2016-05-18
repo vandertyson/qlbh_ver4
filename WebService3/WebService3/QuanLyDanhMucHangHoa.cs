@@ -155,8 +155,8 @@ namespace WebService3
             public string ten_hang_hoa { get; set; }
             public decimal id_nha_cung_cap { get; set; }
             public string ten_nha_cung_cap { get; set; }
-            public string dang_kinh_doanh { get; set; }
             public string mo_ta { get; set; }
+            public string dang_kinh_doanh { get; set; }
         }
         public class NhaCungCap3
         {
@@ -819,6 +819,24 @@ namespace WebService3
             {
                 return context.DM_HANG_HOA.Where(s => s.ID == id_hang_hoa).First().MO_TA;
             }
+        }
+
+        public static List<NhaCungCap3> lay_nha_cung_cap_v2()
+        {
+            List<NhaCungCap3> res = new List<NhaCungCap3>();
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var ds = context.DM_NHA_CUNG_CAP.ToList();
+                foreach (var item in ds)
+                {
+                    NhaCungCap3 h = new NhaCungCap3();
+                    h.id = item.ID;
+                    h.ma_nha_cung_cap = item.MA_NHA_CUNG_CAP;
+                    h.ten_nha_cung_cap = item.TEN_NHA_CUNG_CAP;
+                    res.Add(h);
+                }
+            }
+            return res;
         }
         #endregion
 

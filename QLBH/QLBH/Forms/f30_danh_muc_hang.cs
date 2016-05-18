@@ -8,92 +8,47 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using LibraryApi;
-
+using static LibraryApi.QuanLyDanhMucHangHoa;
+using QLBH.Common;
 namespace QLBH.Forms
 {
     public partial class f30_danh_muc_hang : Form
     {
-        #region Member
-        int page;
-        List<QuanLyDanhMucHangHoa.ThemHangHoa> m_data;
-        #endregion
         #region Public Interfaces
         public f30_danh_muc_hang()
         {
             InitializeComponent();
             set_define_event();
-            load_danh_muc_loai_hang();
-            
         }
-
-        private void load_danh_muc_loai_hang()
+        #endregion
+        #region Members
+        public List<HangHoaV2> m_list_hang;
+        #endregion
+        #region Data Structures
+        #endregion
+        #region Private Methods
+        private void load_data_to_grid()
         {
-            lbl_loading.Text = "Đang tải danh mục loại hàng...";
-            QuanLyDanhMucHangHoa.GetDanhSachLoaiHang(this, data => 
+            m_lbl_trang_thai.Text = "Đang tải dữ liệu";
+            lay_danh_sach_hang_hoa_v2(this, data =>
             {
-                lbl_loading.Text = "Xong!";
-                var list = data.Data;
-                var tatCa = new QuanLyDanhMucHangHoa.LoaiHang();
-                tatCa.ten_tag = "Tất cả";
-                tatCa.id = -1;
-                list.Add(tatCa);
-                m_cbb_loai_hang.DataSource = list;
-                m_cbb_loai_hang.DisplayMember = "ten_tag";
-                m_cbb_loai_hang.ValueMember = "id";
-
-                
+                m_list_hang = data.Data;
+                m_grc_hang_hoa.DataSource = CommonFunction.list_to_data_table(m_list_hang);
+                m_grv_hang_hoa.BestFitColumns();
+                m_grv_hang_hoa.OptionsBehavior.Editable = false;
+                m_grv_hang_hoa.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+                m_grv_hang_hoa.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+                m_lbl_trang_thai.Text = "";
             });
         }
-
-        
-
+        #endregion
+        #region Event Handlers
         private void set_define_event()
         {
             this.Load += F30_danh_muc_hang_Load;
             m_btn_them.Click += M_btn_them_Click;
             m_btn_xoa.Click += M_btn_xoa_Click;
             m_btn_sua.Click += M_btn_sua_Click;
-            c01_search_box1.Search += Search;
-
-            m_cbb_loai_hang.SelectedIndexChanged += M_cbb_loai_hang_SelectedIndexChanged;
-        }
-
-        private void Search(string key)
-        {
-            page = 0;
-            lbl_loading.Text = "Đang tải dữ liệu";
-            QuanLyDanhMucHangHoa.TimKiemHangHoaLv0(key, 100, page, this, data =>
-                {
-                    lbl_loading.Text = "Xong";
-                    m_data = data.Data;
-                    loadDataToGrid();
-                });
-        }
-
-        private void M_cbb_loai_hang_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var select = m_cbb_loai_hang.SelectedValue as decimal?;
-            if (select == -1)
-            {
-                lbl_loading.Text = "Đang tải dữ liệu";
-                QuanLyDanhMucHangHoa.TatCaHangHoa(this, data => 
-                {
-                    lbl_loading.Text = "Xong";
-                    m_data = data.Data;
-                    loadDataToGrid();
-                });
-            }
-            else
-            {
-                var item = m_cbb_loai_hang.SelectedItem as QuanLyDanhMucHangHoa.LoaiHang;
-                Search(item.ten_tag);
-            }
-        }
-        void loadDataToGrid()
-        {
-            
-            m_grc_hang_hoa.DataSource = m_data;
         }
 
         private void M_btn_sua_Click(object sender, EventArgs e)
@@ -105,11 +60,11 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chọn dòng để sửa");
                     return;
                 }
-                f31_chi_tiet_hang_hoa v_f = new f31_chi_tiet_hang_hoa();
-
-                var row = m_grv_hang_hoa.GetSelectedRows().First();
-                v_f.display_update(m_data[row]);
-                load_danh_muc_loai_hang();
+                string ma = m_grv_hang_hoa.GetDataRow(m_grv_hang_hoa.FocusedRowHandle)["ma_tra_cuu"].ToString();
+                var hang = m_list_hang.Where(s => s.ma_tra_cuu == ma).First();
+                f31_chi_tiet_hang_hoa_v2 v_f = new f31_chi_tiet_hang_hoa_v2();
+                v_f.display_sua(m_list_hang, hang);
+                load_data_to_grid();
             }
             catch (Exception ex)
             {
@@ -123,16 +78,15 @@ namespace QLBH.Forms
             {
                 if (m_grv_hang_hoa.FocusedRowHandle < 0)
                 {
-                    XtraMessageBox.Show("Chọn dòng để xóa");
+                    XtraMessageBox.Show("Chọn dòng để sửa");
                     return;
                 }
-                var row = m_grv_hang_hoa.GetRow(m_grv_hang_hoa.GetSelectedRows().First()) as QuanLyDanhMucHangHoa.ThemHangHoa;
-                var hang = m_data.Where(s => s.ma_tra_cuu == row.ma_tra_cuu).FirstOrDefault();
-
-                QuanLyDanhMucHangHoa.XoaHangHoa(hang.id, this, data =>
+                string ma = m_grv_hang_hoa.GetDataRow(m_grv_hang_hoa.FocusedRowHandle)["ma_tra_cuu"].ToString();
+                decimal id = m_list_hang.Where(s => s.ma_tra_cuu == ma).First().id;
+                xoa_hang_hoa_v2(id, this, data =>
                 {
-                    MessageBox.Show(data.Message);
-                    load_danh_muc_loai_hang();
+                    XtraMessageBox.Show(data.Data);
+                    load_data_to_grid();
                 });
             }
             catch (Exception ex)
@@ -145,9 +99,9 @@ namespace QLBH.Forms
         {
             try
             {
-                var f31 = new f31_chi_tiet_hang_hoa();
-                f31.display_add();
-                load_danh_muc_loai_hang();
+                f31_chi_tiet_hang_hoa_v2 v_d = new f31_chi_tiet_hang_hoa_v2();
+                v_d.display_them_moi(m_list_hang);
+                load_data_to_grid();
             }
             catch (Exception ex)
             {
@@ -159,25 +113,13 @@ namespace QLBH.Forms
         {
             try
             {
-                c01_search_box1.SetPlaceHolder();
+                load_data_to_grid();
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show(ex.InnerException.Message);
             }
         }
-        #endregion
-
-        #region Members
-        #endregion
-
-        #region Data Structures
-        #endregion
-
-        #region Private Methods
-        #endregion
-
-        #region Event Handlers
         #endregion
     }
 }
