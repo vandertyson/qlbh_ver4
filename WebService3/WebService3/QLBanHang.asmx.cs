@@ -170,10 +170,29 @@ namespace WebService3
             {
                 var page = Context.Request["page"];
                 var length = Context.Request["length"];
+                var level = Context.Request["level"];
 
                 var data = QuanLyDanhMucHangHoa.TimKiemHangHoa(keyword,
                     length == null ? 20 : int.Parse(length),
-                    page == null ? 0 : int.Parse(page));
+                    page == null ? 0 : int.Parse(page),
+                    level == null? 0 : int.Parse(level)
+                    );
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void TatCaHangHoa()
+        {
+            try
+            {
+                var data = QuanLyDanhMucHangHoa.DanhSachTatCaHangHoa();
                 var result = new KetQuaTraVe(true, "Thành công", data);
                 TraKetQua(result);
             }
@@ -214,23 +233,7 @@ namespace WebService3
                 var result = new KetQuaTraVe(false, "Thất bại", e.Message);
                 TraKetQua(result);
             }
-        }
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public void LayDanhSachHangHoaTheoLoaiHangHoa(decimal id_loai_hang_hoa)
-        {
-            try
-            {
-                //var data = Function.DanhSachHangHoa(id_loai_hang_hoa);
-                //var result = new KetQuaTraVe(true, "Thành công", data);
-                //TraKetQua(result);
-            }
-            catch (Exception e)
-            {
-                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
-                TraKetQua(result);
-            }
-        }      
+        }     
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public void ThemHangHoa(string list_hang_hoa)
@@ -240,6 +243,58 @@ namespace WebService3
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 var listHangHoa = js.Deserialize<List<ThemHangHoa>>(list_hang_hoa);
                 Function.ThemHangHoa(listHangHoa);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void ThemMotHangHoa(string them_hang_hoa)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var listHangHoa = js.Deserialize<QuanLyDanhMucHangHoa.ThemHangHoa>(them_hang_hoa);
+                QuanLyDanhMucHangHoa.ThemMoiHangHoa(listHangHoa);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void SuaHangHoa(string them_hang_hoa)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                var listHangHoa = js.Deserialize<QuanLyDanhMucHangHoa.ThemHangHoa>(them_hang_hoa);
+                QuanLyDanhMucHangHoa.SuaHangHoa(listHangHoa);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, e.Message, null);
+                TraKetQua(result);
+            }
+        }
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void XoaHangHoa(decimal id_hang_hoa)
+        {
+            try
+            {
+                QuanLyDanhMucHangHoa.XoaHangHoa(id_hang_hoa);
                 var result = new KetQuaTraVe(true, "Thành công", null);
                 TraKetQua(result);
             }

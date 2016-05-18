@@ -93,15 +93,18 @@ namespace WebService3
                 context.SaveChanges();
             }
         }
-        public static List<string> LayDanhSachTag()
+        public static List<Tag> LayDanhSachTag()
         {
             using (var context = new TKHTQuanLyBanHangEntities())
             {
                 var gd_tag = context.GD_TAG.ToList();
-                var listTag = new List<string>();
+                var listTag = new List<Tag>();
                 foreach (var item in gd_tag)
                 {
-                    listTag.Add(item.TEN_TAG);
+                    var tag = new Tag();
+                    tag.id = item.ID;
+                    tag.ten_tag = item.TEN_TAG;
+                    listTag.Add(tag);
                 }
                 return listTag;
             }

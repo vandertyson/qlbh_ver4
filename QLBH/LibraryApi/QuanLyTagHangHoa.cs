@@ -72,7 +72,7 @@ namespace LibraryApi
 
         public static void LayDanhSachTag(
            ContainerControl f,
-           MyNetwork.CompleteHandle<MyNetwork.TraVe<List<String>>> MyDelegate)
+           MyNetwork.CompleteHandle<MyNetwork.TraVe<List<Tag>>> MyDelegate)
         {
             Dictionary<string, object> param = new Dictionary<string, object>();
             MyNetwork.requestDataWithParam(param, URL_LAY_DANH_SACH_TAG, f, MyDelegate);

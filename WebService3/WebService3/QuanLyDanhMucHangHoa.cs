@@ -22,19 +22,26 @@ namespace WebService3
             public string ten_tag { get; set; }
             public string link_anh { get; set; }
         }
-        public class HangHoaMaster
+        public class ThemHangHoa
         {
             public decimal id { get; set; }
-            public string ma_hang_hoa { get; set; }
-            public string ma_tra_cuu { get; set; }
             public string ten_hang_hoa { get; set; }
-            public string nha_san_xuat { get; set; }
+            public string ma_tra_cuu { get; set; }
+            public string ten_nha_cung_cap { get; set; }
+            public string ma_nha_cung_cap { get; set; }
+            public string mo_ta { get; set; }
+            public List<string> link_anh { get; set; }
+            public List<Tag> tag { get; set; }
+            public string da_xoa { get; set; }
+        }
+        public class HangHoaMaster : ThemHangHoa
+        {
+            public string ma_hang_hoa { get; set; }
             public decimal gia { get; set; }
             public float do_giam_gia { get; set; }
             public int so_comment { get; set; }
             public decimal diem { get; set; }
             public int luot_click { get; set; }
-            public List<string> ds_link { get; set; }
         }
         public class Tag
         {
@@ -126,15 +133,7 @@ namespace WebService3
             public DateTime ngay_nhap_xuat { get; set; }
             public List<HoaDonSimple> thong_tin_chi_tiet { get; set; }
         }
-        public class ThemHangHoa
-        {
-            public string ten_hang_hoa { get; set; }
-            public string ma_tra_cuu { get; set; }
-            public string ma_nha_cung_cap { get; set; }
-            public string mo_ta { get; set; }
-            public List<string> link_anh { get; set; }
-            public List<string> tag { get; set; }
-        }
+        
         public class NhaCungCapV2
         {
             public string ma_nha_cung_cap { get; set; }
@@ -198,7 +197,7 @@ namespace WebService3
             }
         }
 
-        public static List<HangHoaMaster> TimKiemHangHoa(string keyword, int length, int page)
+        public static object TimKiemHangHoa(string keyword, int length, int page,int level)
         {
             keyword = keyword.ToLower();
 
@@ -231,26 +230,57 @@ namespace WebService3
                     }
                     else
                     {
-                        var lTag = hang.GD_HANG_HOA_TAG.Select(s => s.GD_TAG.TEN_TAG.ToLower()).ToList();
-                        if (
-                            kiemTraNamTrong(new List<string> { keyword }, lTag, (a, b) =>
-                              {
-                                  if (a.Length > b.Length && a.Substring(0, b.Length) == b && a[b.Length] == ' ') return true;
-                                  if (a.Length > b.Length && a.Substring(a.Length - b.Length) == b && a[a.Length - b.Length - 1] == ' ') return true;
-                                  return a.Contains(" " + b + " ");
-                              })
-                            )
+                        var lTag = hang.GD_HANG_HOA_TAG.Select(s => s.GD_TAG.TEN_TAG.ToLower());
+                        string str = "";
+                        foreach (var item in lTag)
+                        {
+                            str += item + " ";
+                        }
+                        bool co = true;
+                        foreach (var item in listKey)
+                        {
+                            if (!str.Contains(item))
+                            {
+                                co = false;
+                            }
+                        }
+                        if (co)
                         {
                             listID.Add(hang);
                         }
                     }
                 }
-                var ketQua = new List<HangHoaMaster>();
-                for (int i = length * page; i < length * page + length && i < listID.Count; i++)
+                if (level==1)
                 {
-                    ketQua.Add(toHangHoaMaster(listID[i]));
+                    var ketQua = new List<HangHoaMaster>();
+                    for (int i = length * page; i < length * page + length && i < listID.Count; i++)
+                    {
+                        ketQua.Add(toHangHoaMaster(listID[i]));
+                    }
+                    return ketQua;
                 }
-                return ketQua;
+                else
+                {
+                    var ketQua = new List<ThemHangHoa>();
+                    for (int i = length * page; i < length * page + length && i < listID.Count; i++)
+                    {
+                        ketQua.Add(toThemHangHoa(listID[i]));
+                    }
+                    return ketQua;
+                }
+            }
+        }
+        public static List<ThemHangHoa> DanhSachTatCaHangHoa()
+        {
+            using(var context = new TKHTQuanLyBanHangEntities())
+            {
+                var hangHoa = context.DM_HANG_HOA;
+                var kq = new List<ThemHangHoa>();
+                foreach (var item in hangHoa)
+                {
+                    kq.Add(toThemHangHoa(item));
+                }
+                return kq;
             }
         }
 
@@ -286,14 +316,25 @@ namespace WebService3
                 hhMaster.id = id;
                 hhMaster.ma_hang_hoa = hh.MA_HANG_HOA;
                 hhMaster.ten_hang_hoa = hh.TEN_HANG_HOA;
-                hhMaster.nha_san_xuat = hh.DM_NHA_CUNG_CAP.TEN_NHA_CUNG_CAP;
+                hhMaster.ten_nha_cung_cap = hh.DM_NHA_CUNG_CAP.TEN_NHA_CUNG_CAP;
+                hhMaster.ma_nha_cung_cap = hh.DM_NHA_CUNG_CAP.MA_NHA_CUNG_CAP;
                 var listLink = new List<string>();
                 var dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id).ToList();
                 foreach (var link in dsLink)
                 {
                     listLink.Add(link.LINK_ANH);
                 }
-                hhMaster.ds_link = listLink;
+                hhMaster.link_anh = listLink;
+                var dsTag = context.GD_HANG_HOA_TAG.Where(s => s.ID_HANG_HOA == id).Select(s => s.GD_TAG);
+                var listTag = new List<Tag>();
+                foreach (var tag in dsTag)
+                {
+                    var t = new Tag();
+                    t.id = tag.ID;
+                    t.ten_tag = tag.TEN_TAG;
+                    listTag.Add(t);
+                }
+                hhMaster.tag = listTag;
                 var gia = layGia(context, id);
                 hhMaster.gia = gia.Count == 0 ? 0 : gia[0];
                 hhMaster.do_giam_gia = (float)(gia.Count < 2 ? 0 : 1 - gia[0] / gia[1]);
@@ -302,10 +343,300 @@ namespace WebService3
                 hhMaster.ma_tra_cuu = hh.MA_TRA_CUU;
                 hhMaster.so_comment = hh.GD_NHAN_XET.Where(s => s.ID_HANG_HOA == id).Count();
                 hhMaster.luot_click = hh.GD_CLICK_HANG_HOA.Where(s => s.ID_HANG_HOA == id).Count();
+                hhMaster.da_xoa = hh.DA_XOA;
+                return hhMaster;
+            }
+        }
+        static ThemHangHoa toThemHangHoa(DM_HANG_HOA hh)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var hhMaster = new ThemHangHoa();
+                var id = hh.ID;
+                hhMaster.id = id;
+                hhMaster.ten_hang_hoa = hh.TEN_HANG_HOA;
+                hhMaster.ten_nha_cung_cap = hh.DM_NHA_CUNG_CAP.TEN_NHA_CUNG_CAP;
+                hhMaster.ma_nha_cung_cap = hh.DM_NHA_CUNG_CAP.MA_NHA_CUNG_CAP;
+                var listLink = new List<string>();
+                var dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id).ToList();
+                foreach (var link in dsLink)
+                {
+                    listLink.Add(link.LINK_ANH);
+                }
+                hhMaster.link_anh = listLink;
+                var dsTag = context.GD_HANG_HOA_TAG.Where(s => s.ID_HANG_HOA == id).Select(s => s.GD_TAG);
+                var listTag = new List<Tag>();
+                foreach (var tag in dsTag)
+                {
+                    var t = new Tag();
+                    t.id = tag.ID;
+                    t.ten_tag = tag.TEN_TAG;
+                    listTag.Add(t);
+                }
+                hhMaster.tag = listTag;
+                hhMaster.ma_tra_cuu = hh.MA_TRA_CUU;
+                hhMaster.da_xoa = hh.DA_XOA;
                 return hhMaster;
             }
         }
 
+        public static ThemHangHoa ChiTietHangHoa(decimal id_hang_hoa)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var hangHoa = context.DM_HANG_HOA.Where(s => s.ID == id_hang_hoa).FirstOrDefault();
+                if(hangHoa == null)
+                {
+                    throw new Exception("Không có hàng hóa này");
+                }
+                var kq = new ThemHangHoa();
+                kq.id = hangHoa.ID;
+                kq.ten_hang_hoa = hangHoa.TEN_HANG_HOA;
+                kq.ma_nha_cung_cap = hangHoa.DM_NHA_CUNG_CAP.MA_NHA_CUNG_CAP;
+                kq.ten_nha_cung_cap = hangHoa.DM_NHA_CUNG_CAP.TEN_NHA_CUNG_CAP;
+                kq.ma_tra_cuu = hangHoa.MA_TRA_CUU;
+                kq.mo_ta = hangHoa.MO_TA;
+                var dsTag = context.GD_HANG_HOA_TAG
+                    .Where(s => s.ID_HANG_HOA == id_hang_hoa).Select(s => s.GD_TAG);
+                kq.tag = new List<Tag>();
+                foreach (var item in dsTag)
+                {
+                    var tag = new Tag();
+                    tag.id = item.ID;
+                    tag.ten_tag = item.TEN_TAG;
+                    kq.tag.Add(tag);
+                }
+                var dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id_hang_hoa);
+                kq.link_anh = new List<string>();
+                foreach (var item in dsLink)
+                {
+                    kq.link_anh.Add(item.LINK_ANH);
+                }
+                return kq;
+            }
+        }
+        public static void SuaHangHoa(ThemHangHoa hangHoa)
+        {
+            var scope = new TransactionScope();
+            try
+            {
+                using (var context = new TKHTQuanLyBanHangEntities())
+                {
+                    var hang = context.DM_HANG_HOA.Where(s => s.ID == hangHoa.id).FirstOrDefault();
+                    if (hang == null)
+                    {
+                        throw new Exception("Không có hàng hóa này");
+                    }
+                    hang.MA_TRA_CUU = hangHoa.ma_tra_cuu;
+                    hang.TEN_HANG_HOA = hangHoa.ten_hang_hoa;
+                    var ncc = context.DM_NHA_CUNG_CAP
+                        .Where(s => s.MA_NHA_CUNG_CAP == hangHoa.ma_nha_cung_cap).FirstOrDefault();
+                    if (ncc == null)
+                    {
+                        throw new Exception("Không có nhà cung cấp này");
+                    }
+                    hang.ID_NHA_CUNG_CAP = ncc.ID;
+                    hang.MO_TA = hangHoa.mo_ta;
+                    hang.DA_XOA = hangHoa.da_xoa;
+                    var dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == hang.ID).ToArray();
+                    foreach (var item in dsLink)
+                    {
+                        bool co = false;
+                        foreach (var item2 in hangHoa.link_anh)
+                        {
+                            if (item.LINK_ANH == item2)
+                            {
+                                co = true;
+                                break;
+                            }
+                        }
+                        if (!co)
+                        {
+                            context.DM_LINK_ANH.Remove(item);
+                            context.SaveChanges();
+                        }
+                    }
+                    dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == hang.ID).ToArray();
+                    foreach (var item in hangHoa.link_anh)
+                    {
+                        bool co = false;
+                        foreach (var item2 in dsLink)
+                        {
+                            if (item2.LINK_ANH == item)
+                            {
+                                co = true;
+                            }
+                        }
+                        if (!co)
+                        {
+                            var link = new DM_LINK_ANH();
+                            link.ID_HANG_HOA = hang.ID;
+                            link.LINK_ANH = item;
+                            context.DM_LINK_ANH.Add(link);
+                            context.SaveChanges();
+                        }
+                    }
+                    var dsTag = context.GD_HANG_HOA_TAG
+                        .Where(s => s.ID_HANG_HOA == hang.ID)
+                        .Select(s=>s.GD_TAG)
+                        .ToArray();
+                    foreach (var item in dsTag)
+                    {
+                        bool co = false;
+                        foreach (var item2 in hangHoa.tag)
+                        {
+                            if (item.TEN_TAG == item2.ten_tag)
+                            {
+                                co = true;
+                                break;
+                            }
+                        }
+                        if (!co)
+                        {
+                            context.GD_TAG.Remove(item);
+                            context.SaveChanges();
+                        }
+                    }
+                    dsTag = context.GD_HANG_HOA_TAG
+                        .Where(s => s.ID_HANG_HOA == hang.ID)
+                        .Select(s => s.GD_TAG)
+                        .ToArray();
+                    foreach (var item in hangHoa.tag)
+                    {
+                        bool co = false;
+                        foreach (var item2 in dsTag)
+                        {
+                            if (item2.TEN_TAG == item.ten_tag)
+                            {
+                                co = true;
+                            }
+                        }
+                        if (!co)
+                        {
+                            var old = context.GD_TAG.Where(s => s.TEN_TAG == item.ten_tag).FirstOrDefault();
+                            if (old == null)
+                            {
+                                var tag = new GD_TAG();
+                                tag.TEN_TAG = item.ten_tag;
+                                context.GD_TAG.Add(tag);
+                                context.SaveChanges();
+                                var neww = context.GD_TAG
+                                    .Where(s => s.TEN_TAG == item.ten_tag).FirstOrDefault();
+                                var hht = new GD_HANG_HOA_TAG();
+                                hht.ID_HANG_HOA = hang.ID;
+                                hht.ID_TAG = neww.ID;
+                                context.GD_HANG_HOA_TAG.Add(hht);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                var hht = new GD_HANG_HOA_TAG();
+                                hht.ID_HANG_HOA = hang.ID;
+                                hht.ID_TAG = old.ID;
+                                context.GD_HANG_HOA_TAG.Add(hht);
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+                    context.SaveChanges();
+                    scope.Complete();
+                    scope.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                scope.Dispose();
+                throw;
+            }
+        }
+        public static void XoaHangHoa(decimal id_hang_hoa)
+        {
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var hangHoa = context.DM_HANG_HOA.Where(s => s.ID == id_hang_hoa).FirstOrDefault();
+                if (hangHoa == null)
+                {
+                    throw new Exception("Không có hàng hóa này");
+                }
+                var dsLink = context.DM_LINK_ANH.Where(s => s.ID_HANG_HOA == id_hang_hoa);
+                foreach (var item in dsLink)
+                {
+                    context.DM_LINK_ANH.Remove(item);
+                }
+                context.SaveChanges();
+                var dsTag = context.GD_HANG_HOA_TAG.Where(s => s.ID_HANG_HOA == id_hang_hoa);
+                foreach (var item in dsTag)
+                {
+                    context.GD_HANG_HOA_TAG.Remove(item);
+                }
+                context.SaveChanges();
+                context.DM_HANG_HOA.Remove(hangHoa);
+                context.SaveChanges();
+            }
+        }
+        public static void ThemMoiHangHoa(ThemHangHoa hangHoa)
+        {
+            var scope = new TransactionScope();
+            try
+            {
+                using(var context = new TKHTQuanLyBanHangEntities())
+                {
+                    var hang = new DM_HANG_HOA();
+                    var ncc = context.DM_NHA_CUNG_CAP.Where(s => s.MA_NHA_CUNG_CAP == hangHoa.ma_nha_cung_cap).FirstOrDefault();
+                    hang.ID_NHA_CUNG_CAP = ncc.ID;
+                    var lastMa = context.DM_HANG_HOA.OrderByDescending(s => s.MA_HANG_HOA).First();
+                    var ma = Common.GenMa("H", 6, lastMa.MA_HANG_HOA);
+                    hang.MA_HANG_HOA = ma;
+                    hang.MA_TRA_CUU = hangHoa.ma_tra_cuu;
+                    hang.MO_TA = hangHoa.mo_ta;
+                    hang.TEN_HANG_HOA = hangHoa.ten_hang_hoa;
+                    hang.DA_XOA = "N";
+                    context.DM_HANG_HOA.Add(hang);
+                    context.SaveChanges();
+                    var h = context.DM_HANG_HOA.Where(s => s.MA_HANG_HOA == ma).FirstOrDefault();
+                    foreach (var item in hangHoa.link_anh)
+                    {
+                        var link = new DM_LINK_ANH();
+                        link.ID_HANG_HOA = h.ID;
+                        link.LINK_ANH = item;
+                        context.DM_LINK_ANH.Add(link);
+                    }
+                    context.SaveChanges();
+                    foreach (var item in hangHoa.tag)
+                    {
+                        var old = context.GD_TAG.Where(s => s.TEN_TAG == item.ten_tag).FirstOrDefault();
+                        if (old==null)
+                        {
+                            var tag = new GD_TAG();
+                            tag.TEN_TAG = item.ten_tag;
+                            context.GD_TAG.Add(tag);
+                            context.SaveChanges();
+                            var ne = context.GD_TAG.Where(s => s.TEN_TAG == item.ten_tag).FirstOrDefault();
+                            var hhTag = new GD_HANG_HOA_TAG();
+                            hhTag.ID_HANG_HOA = h.ID;
+                            hhTag.ID_TAG = ne.ID;
+                            context.GD_HANG_HOA_TAG.Add(hhTag);
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            var hhTag = new GD_HANG_HOA_TAG();
+                            hhTag.ID_HANG_HOA = h.ID;
+                            hhTag.ID_TAG = old.ID;
+                            context.GD_HANG_HOA_TAG.Add(hhTag);
+                            context.SaveChanges();
+                        }
+                    }
+                    scope.Complete();
+                    scope.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                scope.Dispose();
+                throw;
+            }
+        }
         internal static List<NhaCungCapV2> LayDanhSachNhaCungCap()
         {
             using (var context = new TKHTQuanLyBanHangEntities())
@@ -334,77 +665,77 @@ namespace WebService3
             return gia;
         }
 
-        public static void Test3(string keyword, decimal id_tag)
-        {
-            using (var scope = new TransactionScope())
-            {
-                try
-                {
-                    using (var context = new TKHTQuanLyBanHangEntities())
-                    {
-                        if (keyword == "namnu")
-                        {
-                            var hh = context.DM_HANG_HOA.ToArray();
-                            foreach (var item in hh)
-                            {
-                                if (item.ID < 45)
-                                {
-                                    var hhtag = context.GD_HANG_HOA_TAG
-                                .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG == 2)
-                                .FirstOrDefault();
-                                    if (hhtag == null)
-                                    {
-                                        var hangtag = new GD_HANG_HOA_TAG();
-                                        hangtag.ID_HANG_HOA = item.ID;
-                                        hangtag.ID_TAG = 2;
-                                        context.GD_HANG_HOA_TAG.Add(hangtag);
-                                    }
-                                }
-                                else
-                                {
-                                    var hhtag = context.GD_HANG_HOA_TAG
-                                .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG == 1)
-                                .FirstOrDefault();
-                                    if (hhtag == null)
-                                    {
-                                        var hangtag = new GD_HANG_HOA_TAG();
-                                        hangtag.ID_HANG_HOA = item.ID;
-                                        hangtag.ID_TAG = 1;
-                                        context.GD_HANG_HOA_TAG.Add(hangtag);
-                                    }
-                                }
-                            }
-                            context.SaveChanges();
-                            scope.Complete();
-                            return;
-                        }
-                        var list = TimKiemHangHoa(keyword, 100, 0);
-                        foreach (var item in list)
-                        {
-                            var hh = context.DM_HANG_HOA.Where(s => s.ID == item.id).First();
-                            var hhtag = context.GD_HANG_HOA_TAG
-                                .Where(s => s.ID_HANG_HOA == item.id && s.ID_TAG == id_tag)
-                                .FirstOrDefault();
-                            if (hhtag == null)
-                            {
-                                var hangtag = new GD_HANG_HOA_TAG();
-                                hangtag.ID_HANG_HOA = item.id;
-                                hangtag.ID_TAG = id_tag;
-                                context.GD_HANG_HOA_TAG.Add(hangtag);
-                            }
-                        }
-                        context.SaveChanges();
-                        scope.Complete();
-                    }
+        //public static void Test3(string keyword, decimal id_tag)
+        //{
+        //    using (var scope = new TransactionScope())
+        //    {
+        //        try
+        //        {
+        //            using (var context = new TKHTQuanLyBanHangEntities())
+        //            {
+        //                if (keyword == "namnu")
+        //                {
+        //                    var hh = context.DM_HANG_HOA.ToArray();
+        //                    foreach (var item in hh)
+        //                    {
+        //                        if (item.ID < 45)
+        //                        {
+        //                            var hhtag = context.GD_HANG_HOA_TAG
+        //                        .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG == 2)
+        //                        .FirstOrDefault();
+        //                            if (hhtag == null)
+        //                            {
+        //                                var hangtag = new GD_HANG_HOA_TAG();
+        //                                hangtag.ID_HANG_HOA = item.ID;
+        //                                hangtag.ID_TAG = 2;
+        //                                context.GD_HANG_HOA_TAG.Add(hangtag);
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            var hhtag = context.GD_HANG_HOA_TAG
+        //                        .Where(s => s.ID_HANG_HOA == item.ID && s.ID_TAG == 1)
+        //                        .FirstOrDefault();
+        //                            if (hhtag == null)
+        //                            {
+        //                                var hangtag = new GD_HANG_HOA_TAG();
+        //                                hangtag.ID_HANG_HOA = item.ID;
+        //                                hangtag.ID_TAG = 1;
+        //                                context.GD_HANG_HOA_TAG.Add(hangtag);
+        //                            }
+        //                        }
+        //                    }
+        //                    context.SaveChanges();
+        //                    scope.Complete();
+        //                    return;
+        //                }
+        //                var list = TimKiemHangHoa(keyword, 100, 0);
+        //                foreach (var item in list)
+        //                {
+        //                    var hh = context.DM_HANG_HOA.Where(s => s.ID == item.id).First();
+        //                    var hhtag = context.GD_HANG_HOA_TAG
+        //                        .Where(s => s.ID_HANG_HOA == item.id && s.ID_TAG == id_tag)
+        //                        .FirstOrDefault();
+        //                    if (hhtag == null)
+        //                    {
+        //                        var hangtag = new GD_HANG_HOA_TAG();
+        //                        hangtag.ID_HANG_HOA = item.id;
+        //                        hangtag.ID_TAG = id_tag;
+        //                        context.GD_HANG_HOA_TAG.Add(hangtag);
+        //                    }
+        //                }
+        //                context.SaveChanges();
+        //                scope.Complete();
+        //            }
 
-                }
-                catch (Exception e)
-                {
-                    scope.Dispose();
-                    throw;
-                }
-            }
-        }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            scope.Dispose();
+        //            throw;
+        //        }
+        //    }
+        //}
 
         public static List<HangHoaVaMa> lay_danh_sach_hang_va_ma_tra_cuu()
         {
@@ -495,38 +826,38 @@ namespace WebService3
 
         public static void them_hang_hoa_v2(HangHoaV2 hang)
         {
-                using (var context = new TKHTQuanLyBanHangEntities())
-                {
-                    DM_HANG_HOA dm = new DM_HANG_HOA();
-                    //
-                    var last_ma = context.DM_HANG_HOA.OrderByDescending(s => s.ID).First().MA_HANG_HOA;
-                    var ma_moi = Common.GenMa("H", 6, last_ma);
-                    //
-                    dm.MA_HANG_HOA = ma_moi;
-                    dm.MA_TRA_CUU = hang.ma_tra_cuu;
-                    dm.TEN_HANG_HOA = hang.ten_hang_hoa;
-                    dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
-                    dm.MO_TA = hang.mo_ta;
-                    dm.DA_XOA = "N";
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                DM_HANG_HOA dm = new DM_HANG_HOA();
+                //
+                var last_ma = context.DM_HANG_HOA.OrderByDescending(s => s.ID).First().MA_HANG_HOA;
+                var ma_moi = Common.GenMa("H", 6, last_ma);
+                //
+                dm.MA_HANG_HOA = ma_moi;
+                dm.MA_TRA_CUU = hang.ma_tra_cuu;
+                dm.TEN_HANG_HOA = hang.ten_hang_hoa;
+                dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
+                dm.MO_TA = hang.mo_ta;
+                dm.DA_XOA = "N";
 
-                    context.DM_HANG_HOA.Add(dm);
-                    context.SaveChanges();
-                }
+                context.DM_HANG_HOA.Add(dm);
+                context.SaveChanges();
+            }
         }
 
         public static void sua_hang_hoa_v2(HangHoaV2 hang)
         {
-                using (var context = new TKHTQuanLyBanHangEntities())
-                {
-                    var dm = context.DM_HANG_HOA.Where(s => s.ID == hang.id).First();                
-                    //
-                    dm.MA_TRA_CUU = hang.ma_tra_cuu;
-                    dm.TEN_HANG_HOA = hang.ten_hang_hoa;
-                    dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
-                    dm.MO_TA = hang.mo_ta;
+            using (var context = new TKHTQuanLyBanHangEntities())
+            {
+                var dm = context.DM_HANG_HOA.Where(s => s.ID == hang.id).First();
+                //
+                dm.MA_TRA_CUU = hang.ma_tra_cuu;
+                dm.TEN_HANG_HOA = hang.ten_hang_hoa;
+                dm.ID_NHA_CUNG_CAP = hang.id_nha_cung_cap;
+                dm.MO_TA = hang.mo_ta;
 
-                    context.SaveChanges();
-                }
+                context.SaveChanges();
+            }
         }
 
         public static string xoa_hang_hoa_v2(decimal id_hang)
@@ -535,14 +866,14 @@ namespace WebService3
             using (var context = new TKHTQuanLyBanHangEntities())
             {
                 //hoa don chi tiet
-                if (context.GD_HOA_DON_CHI_TIET.Select(s=>s.ID_HANG_HOA).ToList().Contains(id_hang))
+                if (context.GD_HOA_DON_CHI_TIET.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
                 {
                     res = "Không thể xóa do đã có thông tin trong hóa đơn";
                     return res;
                 }
                 //click
                 if (context.GD_CLICK_HANG_HOA.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
-                { 
+                {
                     res = "Không thể xóa do liên quan tới lượt xem khách hàng";
                     return res;
                 }
@@ -560,7 +891,7 @@ namespace WebService3
                 }
                 //rating
                 if (context.GD_DANH_GIA.Select(s => s.ID_HANG_HOA).ToList().Contains(id_hang))
-                { 
+                {
                     res = "Không thể xóa do đã có thông tin trong nhận xét khách hàng";
                     return res;
                 }

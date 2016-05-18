@@ -102,7 +102,7 @@ namespace QLBH.Controls
                         cell.setDiem(l[i].diem);
                         cell.setGia(l[i].gia);
                         cell.setGiamGia(l[i].do_giam_gia);
-                        cell.setIcon(l[i].ds_link[0]);
+                        cell.setIcon(l[i].link_anh[0]);
                         cell.setLuotClick(l[i].luot_click);
                         cell.setName(l[i].ten_hang_hoa);
                         cell.setSoComment(l[i].so_comment);

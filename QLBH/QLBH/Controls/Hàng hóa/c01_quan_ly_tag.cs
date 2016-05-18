@@ -28,7 +28,7 @@ namespace QLBH.Controls.Hàng_hóa
             });
         }
 
-        private void data_2_sle(MyNetwork.TraVe<List<string>> data)
+        private void data_2_sle(MyNetwork.TraVe<List<QuanLyTagHangHoa.Tag>> data)
         {
             Common.CommonFunction.list_to_data_table(data.Data);
             //m_sle_Tag.Properties.DataSource = Common.CommonFunction.convert_list_2_data_table(data);
