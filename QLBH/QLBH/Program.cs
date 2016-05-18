@@ -22,8 +22,8 @@ namespace QLBH
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Application.Run(new Test2());
-            //Application.Run(new f01_main_form());
-            Application.Run(new f30_danh_muc_hang());
+            Application.Run(new f01_main_form());
+            //Application.Run(new f30_danh_muc_hang_v3());
         }
     }
 }
