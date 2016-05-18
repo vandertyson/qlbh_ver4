@@ -524,6 +524,75 @@ namespace WebService3
                 TraKetQua(result);
             }
         }
+        
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void LayDanhSachHangKhuyenMaiTheoDot(string ma_dot)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.LayDanhSachHangKhuyenMaiTheoDot(ma_dot);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void XoaMatHangKhuyenMai(string ma_dot,string ma_hang)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.XoaMatHangKhuyenMai(ma_dot,ma_hang);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void SuaMatHangKhuyenMai(string ma_dot, string ma_hang, decimal muc_km)
+        {
+            try
+            {
+                QuanLyKhuyenMai.SuaMatHangKhuyenMai(ma_dot, ma_hang, muc_km);
+                var result = new KetQuaTraVe(true, "Thành công", null);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        public void XoaDotKhuyenMai(string ma_dot)
+        {
+            try
+            {
+                var data = QuanLyKhuyenMai.XoaDotKhuyenMai(ma_dot);
+                var result = new KetQuaTraVe(true, "Thành công", data);
+                TraKetQua(result);
+            }
+            catch (Exception e)
+            {
+                var result = new KetQuaTraVe(false, "Thất bại", e.Message);
+                TraKetQua(result);
+            }
+        }
+        
         #endregion
 
         #region Quản lý khách hàng

@@ -451,6 +451,12 @@
     <Compile Include="Forms\f61_gia_chi_tiet.Designer.cs">
       <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\f80_danh_muc_khuyen_mai.Designer.cs">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\f70_danh_sach_khach_hang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -634,6 +640,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\f61_gia_chi_tiet.resx">
       <DependentUpon>f61_gia_chi_tiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\f80_danh_muc_khuyen_mai.resx">
+      <DependentUpon>f80_danh_muc_khuyen_mai.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\f70_danh_sach_khach_hang.resx">
       <DependentUpon>f70_danh_sach_khach_hang.cs</DependentUpon>

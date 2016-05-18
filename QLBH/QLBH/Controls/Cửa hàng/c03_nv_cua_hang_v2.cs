@@ -82,7 +82,7 @@ namespace QLBH.Controls.Cửa_hàng
 
         private void M_tile_tao_khuyen_mai_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
         {
-            f06_khuyen_mai v_f = new f06_khuyen_mai();
+            f80_danh_muc_khuyen_mai v_f = new f80_danh_muc_khuyen_mai();
             v_f.ShowDialog();
         }
 

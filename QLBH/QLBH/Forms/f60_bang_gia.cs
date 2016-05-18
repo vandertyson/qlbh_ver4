@@ -110,7 +110,7 @@ namespace QLBH.Forms
             try
             {
                 f61_gia_chi_tiet v_f = new f61_gia_chi_tiet();
-                v_f.display_them_moi();
+                //v_f.display_them_moi();
                 load_data_to_grid();
             }
             catch (Exception ex)

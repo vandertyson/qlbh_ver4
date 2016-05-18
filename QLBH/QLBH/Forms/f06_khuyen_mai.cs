@@ -17,10 +17,16 @@ namespace QLBH.Forms
     public partial class f06_khuyen_mai : Form
     {
         #region Public Interfaces
+        internal void display()
+        {
+            this.ShowDialog();
+        }
         #endregion
         #region Members
         private List<QuanLyKhuyenMai.KhuyenMai_HangHoa> list_hang_hoa;
+        private List<QuanLyKhuyenMai.KhuyenMai_HangHoa> list_hh_km;
         private DataTable m_data_table;
+        private object m_btn_save;
         #endregion
         #region Data Structures
         #endregion
@@ -64,11 +70,31 @@ namespace QLBH.Forms
         private void set_defined_event()
         {
             m_btn_them_hang_hoa.Click += M_btn_them_hang_hoa_Click;
-            m_btn_save.Click += M_btn_save_Click;
+            //m_btn_save.Click += M_btn_save_Click;
             m_btn_them_dot.Click += M_btn_them_dot_Click;
             m_btn_lam_moi.Click += M_btn_lam_moi_Click;
             m_btn_thoat.Click += M_btn_thoat_Click;
+            m_sle_dot_km.EditValueChanged += M_sle_dot_km_EditValueChanged;
             this.Load += F06_khuyen_mai_Load;
+        }
+
+        private void M_sle_dot_km_EditValueChanged(object sender, EventArgs e)
+        {
+            load_grid();
+            
+        }
+
+        private void load_grid()
+        {
+            QuanLyKhuyenMai.lay_thong_in_khuyen_mai_theo_dot(m_sle_dot_km.EditValue.ToString(), this, data =>
+            {
+                list_hh_km = data.Data;
+                m_grc_chi_tiet.DataSource = CommonFunction.list_to_data_table(list_hh_km);
+                m_grv_chi_tiet.BestFitColumns();
+                m_grv_chi_tiet.OptionsBehavior.Editable = false;
+                m_grv_chi_tiet.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+                m_grv_chi_tiet.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            });
         }
 
         private void F06_khuyen_mai_Load(object sender, EventArgs e)
@@ -107,7 +133,19 @@ namespace QLBH.Forms
         {
             try
             {
-                load_form();
+                if (m_grv_chi_tiet.FocusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("Chọn dòng để sửa");
+                    return;
+                }
+                string ma = m_grv_chi_tiet.GetDataRow(m_grv_chi_tiet.FocusedRowHandle)["ma_hang_hoa"].ToString();
+                string ma_dot = m_sle_dot_km.EditValue.ToString();
+                QuanLyKhuyenMai.xoa_mat_hang_khuyen_mai(ma_dot, ma, this, data =>
+                {
+                    XtraMessageBox.Show(data.Data);
+                    load_grid();
+                });
+                    
             }
             catch (Exception)
             {
@@ -149,28 +187,10 @@ namespace QLBH.Forms
 
         private bool check_null_input()
         {
-            if (m_txt_mo_ta.Text != null) return false;
-            if (m_dat_ngay_bat_dau.DateTime != null) return false;
-            if (m_dat_ngay_ket_thuc.DateTime != null) return false;
+            if (m_txt_mo_ta.Text == null) return false;
+            if (m_dat_ngay_bat_dau.DateTime == null) return false;
+            if (m_dat_ngay_ket_thuc.DateTime == null) return false;
             return true;
-        }
-
-        private void M_btn_save_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                list_hang_hoa = CommonFunction.DataTableToList<QuanLyKhuyenMai.KhuyenMai_HangHoa>(m_data_table);
-                QuanLyKhuyenMai.them_hang_hoa_khuyen_mai(list_hang_hoa, this, data =>
-                  {
-                      if (data.Success) XtraMessageBox.Show(@"Đã thêm hàng hóa cho đợt khuyến mãi thành công");
-                      else XtraMessageBox.Show(@"Đã xảy ra lỗi, vui lòng kiểm tra lại giá trị nhập");
-                  });
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         private void M_btn_them_hang_hoa_Click(object sender, EventArgs e)
@@ -182,15 +202,36 @@ namespace QLBH.Forms
                     XtraMessageBox.Show("Chưa nhập đủ thông tin đầu vào");
                     return;
                 }
-                var list_thuoc_tinh = new List<object>();
-                list_thuoc_tinh.Add(m_sle_dot_km.EditValue);
-                list_thuoc_tinh.Add(m_sle_hang_hoa.EditValue);
-                list_thuoc_tinh.Add(m_txt_muc_km.Text);
-                m_data_table.Rows.Add(list_thuoc_tinh.ToArray());
-                m_grc_chi_tiet.DataSource = m_data_table;
-                m_sle_dot_km.EditValue = null;
-                m_sle_hang_hoa.EditValue = null;
-                m_txt_muc_km.Text = null;
+                var hh = list_hh_km.Where(s => s.ma_hang_hoa == m_sle_hang_hoa.EditValue.ToString()).First();
+                if (hh==null)
+                {
+                    var temp = new QuanLyKhuyenMai.KhuyenMai_HangHoa();
+                    temp.ma_dot = m_sle_dot_km.EditValue.ToString();
+                    temp.ma_hang_hoa = m_sle_hang_hoa.EditValue.ToString();
+                    temp.muc_km = decimal.Parse(m_txt_muc_km.Text);
+                    var list = new List<QuanLyKhuyenMai.KhuyenMai_HangHoa>();
+                    list.Add(temp);
+                    QuanLyKhuyenMai.them_hang_hoa_khuyen_mai(list, this, data =>
+                    {
+                        if (data.Success) XtraMessageBox.Show(@"Đã thêm hàng hóa cho đợt khuyến mãi thành công");
+                        else XtraMessageBox.Show(@"Đã xảy ra lỗi, vui lòng kiểm tra lại giá trị nhập");
+                        load_grid();
+                    });
+
+                }
+                else
+                {
+                    QuanLyKhuyenMai.sua_mat_hang_khuyen_mai(m_sle_dot_km.EditValue.ToString(),
+                                                            m_sle_hang_hoa.EditValue.ToString(),
+                                                            decimal.Parse(m_txt_muc_km.Text),
+                                                            this,
+                                                            data =>
+                                                            {
+                                                                XtraMessageBox.Show(data.Data);
+                                                                load_grid();
+                                                            });
+                }
+
             }
             catch (Exception)
             {
@@ -199,6 +240,9 @@ namespace QLBH.Forms
             }
         }
 
-        
+        private void m_lbl_header_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
