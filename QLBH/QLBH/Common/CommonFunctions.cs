@@ -198,6 +198,23 @@ namespace QLBH.Common
             return result;
         }
 
-
+        public static decimal GetSoTien(string m_txt_text)
+        {
+            if (String.IsNullOrEmpty(m_txt_text))
+            {
+                return 0;
+            }
+            int length = 0;
+            List<Char> ki_tu_so = new List<char>();
+            foreach (var item in m_txt_text.Trim().ToCharArray())
+            {
+                if (Char.IsNumber(item))
+                {
+                    ki_tu_so.Add(item);
+                }
+            }
+            string so_tien = String.Concat(ki_tu_so.ToArray());
+            return Convert.ToDecimal(so_tien);
+        }
     }
 }

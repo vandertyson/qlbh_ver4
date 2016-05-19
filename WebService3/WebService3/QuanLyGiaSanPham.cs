@@ -146,6 +146,7 @@ namespace WebService3
                     bg.ten_hang_hoa = item.DM_HANG_HOA.TEN_HANG_HOA;
                     bg.gia = item.GIA;
                     bg.ngay_ap_dung = item.NGAY_LUU_HANH.ToString();
+                    res.Add(bg);
                 }
             }
             return res;
@@ -164,10 +165,19 @@ namespace WebService3
                     bg.ma_tra_cuu = item.MA_TRA_CUU;
                     bg.ten_hang_hoa = item.TEN_HANG_HOA;
 
-                    var gia = context.GD_GIA.Where(s => s.ID_HANG_HOA == item.ID).OrderByDescending(s => s.NGAY_LUU_HANH).First();
-                    bg.id_gd_gia = gia.ID;
-                    bg.gia = gia.GIA;
-                    bg.ngay_ap_dung = gia.NGAY_LUU_HANH.ToString();
+                    var gia = context.GD_GIA.Where(s => s.ID_HANG_HOA == item.ID).OrderByDescending(s => s.NGAY_LUU_HANH).FirstOrDefault();
+                    if (gia == null)
+                    {
+                        bg.id_gd_gia = -1;
+                        bg.gia = 0;
+                        bg.ngay_ap_dung = DateTime.Now.ToString();
+                    }
+                    else
+                    {
+                        bg.id_gd_gia = gia.ID;
+                        bg.gia = gia.GIA;
+                        bg.ngay_ap_dung = gia.NGAY_LUU_HANH.ToString();
+                    }
                     res.Add(bg);
                 }
             }

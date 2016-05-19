@@ -951,16 +951,18 @@ namespace WebService3
                 {
                     context.GD_HANG_HOA_TAG.Remove(item);
                 }
-                //dm_hang_hoa
-                var h = context.DM_HANG_HOA.Where(s => s.ID == id_hang).First();
-                context.DM_HANG_HOA.Remove(h);
-
                 //gd_gia
                 var g = context.GD_GIA.Where(s => s.ID_HANG_HOA == id_hang).ToList();
                 foreach (var item in g)
                 {
                     context.GD_GIA.Remove(item);
                 }
+
+                //dm_hang_hoa
+                var h = context.DM_HANG_HOA.Where(s => s.ID == id_hang).First();
+                context.DM_HANG_HOA.Remove(h);
+
+              
 
                 context.SaveChanges();
                 res = "Đã xóa hàng hóa thành công";

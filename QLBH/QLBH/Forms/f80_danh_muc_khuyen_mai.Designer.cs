@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f80_danh_muc_khuyen_mai));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.m_btn_xoa_dot_km = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_chi_tiet = new DevExpress.XtraEditors.SimpleButton();
             this.m_grc_khuyen_mai = new DevExpress.XtraGrid.GridControl();
             this.m_grv_khuyen_mai = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -41,7 +42,6 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.m_btn_xoa_dot_km = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -67,6 +67,16 @@
             this.layoutControl1.Size = new System.Drawing.Size(753, 424);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // m_btn_xoa_dot_km
+            // 
+            this.m_btn_xoa_dot_km.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_xoa_dot_km.Image")));
+            this.m_btn_xoa_dot_km.Location = new System.Drawing.Point(521, 374);
+            this.m_btn_xoa_dot_km.Name = "m_btn_xoa_dot_km";
+            this.m_btn_xoa_dot_km.Size = new System.Drawing.Size(220, 38);
+            this.m_btn_xoa_dot_km.StyleController = this.layoutControl1;
+            this.m_btn_xoa_dot_km.TabIndex = 6;
+            this.m_btn_xoa_dot_km.Text = "Xóa đợt khuyến mãi";
             // 
             // m_btn_chi_tiet
             // 
@@ -181,16 +191,6 @@
             this.emptySpaceItem1.Text = "emptySpaceItem1";
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // m_btn_xoa_dot_km
-            // 
-            this.m_btn_xoa_dot_km.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_xoa_dot_km.Image")));
-            this.m_btn_xoa_dot_km.Location = new System.Drawing.Point(521, 374);
-            this.m_btn_xoa_dot_km.Name = "m_btn_xoa_dot_km";
-            this.m_btn_xoa_dot_km.Size = new System.Drawing.Size(220, 38);
-            this.m_btn_xoa_dot_km.StyleController = this.layoutControl1;
-            this.m_btn_xoa_dot_km.TabIndex = 6;
-            this.m_btn_xoa_dot_km.Text = "Xóa đợt khuyến mãi";
-            // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.m_btn_xoa_dot_km;
@@ -210,6 +210,7 @@
             this.ClientSize = new System.Drawing.Size(753, 424);
             this.Controls.Add(this.layoutControl1);
             this.Name = "f80_danh_muc_khuyen_mai";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "f80_danh_muc_khuyen_mai";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);

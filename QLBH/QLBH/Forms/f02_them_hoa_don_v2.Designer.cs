@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f02_them_hoa_don_v2));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.m_comb_khach_hang = new System.Windows.Forms.ComboBox();
             this.m_grc_chi_tiet = new DevExpress.XtraGrid.GridControl();
             this.m_grv_chi_tiet = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -87,11 +88,10 @@
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem11 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem5 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem6 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem7 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.m_comb_khach_hang = new System.Windows.Forms.ComboBox();
-            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_grc_chi_tiet)).BeginInit();
@@ -127,10 +127,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -162,6 +162,14 @@
             this.layoutControl1.Size = new System.Drawing.Size(1234, 576);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // m_comb_khach_hang
+            // 
+            this.m_comb_khach_hang.FormattingEnabled = true;
+            this.m_comb_khach_hang.Location = new System.Drawing.Point(101, 111);
+            this.m_comb_khach_hang.Name = "m_comb_khach_hang";
+            this.m_comb_khach_hang.Size = new System.Drawing.Size(201, 21);
+            this.m_comb_khach_hang.TabIndex = 21;
             // 
             // m_grc_chi_tiet
             // 
@@ -464,6 +472,7 @@
             this.m_btn_thoat.StyleController = this.layoutControl1;
             this.m_btn_thoat.TabIndex = 20;
             this.m_btn_thoat.Text = "Thoát";
+            this.m_btn_thoat.Visible = false;
             // 
             // m_btn_hoa_don_moi
             // 
@@ -888,6 +897,16 @@
             this.emptySpaceItem2.Text = "emptySpaceItem2";
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // layoutControlItem6
+            // 
+            this.layoutControlItem6.Control = this.m_comb_khach_hang;
+            this.layoutControlItem6.CustomizationFormText = "Khách hàng";
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 99);
+            this.layoutControlItem6.Name = "layoutControlItem6";
+            this.layoutControlItem6.Size = new System.Drawing.Size(294, 25);
+            this.layoutControlItem6.Text = "Khách hàng";
+            this.layoutControlItem6.TextSize = new System.Drawing.Size(86, 13);
+            // 
             // emptySpaceItem5
             // 
             this.emptySpaceItem5.AllowHotTrack = false;
@@ -917,24 +936,6 @@
             this.emptySpaceItem7.Size = new System.Drawing.Size(1214, 82);
             this.emptySpaceItem7.Text = "emptySpaceItem7";
             this.emptySpaceItem7.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // m_comb_khach_hang
-            // 
-            this.m_comb_khach_hang.FormattingEnabled = true;
-            this.m_comb_khach_hang.Location = new System.Drawing.Point(101, 111);
-            this.m_comb_khach_hang.Name = "m_comb_khach_hang";
-            this.m_comb_khach_hang.Size = new System.Drawing.Size(201, 21);
-            this.m_comb_khach_hang.TabIndex = 21;
-            // 
-            // layoutControlItem6
-            // 
-            this.layoutControlItem6.Control = this.m_comb_khach_hang;
-            this.layoutControlItem6.CustomizationFormText = "Khách hàng";
-            this.layoutControlItem6.Location = new System.Drawing.Point(0, 99);
-            this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(294, 25);
-            this.layoutControlItem6.Text = "Khách hàng";
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(86, 13);
             // 
             // f02_them_hoa_don_v2
             // 
@@ -980,10 +981,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             this.ResumeLayout(false);
 
         }

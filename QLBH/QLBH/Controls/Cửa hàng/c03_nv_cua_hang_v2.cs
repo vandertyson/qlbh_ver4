@@ -35,7 +35,8 @@ namespace QLBH.Controls.Cửa_hàng
 
         private void M_tile_gia_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)
         {
-            
+            f60_bang_gia v_f = new f60_bang_gia();
+            v_f.ShowDialog();
         }
 
         private void M_tile_nha_cung_cap_ItemClick(object sender, DevExpress.XtraEditors.TileItemEventArgs e)

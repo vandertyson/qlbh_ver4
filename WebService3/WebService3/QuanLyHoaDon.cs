@@ -162,6 +162,10 @@ namespace WebService3
                 if (p.Count == 0)
                 {
                     var id_phieu_nhap = context.GD_PHIEU_NHAP_CHI_TIET.Where(s => s.ID_HANG_HOA == id_hang).Select(s => s.ID_PHIEU_NHAP_XUAT).ToList();
+                    if (p.Count == 0)
+                    {
+                        return 0;
+                    }
                     var cac_phieu = context.GD_PHIEU_NHAP_XUAT.Where(s => id_phieu_nhap.Contains(s.ID)).ToList();
                     var n = Convert.ToDateTime(ngay_hien_tai);
                     var cp = cac_phieu.Where(s => s.NGAY_NHAP <= n).OrderByDescending(s => s.NGAY_NHAP).First();
@@ -227,18 +231,19 @@ namespace WebService3
                     // tinh tong da nhap ve den thoi diem hien tai
                     decimal tong_nhap_ve = 0;
                     var n = Convert.ToDateTime(ngay_hien_tai);
-                    tong_nhap_ve = context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Where(s => s.GD_PHIEU_NHAP_XUAT.NGAY_NHAP <= n && s.GD_PHIEU_NHAP_XUAT.ID_CUA_HANG == id_cua_hang
+                    var p1 = context.GD_PHIEU_NHAP_XUAT_CHI_TIET.Where(s => s.GD_PHIEU_NHAP_XUAT.NGAY_NHAP <= n && s.GD_PHIEU_NHAP_XUAT.ID_CUA_HANG == id_cua_hang
                                                         && s.ID_HANG_HOA == id_hang
-                                                        && s.ID_SIZE == id_size)
-                                                        .Sum(s => s.SO_LUONG);
+                                                        && s.ID_SIZE == id_size).ToArray();
+                    tong_nhap_ve = p1.Count() == 0 ? 0 : p1.Sum(s => s.SO_LUONG);
 
                     //tinh tong ban di den thoi diem hien tai
                     decimal tong_ban_di = 0;
-                    tong_ban_di = context.GD_HOA_DON_CHI_TIET.Where(s => s.GD_HOA_DON.THOI_GIAN_TAO < n
+                    var p2 = context.GD_HOA_DON_CHI_TIET.Where(s => s.GD_HOA_DON.THOI_GIAN_TAO < n
                                                                      && s.GD_HOA_DON.ID_CUA_HANG == id_cua_hang
                                                                      && s.ID_HANG_HOA == id_hang
                                                                      && s.ID_SIZE == id_size
-                                                                    ).Sum(s => s.SO_LUONG);
+                                                                    ).ToArray();
+                    tong_ban_di = p2.Count() == 0 ? 0 : p2.Sum(s => s.SO_LUONG);
                     ssl.so_luong = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
                     result.Add(ssl);
                 }

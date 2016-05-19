@@ -24,7 +24,6 @@ namespace QLBH.Forms
         {
             InitializeComponent();
             this.CenterToParent();
-            this.WindowState = FormWindowState.Maximized;
             set_define_event();
             m_dt_chi_tiet = CommonFunction.create_table_form_struct(typeof(HoaDonChiTiet));
         }
@@ -35,6 +34,8 @@ namespace QLBH.Forms
             this.m_hoa_don = p;
             ma_hoa_don = p.ma_hoa_don;
             m_btn_save.Visible = false;
+            m_btn_hoa_don_moi.Visible = false;
+            m_btn_thoat.Visible = false;
             this.ShowDialog();
         }
 
@@ -79,6 +80,7 @@ namespace QLBH.Forms
         private decimal tong_giam_tru_khuyen_mai = 0;
         private decimal thanh_tien = 0;
         private string ma_hoa_don;
+        List<object> EmptyList = new List<object>();
         #endregion
 
         #region Private Methods
@@ -96,6 +98,11 @@ namespace QLBH.Forms
             switch (m_e_mode)
             {
                 case Mode.XemChiTiet:
+                    form_to_data();
+                    SuaHoaDon(m_hoa_don, m_hoa_don_chi_tiet, this, data =>
+                    {
+                        XtraMessageBox.Show(data.Message);
+                    });
                     break;
                 case Mode.Sua:
                     form_to_data();
@@ -128,18 +135,6 @@ namespace QLBH.Forms
             m_hoa_don.ten_khach_hang = m_list_khach_hang.Where(s => s.ten_tai_khoan == m_comb_khach_hang.Text).First().ten_khach_hang;
             m_hoa_don.ma_hoa_don = ma_hoa_don;
 
-
-            ThemHoaDon(m_hoa_don, m_hoa_don_chi_tiet, this, data =>
-            {
-                if (data.Success)
-                {
-                    XtraMessageBox.Show("Đã thêm hóa đơn thành công");
-                }
-                else
-                {
-                    XtraMessageBox.Show(data.Message);
-                }
-            });
         }
 
         private bool data_ready_to_import()
@@ -192,8 +187,13 @@ namespace QLBH.Forms
             }
         }
 
-        private void data_to_sle_khach_hang()
+        private void data_to_sle_khach_hang(List<KhachHang> ip_hang)
         {
+            if (ip_hang == null | ip_hang.Count == 0)
+            {
+                m_sle_size.Properties.DataSource = EmptyList;
+                return;
+            }
             //m_sle_khach_hang.Properties.DataSource = CommonFunction.list_to_data_table<KhachHang>(m_list_khach_hang);
             //m_sle_khach_hang.Properties.DisplayMember = "ten_khach_hang";
             //m_sle_khach_hang.Properties.ValueMember = "id_tai_khoan";
@@ -204,6 +204,11 @@ namespace QLBH.Forms
 
         private void data_to_sle_size(List<SizeSoLuongHienTai> ip_hang)
         {
+            if (ip_hang == null|ip_hang.Count == 0)
+            {
+                m_sle_size.Properties.DataSource = EmptyList;
+                return;
+            }
             m_sle_size.Properties.DataSource = CommonFunction.list_to_data_table(ip_hang.Where(s => s.so_luong != 0).ToList());
             m_sle_size.Properties.ValueMember = "ten_size";
             m_sle_size.Properties.DisplayMember = "ten_size";
@@ -213,7 +218,7 @@ namespace QLBH.Forms
         {
             if (m_list_hang_hoa == null)
             {
-                XtraMessageBox.Show("Ngày chưa bắt đầu kinh doanh!");
+                return;
             }
             List<string> prop_name = new List<string> { "ma_hang_hoa", "ten_hang_hoa", "gia_hien_tai" };
             var ds = CommonFunction.convert_list_to_data_table<HangHoa>(prop_name, m_list_hang_hoa);
@@ -350,7 +355,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -393,7 +398,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -406,7 +411,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
                 XtraMessageBox.Show(CommonMessage.MESSAGE_EXCEPTION);
             }
         }
@@ -420,7 +425,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
                 XtraMessageBox.Show(CommonMessage.MESSAGE_EXCEPTION);
             }
         }
@@ -471,12 +476,8 @@ namespace QLBH.Forms
                 });
                 LayDanhSachKhachHang(DateTime.Now, this, data =>
                 {
-                    if (data == null)
-                    {
-                        return;
-                    }
                     m_list_khach_hang = data.Data;
-                    data_to_sle_khach_hang();
+                    data_to_sle_khach_hang(m_list_khach_hang);
                     switch (m_e_mode)
                     {
                         case Mode.XemChiTiet:
@@ -528,6 +529,7 @@ namespace QLBH.Forms
                 ct.ma_hang = m_sle_hang_hoa.EditValue.ToString();
                 ct.ten_size = m_sle_size.EditValue.ToString();
                 ct.so_luong = Convert.ToInt16(m_sle_so_luong.Text);
+                gia_ban = CommonFunction.GetSoTien(m_txt_gia_ban.Text);
                 ct.gia_ban = gia_ban;
                 ct.muc_khuyen_mai = m_khuyen_mai.muc_khuyen_mai;
                 ct.dot_khuyen_mai = m_khuyen_mai.mo_ta;
@@ -557,7 +559,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 
@@ -629,7 +631,7 @@ namespace QLBH.Forms
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.InnerException.Message);
+                XtraMessageBox.Show(ex.Message);
             }
         }
 

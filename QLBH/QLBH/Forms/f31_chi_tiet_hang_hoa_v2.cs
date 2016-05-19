@@ -43,6 +43,7 @@ namespace QLBH.Forms
         private List<HangHoaV2> m_list_hang_hoa = new List<HangHoaV2>();
         private Mode m_e_mode;
         private HangHoaV2 m_hang = new HangHoaV2();
+        private string m_ten_nha_cung_cap;
         #endregion
         #region Data Structures
         enum Mode
@@ -86,7 +87,7 @@ namespace QLBH.Forms
             m_txt_ten_hang.Text = m_hang.ten_hang_hoa;
             m_txt_ma_tra_cuu.Text = m_hang.ma_tra_cuu;
             m_txt_mo_ta.Text = m_hang.mo_ta;
-            m_comb_nha_cung_cap.Text = m_hang.ten_nha_cung_cap;
+            m_ten_nha_cung_cap = m_hang.ten_nha_cung_cap;
         }
 
         private void load_data_to_nha_cc()
@@ -97,6 +98,16 @@ namespace QLBH.Forms
                 m_comb_nha_cung_cap.DataSource = m_list_nha_cung_cap;
                 m_comb_nha_cung_cap.DisplayMember = "ten_nha_cung_cap";
                 m_comb_nha_cung_cap.ValueMember = "id";
+                switch (m_e_mode)
+                {
+                    case Mode.Them:
+                        break;
+                    case Mode.Sua:
+                        m_comb_nha_cung_cap.Text = m_ten_nha_cung_cap;
+                        break;
+                    default:
+                        break;
+                }
             });
         }
         #endregion
@@ -122,18 +133,19 @@ namespace QLBH.Forms
                                 them_hang_hoa_v2(m_hang, this, data =>
                                 {
                                     XtraMessageBox.Show(data.Message);
+                                    this.Close();
                                 });
                                 break;
                             case Mode.Sua:
                                 sua_hang_hoa_v2(m_hang, this, data =>
                                 {
                                     XtraMessageBox.Show(data.Message);
+                                    this.Close();
                                 });
                                 break;
                             default:
                                 break;
                         }
-
                     }
                 }
                 else

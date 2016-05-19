@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using static LibraryApi.QuanLyGia;
 using QLBH.Common;
 using DevExpress.XtraEditors;
-
+using LibraryApi;
 
 namespace QLBH.Forms
 {
@@ -20,6 +20,8 @@ namespace QLBH.Forms
         private GiaSanPham m_gia = new GiaSanPham();
         private string m_ma_tra_cuu;
         private string gia;
+        private bool bo_sung = false;
+        private List<QuanLyDanhMucHangHoa.HangHoaVaMa> m_list_chua_co_gia = new List<QuanLyDanhMucHangHoa.HangHoaVaMa>();
 
         public f61_gia_chi_tiet()
         {
@@ -73,11 +75,19 @@ namespace QLBH.Forms
             }
         }
 
+        internal void display_bo_sung_gia(List<QuanLyDanhMucHangHoa.HangHoaVaMa> m_dt_hang_chua_co_gia)
+        {
+            bo_sung = true;
+            m_lbl_header.Text = "Thêm giá mới cho sản phẩm";
+            m_list_chua_co_gia = m_dt_hang_chua_co_gia;
+            this.ShowDialog();
+        }
+
         private void form_to_data()
         {
             m_ma_tra_cuu = m_sle_hang_hoa.EditValue.ToString();
             m_gia.ngay_ap_dung = m_dat_ngay_ap_dung.DateTime;
-            m_gia.gia_tien = (decimal)m_txt_gia.EditValue;
+            m_gia.gia_tien = CommonFunction.GetSoTien(m_txt_gia.Text);
         }
 
         private void F61_gia_chi_tiet_Load(object sender, EventArgs e)
@@ -97,9 +107,16 @@ namespace QLBH.Forms
         {
             LibraryApi.QuanLyDanhMucHangHoa.LayDanhSachHangVaMaTraCuu(this, data =>
             {
-                m_list_hang = data.Data;
+                if (bo_sung)
+                {
+                    m_list_hang = m_list_chua_co_gia;
+                }
+                else
+                {
+                    m_list_hang = data.Data;
+                }
                 m_sle_hang_hoa.Properties.DataSource = CommonFunction.list_to_data_table(m_list_hang);
-                m_sle_hang_hoa.Properties.DisplayMember = "ten_hanh_hoa";
+                m_sle_hang_hoa.Properties.DisplayMember = "ten_hang_hoa";
                 m_sle_hang_hoa.Properties.ValueMember = "ma_tra_cuu";
             });
         }

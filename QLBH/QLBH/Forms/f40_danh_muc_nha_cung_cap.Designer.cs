@@ -319,6 +319,7 @@
             this.ClientSize = new System.Drawing.Size(836, 372);
             this.Controls.Add(this.layoutControl1);
             this.Name = "f40_danh_muc_nha_cung_cap";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "F40 - Danh mục nhà cung cấp";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);

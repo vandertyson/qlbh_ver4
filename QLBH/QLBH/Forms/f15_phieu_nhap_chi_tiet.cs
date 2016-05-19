@@ -29,6 +29,7 @@ namespace QLBH.Forms
         {
             m_e_mode = Mode.XemChiTiet;
             m_phieu_nhap = p;
+            m_ma_phieu = p.ma_phieu;
             this.ShowDialog();
         }
 
@@ -36,6 +37,7 @@ namespace QLBH.Forms
         {
             m_e_mode = Mode.Sua;
             m_phieu_nhap = p;
+            m_ma_phieu = p.ma_phieu;
             this.ShowDialog();
         }
 
@@ -61,8 +63,9 @@ namespace QLBH.Forms
         public List<MotPhieuNhapExcel> data_from_excel { get; private set; }
         private DataTable m_dt_data_source { get; set; }
 
-        private PhieuNhap m_phieu_nhap;
+        private PhieuNhap m_phieu_nhap = new PhieuNhap();
         private List<HangHoa> m_list_chi_tiet { get; set; }
+        private string m_ma_phieu { get; set; }
 
         private Mode m_e_mode;
         #endregion
@@ -196,7 +199,7 @@ namespace QLBH.Forms
             if (check_data())
             {
                 m_phieu_nhap = new PhieuNhap();
-                m_phieu_nhap.ma_phieu = m_lbl_ma_phieu.Text;
+                m_phieu_nhap.ma_phieu = m_ma_phieu;
                 m_phieu_nhap.ngay_nhap = m_dat_ngay_lap.DateTime;
                 m_phieu_nhap.ten_tai_khoan = SystemInfo.ten_tai_khoan;
                 m_phieu_nhap.id_cua_hang = SystemInfo.id_cua_hang;
@@ -235,7 +238,7 @@ namespace QLBH.Forms
         private void set_define_event()
         {
             this.Load += F03_them_phieu_nhap_excel_Load;
-            m_btn_chon_file.Click += M_btn_chon_file_Click;
+            //m_btn_chon_file.Click += M_btn_chon_file_Click;
             m_btn_save.Click += M_btn_save_Click;
             m_btn_them_chi_tiet.Click += M_btn_them_chi_tiet_Click;
         }
@@ -315,7 +318,8 @@ namespace QLBH.Forms
                     case Mode.ThemMoi:
                         LayMaPhieuNhap(this, data =>
                         {
-                            m_lbl_ma_phieu.Text = "Mã phiếu: " + data.Data;
+                            m_ma_phieu = data.Data;
+                            m_lbl_ma_phieu.Text = "Mã phiếu: " + m_ma_phieu;
                             m_lbl_nguoi_lap.Text = "Người lập: " + SystemInfo.ten_tai_khoan;
                             m_dat_ngay_lap.EditValue = DateTime.Now;
                         });
