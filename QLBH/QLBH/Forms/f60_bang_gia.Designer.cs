@@ -35,7 +35,6 @@
             this.m_btn_xem_lich_su = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_gia_hien_tai = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_them = new DevExpress.XtraEditors.SimpleButton();
-            this.m_btn_sua = new DevExpress.XtraEditors.SimpleButton();
             this.m_btn_xoa = new DevExpress.XtraEditors.SimpleButton();
             this.m_grc_gia = new DevExpress.XtraGrid.GridControl();
             this.m_grv_gia = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -46,7 +45,6 @@
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -61,7 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
@@ -78,7 +75,6 @@
             this.layoutControl1.Controls.Add(this.m_btn_xem_lich_su);
             this.layoutControl1.Controls.Add(this.m_btn_gia_hien_tai);
             this.layoutControl1.Controls.Add(this.m_btn_them);
-            this.layoutControl1.Controls.Add(this.m_btn_sua);
             this.layoutControl1.Controls.Add(this.m_btn_xoa);
             this.layoutControl1.Controls.Add(this.m_grc_gia);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -131,30 +127,19 @@
             // m_btn_them
             // 
             this.m_btn_them.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_them.Image")));
-            this.m_btn_them.Location = new System.Drawing.Point(323, 436);
+            this.m_btn_them.Location = new System.Drawing.Point(452, 436);
             this.m_btn_them.Name = "m_btn_them";
-            this.m_btn_them.Size = new System.Drawing.Size(113, 38);
+            this.m_btn_them.Size = new System.Drawing.Size(108, 38);
             this.m_btn_them.StyleController = this.layoutControl1;
             this.m_btn_them.TabIndex = 7;
             this.m_btn_them.Text = "Thêm giá mới";
             // 
-            // m_btn_sua
-            // 
-            this.m_btn_sua.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_sua.Image")));
-            this.m_btn_sua.Location = new System.Drawing.Point(440, 436);
-            this.m_btn_sua.Name = "m_btn_sua";
-            this.m_btn_sua.Size = new System.Drawing.Size(116, 38);
-            this.m_btn_sua.StyleController = this.layoutControl1;
-            this.m_btn_sua.TabIndex = 6;
-            this.m_btn_sua.Text = "Sửa thông tin";
-            this.m_btn_sua.Visible = false;
-            // 
             // m_btn_xoa
             // 
             this.m_btn_xoa.Image = ((System.Drawing.Image)(resources.GetObject("m_btn_xoa.Image")));
-            this.m_btn_xoa.Location = new System.Drawing.Point(560, 436);
+            this.m_btn_xoa.Location = new System.Drawing.Point(564, 436);
             this.m_btn_xoa.Name = "m_btn_xoa";
-            this.m_btn_xoa.Size = new System.Drawing.Size(85, 38);
+            this.m_btn_xoa.Size = new System.Drawing.Size(81, 38);
             this.m_btn_xoa.StyleController = this.layoutControl1;
             this.m_btn_xoa.TabIndex = 5;
             this.m_btn_xoa.Text = "Xóa giá";
@@ -248,7 +233,6 @@
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
             this.layoutControlItem2,
-            this.layoutControlItem3,
             this.layoutControlItem4,
             this.emptySpaceItem1,
             this.layoutControlItem5,
@@ -278,33 +262,21 @@
             // 
             this.layoutControlItem2.Control = this.m_btn_xoa;
             this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(548, 424);
+            this.layoutControlItem2.Location = new System.Drawing.Point(552, 424);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(89, 42);
+            this.layoutControlItem2.Size = new System.Drawing.Size(85, 42);
             this.layoutControlItem2.Text = "layoutControlItem2";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextToControlDistance = 0;
             this.layoutControlItem2.TextVisible = false;
             // 
-            // layoutControlItem3
-            // 
-            this.layoutControlItem3.Control = this.m_btn_sua;
-            this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
-            this.layoutControlItem3.Location = new System.Drawing.Point(428, 424);
-            this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(120, 42);
-            this.layoutControlItem3.Text = "layoutControlItem3";
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextToControlDistance = 0;
-            this.layoutControlItem3.TextVisible = false;
-            // 
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.m_btn_them;
             this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
-            this.layoutControlItem4.Location = new System.Drawing.Point(311, 424);
+            this.layoutControlItem4.Location = new System.Drawing.Point(440, 424);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(117, 42);
+            this.layoutControlItem4.Size = new System.Drawing.Size(112, 42);
             this.layoutControlItem4.Text = "layoutControlItem4";
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextToControlDistance = 0;
@@ -316,7 +288,7 @@
             this.emptySpaceItem1.CustomizationFormText = "emptySpaceItem1";
             this.emptySpaceItem1.Location = new System.Drawing.Point(0, 424);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(311, 42);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(440, 42);
             this.emptySpaceItem1.Text = "emptySpaceItem1";
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
@@ -395,7 +367,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
@@ -414,7 +385,6 @@
         private DevExpress.XtraEditors.SimpleButton m_btn_xem_lich_su;
         private DevExpress.XtraEditors.SimpleButton m_btn_gia_hien_tai;
         private DevExpress.XtraEditors.SimpleButton m_btn_them;
-        private DevExpress.XtraEditors.SimpleButton m_btn_sua;
         private DevExpress.XtraEditors.SimpleButton m_btn_xoa;
         private DevExpress.XtraGrid.GridControl m_grc_gia;
         private DevExpress.XtraGrid.Views.Grid.GridView m_grv_gia;
@@ -424,7 +394,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;

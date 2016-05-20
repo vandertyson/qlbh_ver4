@@ -146,34 +146,31 @@ namespace WebService3
                     sp.id_hang = hang.ID;
                     sp.ten_hang_hoa = hang.TEN_HANG_HOA;
                     sp.ma_hang_hoa = hang.MA_TRA_CUU;
-                    sp.gia_hien_tai = tinh_gia_san_pham_tai_thoi_diem(ngay_hien_tai, hang.ID);
+                    var g = tinh_gia_san_pham_tai_thoi_diem(ngay_hien_tai, hang.ID);
+                    if (g==null)
+                    {
+                        continue;
+                    }
+                    sp.gia_hien_tai = (decimal)g;
                     result.Add(sp);
                 }
             }
             return result;
         }
 
-        public static decimal tinh_gia_san_pham_tai_thoi_diem(string ngay_hien_tai, decimal id_hang)
+        public static decimal? tinh_gia_san_pham_tai_thoi_diem(string ngay_hien_tai, decimal id_hang)
         {
             decimal result = 0;
             using (var context = new TKHTQuanLyBanHangEntities())
             {
-                var p = context.GD_GIA.Where(s => s.ID_HANG_HOA == id_hang).ToList();
+                var n = Convert.ToDateTime(ngay_hien_tai);
+                var p = context.GD_GIA.Where(s => s.ID_HANG_HOA == id_hang & s.NGAY_LUU_HANH <= n).ToList();
                 if (p.Count == 0)
                 {
-                    var id_phieu_nhap = context.GD_PHIEU_NHAP_CHI_TIET.Where(s => s.ID_HANG_HOA == id_hang).Select(s => s.ID_PHIEU_NHAP_XUAT).ToList();
-                    if (p.Count == 0)
-                    {
-                        return 0;
-                    }
-                    var cac_phieu = context.GD_PHIEU_NHAP_XUAT.Where(s => id_phieu_nhap.Contains(s.ID)).ToList();
-                    var n = Convert.ToDateTime(ngay_hien_tai);
-                    var cp = cac_phieu.Where(s => s.NGAY_NHAP <= n).OrderByDescending(s => s.NGAY_NHAP).First();
-                    result = context.GD_PHIEU_NHAP_CHI_TIET.Where(s => s.ID_PHIEU_NHAP_XUAT == cp.ID & s.ID_HANG_HOA == id_hang).First().GIA_NHAP_BINH_QUAN;
+                    return null;
                 }
                 else
                 {
-                    var n = Convert.ToDateTime(ngay_hien_tai);
                     var gia = context.GD_GIA.Where(s => s.ID_HANG_HOA == id_hang & s.NGAY_LUU_HANH <= n).OrderByDescending(s => s.NGAY_LUU_HANH).First();
                     result = gia.GIA;
                 }
@@ -244,7 +241,8 @@ namespace WebService3
                                                                      && s.ID_SIZE == id_size
                                                                     ).ToArray();
                     tong_ban_di = p2.Count() == 0 ? 0 : p2.Sum(s => s.SO_LUONG);
-                    ssl.so_luong = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
+                    var sl = Convert.ToInt32(tong_nhap_ve - tong_ban_di);
+                    ssl.so_luong = sl < 0 ? 0 : sl;
                     result.Add(ssl);
                 }
             }
@@ -333,7 +331,6 @@ namespace WebService3
                                 context.GD_HOA_DON_CHI_TIET.Remove(item);
                                 context.SaveChanges();
                             }
-
                         }
                         scope.Complete();
                     }
@@ -397,7 +394,7 @@ namespace WebService3
                     ct.ten_size = context.GD_TAG.Where(s => s.ID == item.ID_SIZE).First().TEN_TAG;
                     ct.so_luong = Convert.ToInt16(item.SO_LUONG);
 
-                    ct.gia_goc = tinh_gia_san_pham_tai_thoi_diem(hd.THOI_GIAN_TAO.ToString(), hang.ID);
+                    ct.gia_goc = (decimal)tinh_gia_san_pham_tai_thoi_diem(hd.THOI_GIAN_TAO.ToString(), hang.ID);
 
                     var km = get_khuyen_mai_cua_san_pham(hd.THOI_GIAN_TAO.ToString(), hang.ID);
                     ct.muc_khuyen_mai = km.muc_khuyen_mai;
@@ -443,7 +440,7 @@ namespace WebService3
         {
             using (var context = new TKHTQuanLyBanHangEntities())
             {
-                var last_hd = context.GD_HOA_DON.OrderByDescending(s => s.THOI_GIAN_TAO).First();
+                var last_hd = context.GD_HOA_DON.OrderByDescending(s => s.MA_HOA_DON).First();
                 if (last_hd == null)
                 {
                     return "HD000001";

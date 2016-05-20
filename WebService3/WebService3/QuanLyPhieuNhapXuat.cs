@@ -65,7 +65,7 @@ namespace WebService3
                             var giaNhap = item2.gia_nhap;
                             gd_phieu_nhap_chi_tiet.GIA_NHAP = giaNhap;
                             so_luong = item2.size_sl.Sum(s => s.so_luong);
-                            gd_phieu_nhap_chi_tiet.GIA_NHAP_BINH_QUAN = Convert.ToInt32(tinh_gia_nhap_binh_quan(p.id_cua_hang, gd_phieu_nhap_chi_tiet.ID_HANG_HOA, giaNhap, so_luong));
+                            gd_phieu_nhap_chi_tiet.GIA_NHAP_BINH_QUAN = Convert.ToInt32(tinh_gia_nhap_binh_quan(p.id_cua_hang, gd_phieu_nhap_chi_tiet.ID_HANG_HOA, giaNhap, so_luong,phieuNhapXuat.NGAY_NHAP));
                             context.GD_PHIEU_NHAP_CHI_TIET.Add(gd_phieu_nhap_chi_tiet);
                             foreach (var item3 in item2.size_sl)
                             {
@@ -151,7 +151,7 @@ namespace WebService3
                                 var giaNhap = item2.gia_nhap;
                                 gd_phieu_nhap_chi_tiet.GIA_NHAP = giaNhap;
                                 so_luong = item2.size_sl.Sum(s => s.so_luong);
-                                gd_phieu_nhap_chi_tiet.GIA_NHAP_BINH_QUAN = tinh_gia_nhap_binh_quan(item.id_cua_hang, gd_phieu_nhap_chi_tiet.ID_HANG_HOA, giaNhap, so_luong);
+                                gd_phieu_nhap_chi_tiet.GIA_NHAP_BINH_QUAN = tinh_gia_nhap_binh_quan(item.id_cua_hang, gd_phieu_nhap_chi_tiet.ID_HANG_HOA, giaNhap, so_luong,phieuNhapXuat.NGAY_NHAP);
                                 context.GD_PHIEU_NHAP_CHI_TIET.Add(gd_phieu_nhap_chi_tiet);
                                 foreach (var item3 in item2.size_sl)
                                 {
@@ -181,7 +181,6 @@ namespace WebService3
                                     {
                                         tonKho.SO_LUONG_TON_KHO += item3.so_luong;
                                     }
-
                                     context.SaveChanges();
                                 }
                             }
@@ -202,7 +201,7 @@ namespace WebService3
             }
         }
 
-        private static decimal tinh_gia_nhap_binh_quan(decimal id_cua_hang, decimal iD_HANG_HOA, decimal gia_nhap, int slNhap)
+        private static decimal tinh_gia_nhap_binh_quan(decimal id_cua_hang, decimal iD_HANG_HOA, decimal gia_nhap, int slNhap, DateTime ngay_nhap)
         {
             using (var context = new TKHTQuanLyBanHangEntities())
             {
@@ -212,9 +211,19 @@ namespace WebService3
                 {
                     return gia_nhap;
                 }
-                var slDu = context.GD_TON_KHO
-                    .Where(s => s.ID_CUA_HANG == id_cua_hang && s.ID_HANG_HOA == iD_HANG_HOA)
-                    .Sum(s => s.SO_LUONG_TON_KHO);
+                //var slDu = context.GD_TON_KHO
+                //    .Where(s => s.ID_CUA_HANG == id_cua_hang && s.ID_HANG_HOA == iD_HANG_HOA)
+                //    .Sum(s => s.SO_LUONG_TON_KHO);
+                var slu = QuanLyHoaDon.tinh_so_luong_ton_kho_hien_tai(id_cua_hang, iD_HANG_HOA, ngay_nhap.ToString());
+                var slDu = 0;
+                if (slu.Count == 0)
+                {
+                    slDu = 0;
+                }
+                else
+                {
+                    slDu = slu.Sum(s => s.so_luong);
+                }
                 var giaBinhQuanCu = context.GD_PHIEU_NHAP_CHI_TIET
                     .Where(s => s.GD_PHIEU_NHAP_XUAT.ID_CUA_HANG == id_cua_hang && s.ID_HANG_HOA == iD_HANG_HOA)
                     .OrderByDescending(s => s.GD_PHIEU_NHAP_XUAT.NGAY_NHAP)

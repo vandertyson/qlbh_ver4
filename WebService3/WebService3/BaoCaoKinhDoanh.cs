@@ -39,7 +39,7 @@ namespace WebService3
                         var table_chi_tiet = context.GD_HOA_DON_CHI_TIET.Where(s => s.ID_HOA_DON == item.ID).ToList();
                         foreach (var item1 in table_chi_tiet)
                         {
-                            temp_tien += item1.GIA_BAN * item1.SO_LUONG * 1000;
+                            temp_tien += item1.GIA_BAN * item1.SO_LUONG;
                             temp_slsp += item1.SO_LUONG;
                         }
                         if (item.GIAM_TRU != null)
@@ -51,7 +51,7 @@ namespace WebService3
                         slsp += temp_slsp; 
 
                     }
-                    bao_cao.tong_doanh_thu = tien;
+                    bao_cao.tong_doanh_thu = Convert.ToInt32(tien);
                     bao_cao.tong_doanh_so = slsp;
                     bao_cao.nam = nam_tinh;
                     bao_cao.thang = thang_tinh;

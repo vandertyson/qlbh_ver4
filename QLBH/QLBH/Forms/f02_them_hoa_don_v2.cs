@@ -214,10 +214,11 @@ namespace QLBH.Forms
             m_sle_size.Properties.DisplayMember = "ten_size";
         }
 
-        private void data_to_sle_hang_hoa()
+        private void data_to_sle_hang_hoa(List<HangHoa> ip_hang)
         {
-            if (m_list_hang_hoa == null)
+            if (ip_hang == null | ip_hang.Count == 0)
             {
+                m_sle_size.Properties.DataSource = EmptyList;
                 return;
             }
             List<string> prop_name = new List<string> { "ma_hang_hoa", "ten_hang_hoa", "gia_hien_tai" };
@@ -459,7 +460,7 @@ namespace QLBH.Forms
                         return;
                     }
                     m_list_hang_hoa = data.Data;
-                    data_to_sle_hang_hoa();
+                    data_to_sle_hang_hoa(m_list_hang_hoa);
                     switch (m_e_mode)
                     {
                         case Mode.XemChiTiet:

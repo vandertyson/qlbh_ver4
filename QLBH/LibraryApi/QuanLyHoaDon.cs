@@ -130,7 +130,7 @@ namespace LibraryApi
         {
             Dictionary<string, object> param = new Dictionary<string, object>();
             param["ip_hoa_don"] = JsonConvert.SerializeObject(hoa_don);
-            param["ip_chi_tiet"] = JsonConvert.SerializeObject(hoa_don);
+            param["ip_chi_tiet"] = JsonConvert.SerializeObject(ct);
             MyNetwork.requestDataWithParam(param, URL_SUA_HOA_DON, f, MyDelegate);
         }
         public static void LaySizeSoLuong(decimal id_cua_hang, DateTime ngay_hien_tai, decimal id_hang, Form f, MyNetwork.CompleteHandle<MyNetwork.TraVe<List<SizeSoLuongHienTai>>> MyDelegate)
